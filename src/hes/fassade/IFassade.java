@@ -1,6 +1,7 @@
 package hes.fassade;
 
 import hes.auftragMgmt.AngebotTyp;
+import hes.auftragMgmt.AuftragTyp;
 import hes.produktMgmt.ProduktTyp;
 
 import java.util.Date;
@@ -46,6 +47,12 @@ public interface IFassade {
  	 * @return Das AngebotsTypobjekt, das die Information ueber das veraenderte Angebot enthaelt.
 	 * */
 	AngebotTyp entferneProduktAusAngebot(int angebotId, int produktId);
+	
+	/**
+	 * @param angebotId Die ID des Angebots, aus dem ein Auftrag erstellt werden soll.
+	 * @return Die ID des erstellten Auftrags. 
+	 * */
+	AuftragTyp erstelleAuftrag(int angebotId);
 	
 	/**
 	 * LISTENER(?) -> waren gehen analog ein
