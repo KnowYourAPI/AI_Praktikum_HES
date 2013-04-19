@@ -7,7 +7,16 @@ import hes.produktMgmt.ProduktTyp;
 import java.util.Date;
 import java.util.List;
 
+import util.AdressTyp;
+
 public interface IFassade {
+	
+	/**
+	 * @param name Der Name des anzulegenden Kunden
+	 * @param adresse Die Adresse des anzulegenden Kunden
+	 * @return Die ID des soeben angelegten Kunden
+	 * */
+	int legeKundeAn(String name, AdressTyp adresse);
 	
 	/**
 	 * @param name Der Name des Produktes, das angelegt werden soll
@@ -71,6 +80,11 @@ public interface IFassade {
 	 * @return Die ID des Auftrags, auf den sich die Rechnung mit der rechnungID bezieht
 	 * */
 	int getAuftragId(int rechnungId);
+	
+	/**
+	 * @param lieferungId Die ID der Lieferung, die als erfolgt markiert werden soll
+	 * */
+	void markiereLieferungAlsErfolgt(int lieferungId);
 	
 	/**
 	 * @param auftragId Die ID des als abgeschlossen zu markierenden Auftrags.

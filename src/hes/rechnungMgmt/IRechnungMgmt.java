@@ -6,7 +6,7 @@ public interface IRechnungMgmt {
 	 * @param auftragID Die des Auftrags, auf den sich die Rechnung bezieht
 	 * @return Die Rechnungsnummer, der angelegten Rechnung
 	 * */
-	int legeRechnungAn(int auftragID);
+	int legeRechnungAn(int auftragId);
 	
 //	WIRD JETZT INTERN IN meldeZahlungsEingang AUFGERUFEN
 //	/**

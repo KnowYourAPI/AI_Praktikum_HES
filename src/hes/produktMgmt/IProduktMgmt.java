@@ -7,6 +7,13 @@ import java.util.List;
 import util.Tuple;
 
 public interface IProduktMgmt {
+	
+	/**
+	 * @param name Der Name des Produktes, das angelegt werden soll
+	 * @param lagerbestand Der Lagerbestand des Produktes bei dessen Anlegung in der Datenbank
+	 * @return Die ID des gerade angelegten Produkts
+	 * */
+	int legeProduktAn(String name, int lagerbestand);
 
 	/**
 	 * @return eine Liste aller in der Datenbank vorhandenen Produkte
@@ -32,7 +39,7 @@ public interface IProduktMgmt {
 	 * @param lieferantenName Name des Lieferanten, der das Produkt geliefert Hat
 	 * @param lieferschein Eine Repraesentation des Lieferscheins(Erstmal nur ein Object)
 	 * */
-	void meldeWareneingang(int produktID, int produktMenge, Date datum, String lieferantenName, Object lieferschein);
+	void meldeWareneingang(int produktId, int produktMenge, Date datum, String lieferantenName, Object lieferschein);
 	
 	/**
 	 * @return Eine Liste mit Informationsobjekten aller ausstehenden Bestellungen.
