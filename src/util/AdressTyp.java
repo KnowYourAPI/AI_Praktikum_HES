@@ -19,11 +19,11 @@ public class AdressTyp {
 	@Column(nullable=false)
 	private String hausnummer;
 	@Column(nullable=false)
-	private int postleitzahl;
+	private String postleitzahl;
 	@Column(nullable=false)
 	private String ortsname;
 	
-	public AdressTyp(String strasse, String hausnummer, int postleitzahl, String ortsname) {
+	public AdressTyp(String strasse, String hausnummer, String postleitzahl, String ortsname) {
 		this.strasse = strasse;
 		this.hausnummer = hausnummer;
 		this.postleitzahl = postleitzahl;
@@ -38,7 +38,7 @@ public class AdressTyp {
 		return hausnummer;
 	}
 
-	public int getPostleitzahl() {
+	public String getPostleitzahl() {
 		return postleitzahl;
 	}
 
