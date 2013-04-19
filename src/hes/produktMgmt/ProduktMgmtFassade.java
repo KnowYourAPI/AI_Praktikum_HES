@@ -32,4 +32,10 @@ public class ProduktMgmtFassade implements IProduktMgmt {
 		return null;
 	}
 
+	@Override
+	public int legeProduktAn(String name, int lagerbestand) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }
