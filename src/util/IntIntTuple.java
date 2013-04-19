@@ -1,12 +1,14 @@
 package util;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
 public class IntIntTuple {
 
 	@Id
+	@GeneratedValue
 	private int TupleId;
 	private int erste;
 	private int zweite;
