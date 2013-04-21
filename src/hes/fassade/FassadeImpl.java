@@ -48,7 +48,8 @@ public class FassadeImpl implements IFassade {
 	
 	@Override
 	public int legeProduktAn(String name, int lagerbestand) {
-		return produktMgmt.legeProduktAn(name, lagerbestand);
+		Session session = sessionFactory.getCurrentSession();
+		return produktMgmt.legeProduktAn(name, lagerbestand, session);
 	}
 
 	@Override
