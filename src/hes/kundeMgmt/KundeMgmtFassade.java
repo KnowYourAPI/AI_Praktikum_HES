@@ -22,7 +22,7 @@ public class KundeMgmtFassade implements IKundeMgmt {
 	}
 
 	@Override
-	public int getKundeId(String firmenName) {
+	public int getKundeId(String firmenName, Session session) {
 		return kundeRepository.getKundeId(firmenName);
 	}
 

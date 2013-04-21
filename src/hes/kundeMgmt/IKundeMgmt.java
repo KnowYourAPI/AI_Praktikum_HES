@@ -22,6 +22,6 @@ public interface IKundeMgmt {
 	 * @param firmenName Der Name der Kundenfirma, deren ID zurueckgegeben werden soll
 	 * @return Die ID des Kunden mit dem angegebenen Firmennamen, ansonsten -1
 	 * */
-	int getKundeId(String firmenName);
+	int getKundeId(String firmenName, Session session);
 	
 }
