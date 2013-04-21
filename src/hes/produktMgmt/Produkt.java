@@ -1,12 +1,9 @@
 package hes.produktMgmt;
 
 import hes.auftragMgmt.Angebot;
-import hes.auftragMgmt.AngebotTyp;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,15 +22,17 @@ public class Produkt {
 	@TableGenerator(name="produktId", table="produktPrimaryKeyTable", pkColumnName="produktPrimaryKey", pkColumnValue="nextProduktKey", allocationSize=1)
 	@GeneratedValue(strategy=GenerationType.TABLE, generator="produktId")
 	private int produktId;
+	
 	@Column(nullable=false)
 	private String name;
+	
 	@Column(nullable=false)
 	private int lagerbestand;
 	
-//	@ManyToMany(cascade=CascadeType.??)
-//	@JoinTable(name="Join_Produkt_Angebot", joinColumns={@JoinColumn(name="produktId")},
-//	inverseJoinColumns={@JoinColumn(name="angebotId")})
-//	private List<Angebot> angebote;
+	@ManyToMany
+	@JoinTable(name="Join_Produkt_Angebot", joinColumns={@JoinColumn(name="produktId")},
+	inverseJoinColumns={@JoinColumn(name="angebotId")})
+	private List<Angebot> angebote;
 
 	public Produkt() {}
 	
@@ -63,6 +62,10 @@ public class Produkt {
 		return this;
 	}
 
+	public void add(Angebot angebot) {
+		angebote.add(angebot);
+	}
+	
 	public ProduktTyp getProduktTyp() {
 		return new ProduktTyp(this.produktId, this.name, this.lagerbestand);
 	}
