@@ -1,7 +1,9 @@
 package hes.produktMgmt;
 
 import hes.auftragMgmt.Angebot;
+import hes.auftragMgmt.AngebotTyp;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -56,10 +58,15 @@ public class Produkt {
 		this.lagerbestand = lagerbestand;
 	}
 	
-	public void erhoeheLagerbestand(int menge) {
+	public Produkt erhoeheLagerbestand(int menge) {
 		this.lagerbestand = lagerbestand + menge;
+		return this;
 	}
 
+	public ProduktTyp getProduktTyp() {
+		return new ProduktTyp(this.produktId, this.name, this.lagerbestand);
+	}
+	
 	@Override
 	public String toString() {
 		return "Produkt [produktId=" + produktId + ", name=" + name

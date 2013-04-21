@@ -4,6 +4,8 @@ package hes.produktMgmt;
 import java.util.Date;
 import java.util.List;
 
+import org.hibernate.Session;
+
 import util.Tuple;
 
 public interface IProduktMgmt {
@@ -11,14 +13,16 @@ public interface IProduktMgmt {
 	/**
 	 * @param name Der Name des Produktes, das angelegt werden soll
 	 * @param lagerbestand Der Lagerbestand des Produktes bei dessen Anlegung in der Datenbank
+	 * @param session Die aktuelle Session.
 	 * @return Die ID des gerade angelegten Produkts
 	 * */
-	int legeProduktAn(String name, int lagerbestand);
+	int legeProduktAn(String name, int lagerbestand, Session session);
 
 	/**
+	 * @param session Die aktuelle Session.
 	 * @return eine Liste aller in der Datenbank vorhandenen Produkte
 	 */
-	List<ProduktTyp> getAlleProdukte();
+	List<ProduktTyp> getAlleProdukte(Session session);
 	
 	/**
 	 * Falls die gewuenschten Mengen der angegebenen Produkte vorhanden sind, werden diese ausgelagert
