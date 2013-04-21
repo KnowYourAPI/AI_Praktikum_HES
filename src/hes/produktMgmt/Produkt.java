@@ -1,10 +1,18 @@
 package hes.produktMgmt;
 
+import hes.auftragMgmt.Angebot;
+
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.TableGenerator;
 
 
@@ -19,6 +27,11 @@ public class Produkt {
 	private String name;
 	@Column(nullable=false)
 	private int lagerbestand;
+	
+//	@ManyToMany(cascade=CascadeType.??)
+//	@JoinTable(name="Join_Produkt_Angebot", joinColumns={@JoinColumn(name="produktId")},
+//	inverseJoinColumns={@JoinColumn(name="angebotId")})
+//	private List<Angebot> angebote;
 
 	public Produkt() {}
 	
@@ -37,6 +50,14 @@ public class Produkt {
 
 	public int getLagerbestand() {
 		return lagerbestand;
+	}
+
+	public void setLagerbestand(int lagerbestand) {
+		this.lagerbestand = lagerbestand;
+	}
+	
+	public void erhoeheLagerbestand(int menge) {
+		this.lagerbestand = lagerbestand + menge;
 	}
 
 	@Override
