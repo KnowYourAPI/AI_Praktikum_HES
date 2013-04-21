@@ -86,9 +86,9 @@ public class FassadeImpl implements IFassade {
 	@Override
 	public void meldeWareneingang(int produktId, int produktMenge, Date datum,
 			String lieferantenName, Object lieferschein) {
-		
+		Session session = sessionFactory.getCurrentSession();
 		produktMgmt.meldeWareneingang(produktId, produktMenge, datum,
-				lieferantenName, lieferschein);
+				lieferantenName, lieferschein, session);
 
 	}
 
