@@ -10,9 +10,9 @@ import util.Tuple;
 
 public class ProduktRepository {
 
-	public int legeProduktAn(String name, int lagerbestand, Session session) {
+	public int legeProduktAn(String name, int lagerbestand, float preis, Session session) {
 		session.beginTransaction();
-		Produkt produkt1 = new Produkt(name, lagerbestand);
+		Produkt produkt1 = new Produkt(name, lagerbestand, preis);
 		int produktId = produkt1.getProduktId();
 		session.save(produkt1);
 		session.getTransaction().commit();
@@ -29,23 +29,5 @@ public class ProduktRepository {
 		session.getTransaction().commit();
 		return listProduktTyp;
 	}
-	
-	public boolean lagereAus(List<Tuple<Integer, Integer>> bestellListe) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-
-	public void meldeWareneingang(int produktID, int produktMenge, Date datum,
-			String lieferantenName, Object lieferschein) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public List<BestellungTyp> getAusstehendeBestellungen() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
 	
 }

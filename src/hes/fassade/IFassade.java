@@ -23,7 +23,7 @@ public interface IFassade {
 	 * @param lagerbestand Der Lagerbestand des Produktes bei dessen Anlegung in der Datenbank
 	 * @return Die ID des gerade angelegten Produkts
 	 * */
-	int legeProduktAn(String name, int lagerbestand);
+	int legeProduktAn(String name, int lagerbestand, float preis);
 	
 	/**
 	 * @param firmenName Der Name der Kundenfirma, deren ID zurueckgegeben werden soll

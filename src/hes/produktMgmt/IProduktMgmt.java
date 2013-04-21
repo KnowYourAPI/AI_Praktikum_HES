@@ -11,12 +11,13 @@ import util.Tuple;
 public interface IProduktMgmt {
 	
 	/**
-	 * @param name Der Name des Produktes, das angelegt werden soll
-	 * @param lagerbestand Der Lagerbestand des Produktes bei dessen Anlegung in der Datenbank
+	 * @param name Der Name des Produktes, das angelegt werden soll.
+	 * @param lagerbestand Der Lagerbestand des Produktes bei dessen Anlegung in der Datenbank.
+	 * @param preis Der Preis des Produkts.
 	 * @param session Die aktuelle Session.
-	 * @return Die ID des gerade angelegten Produkts
+	 * @return Die ID des gerade angelegten Produkts.
 	 * */
-	int legeProduktAn(String name, int lagerbestand, Session session);
+	int legeProduktAn(String name, int lagerbestand, float preis, Session session);
 
 	/**
 	 * @param session Die aktuelle Session.

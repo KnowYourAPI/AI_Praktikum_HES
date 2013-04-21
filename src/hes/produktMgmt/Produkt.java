@@ -31,6 +31,9 @@ public class Produkt {
 	@Column(nullable=false)
 	private int lagerbestand;
 	
+	@Column(nullable= false)
+	private float preis;
+	
 	@ManyToMany
 	@JoinTable(name="Join_Produkt_Angebot", joinColumns={@JoinColumn(name="produktId")},
 	inverseJoinColumns={@JoinColumn(name="angebotId")})
@@ -43,9 +46,10 @@ public class Produkt {
 	
 	public Produkt() {}
 	
-	public Produkt(String name, int lagerbestand) {
+	public Produkt(String name, int lagerbestand, float preis) {
 		this.name = name;
 		this.lagerbestand = lagerbestand;
+		this.preis = preis;
 		this.angebote = new ArrayList<Angebot>();
 		this.auftraege = new ArrayList<Auftrag>();
 	}
@@ -62,8 +66,16 @@ public class Produkt {
 		return lagerbestand;
 	}
 
+	public float getPreis() {
+		return preis;
+	}
+	
 	public void setLagerbestand(int lagerbestand) {
 		this.lagerbestand = lagerbestand;
+	}
+	
+	public void setPreis(float preis) {
+		this.preis = preis;
 	}
 	
 	public Produkt erhoeheLagerbestand(int menge) {
@@ -80,13 +92,13 @@ public class Produkt {
 	}
 	
 	public ProduktTyp getProduktTyp() {
-		return new ProduktTyp(this.produktId, this.name, this.lagerbestand);
+		return new ProduktTyp(this.produktId, this.name, this.lagerbestand, this.preis);
 	}
 	
 	@Override
 	public String toString() {
 		return "Produkt [produktId=" + produktId + ", name=" + name
-				+ ", lagerbestand=" + lagerbestand + "]";
+				+ ", lagerbestand=" + lagerbestand + ", preis=" + preis + "]";
 	}
 	
 }

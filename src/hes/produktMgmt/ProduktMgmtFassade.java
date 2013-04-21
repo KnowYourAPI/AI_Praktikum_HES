@@ -10,10 +10,16 @@ import util.Tuple;
 public class ProduktMgmtFassade implements IProduktMgmt {
 
 	private ProduktRepository produktRepository;
+	private ProduktLogik produktLogik;
+	
+	public ProduktMgmtFassade() {
+		produktRepository = new ProduktRepository();
+		produktLogik = new ProduktLogik();
+	}
 
 	@Override
-	public int legeProduktAn(String name, int lagerbestand, Session session) {
-		return produktRepository.legeProduktAn(name, lagerbestand, session);
+	public int legeProduktAn(String name, int lagerbestand, float preis, Session session) {
+		return produktRepository.legeProduktAn(name, lagerbestand, preis, session);
 	}
 	
 	@Override
@@ -23,19 +29,19 @@ public class ProduktMgmtFassade implements IProduktMgmt {
 
 	@Override
 	public boolean lagereAus(List<Tuple<Integer, Integer>> bestellListe) {
-		return produktRepository.lagereAus(bestellListe);
+		return produktLogik.lagereAus(bestellListe);
 	}
 
 	@Override
 	public void meldeWareneingang(int produktID, int produktMenge, Date datum,
 			String lieferantenName, Object lieferschein) {
-		produktRepository.meldeWareneingang(produktID, produktMenge, datum, lieferantenName, lieferschein);
+		produktLogik.meldeWareneingang(produktID, produktMenge, datum, lieferantenName, lieferschein);
 
 	}
 
 	@Override
 	public List<BestellungTyp> getAusstehendeBestellungen() {
-		return produktRepository.getAusstehendeBestellungen();
+		return produktLogik.getAusstehendeBestellungen();
 	}
 
 
