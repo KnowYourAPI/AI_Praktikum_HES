@@ -1,7 +1,9 @@
 package hes.produktMgmt;
 
 import hes.auftragMgmt.Angebot;
+import hes.auftragMgmt.Auftrag;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -34,11 +36,18 @@ public class Produkt {
 	inverseJoinColumns={@JoinColumn(name="angebotId")})
 	private List<Angebot> angebote;
 
+	@ManyToMany
+	@JoinTable(name="Join_Produkt_Auftrag", joinColumns={@JoinColumn(name="produktId")},
+	inverseJoinColumns={@JoinColumn(name="auftragId")})
+	private List<Auftrag> auftraege;
+	
 	public Produkt() {}
 	
 	public Produkt(String name, int lagerbestand) {
 		this.name = name;
 		this.lagerbestand = lagerbestand;
+		this.angebote = new ArrayList<Angebot>();
+		this.auftraege = new ArrayList<Auftrag>();
 	}
 
 	public int getProduktId() {
@@ -62,8 +71,12 @@ public class Produkt {
 		return this;
 	}
 
-	public void add(Angebot angebot) {
+	public void addAngebot(Angebot angebot) {
 		angebote.add(angebot);
+	}
+	
+	public void addAuftrag(Auftrag auftrag) {
+		auftraege.add(auftrag);
 	}
 	
 	public ProduktTyp getProduktTyp() {
