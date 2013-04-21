@@ -11,6 +11,7 @@ import hes.kundeMgmt.Adresse;
 import hes.kundeMgmt.IKundeMgmt;
 import hes.kundeMgmt.Kunde;
 import hes.kundeMgmt.KundeMgmtFassade;
+import hes.kundeMgmt.KundeTyp;
 import hes.produktMgmt.Produkt;
 
 import org.hibernate.Query;
@@ -116,12 +117,56 @@ public class KundeMgmtTest {
 	
 	@Test
 	public void testGetKunde() {
-		fail("Not yet implemented");
+		//Kunde 1 und Kunde 2 erstellen:
+		Session session = sessionFactory.getCurrentSession();
+		kundeMgmt.erstelleKunde(name, adresse, session);
+		session = sessionFactory.getCurrentSession();
+		kundeMgmt.erstelleKunde(name2, adresse2, session);
+		
+		
+		//getKunde() testen
+		int kundeId1 = 1;
+		int kundeId2 = 2;
+		int kundeId3 = 3;
+		
+		session = sessionFactory.getCurrentSession();
+		KundeTyp kundeTyp1 = kundeMgmt.getKunde(kundeId1, session);
+		session = sessionFactory.getCurrentSession();
+		KundeTyp kundeTyp2 = kundeMgmt.getKunde(kundeId2, session);
+		session = sessionFactory.getCurrentSession();
+		KundeTyp kundeTyp3 = kundeMgmt.getKunde(kundeId3, session);
+		
+		assertTrue(kundeTyp1.getKundeId() == kundeId1);
+		assertEquals(kundeTyp1.getName(), name);
+		assertEquals(kundeTyp1.getAdresse(), adresse);
+		
+		assertTrue(kundeTyp2.getKundeId() == 2);
+		assertEquals(kundeTyp2.getName(), name2);
+		assertEquals(kundeTyp2.getAdresse(), adresse2);
+		
+		assertNull(kundeTyp3);
 	}
 	
 	@Test
 	public void testGetKundeId() {
-		fail("Not yet implemented");
+		//Kunde 1 und Kunde 2 erstellen:
+		Session session = sessionFactory.getCurrentSession();
+		kundeMgmt.erstelleKunde(name, adresse, session);
+		session = sessionFactory.getCurrentSession();
+		kundeMgmt.erstelleKunde(name2, adresse2, session);
+		
+		//getKundeId() testen:
+		session = sessionFactory.getCurrentSession();
+		int kundeId1 = kundeMgmt.getKundeId(name, session);
+		session = sessionFactory.getCurrentSession();
+		int kundeId2 = kundeMgmt.getKundeId(name2, session);
+		session = sessionFactory.getCurrentSession();
+		int kundeId3 = kundeMgmt.getKundeId("", session);
+		assertTrue(kundeId1 == 1);
+		assertTrue(kundeId2 == 2);
+		
+		assertTrue(kundeId3 == -1);
+		assertFalse(kundeId3 == 3);
 	}
 	
 	@After
