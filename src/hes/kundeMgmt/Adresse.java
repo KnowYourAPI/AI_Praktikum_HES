@@ -24,6 +24,8 @@ public class Adresse {
 	@Column(nullable=false)
 	private String ortsname;
 	
+	public Adresse() {}
+	
 	public Adresse(String strasse, String hausnummer, String postleitzahl, String ortsname) {
 		this.strasse = strasse;
 		this.hausnummer = hausnummer;

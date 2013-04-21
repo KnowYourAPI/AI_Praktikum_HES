@@ -34,6 +34,8 @@ public class Kunde {
 	@OneToMany(targetEntity=Auftrag.class, mappedBy="kunde")
 	private List<Auftrag> auftraege;
 	
+	public Kunde() {}
+	
 	public Kunde(String name, AdressTyp adressTyp) {
 		this.name = name;
 		this.adresse = new Adresse(adressTyp);
