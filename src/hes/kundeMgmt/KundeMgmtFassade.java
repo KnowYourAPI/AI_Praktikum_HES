@@ -1,5 +1,7 @@
 package hes.kundeMgmt;
 
+import org.hibernate.Session;
+
 import util.AdressTyp;
 
 public class KundeMgmtFassade implements IKundeMgmt {
@@ -11,13 +13,13 @@ public class KundeMgmtFassade implements IKundeMgmt {
 	}
 
 	@Override
-	public IKunde getKunde(int kundeId) {
+	public KundeTyp getKunde(int kundeId) {
 		return kundeRepository.getKunde(kundeId);
 	}
 
 	@Override
-	public int erstelleKunde(String name, AdressTyp adresse) {
-		return kundeRepository.erstelleKunde(name, adresse);
+	public int erstelleKunde(String name, AdressTyp adresse, Session session) {
+		return kundeRepository.erstelleKunde(name, adresse, session);
 	}
 
 	@Override
