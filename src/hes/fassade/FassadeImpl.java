@@ -3,7 +3,6 @@ package hes.fassade;
 import hes.auftragMgmt.AngebotTyp;
 import hes.auftragMgmt.AuftragTyp;
 import hes.auftragMgmt.IAuftragMgmt;
-import hes.kundeMgmt.AdressTyp;
 import hes.kundeMgmt.IKundeMgmt;
 import hes.lieferungMgmt.ILieferungMgmt;
 import hes.produktMgmt.IProduktMgmt;
@@ -16,6 +15,7 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
+import util.AdressTyp;
 
 public class FassadeImpl implements IFassade {
 	
@@ -54,8 +54,7 @@ public class FassadeImpl implements IFassade {
 
 	@Override
 	public int getKundeId(String firmenName) {
-		Session session = sessionFactory.getCurrentSession();
-		return kundeMgmt.getKundeId(firmenName, session);
+		return kundeMgmt.getKundeId(firmenName);
 	}
 
 	@Override
@@ -65,7 +64,8 @@ public class FassadeImpl implements IFassade {
 
 	@Override
 	public List<ProduktTyp> getAlleProdukte() {
-		return produktMgmt.getAlleProdukte();
+		Session session = sessionFactory.getCurrentSession();
+		return produktMgmt.getAlleProdukte(session);
 	}
 
 	@Override
