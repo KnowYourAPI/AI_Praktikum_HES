@@ -59,10 +59,11 @@ public class HESStarter {
 		IFassade fassade = new FassadeImpl(auftragMgmt, kundeMgmt,
 				rechnungMgmt, produktMgmt, lieferungMgmt, sessionFactory);
 		
-		String name = "Julian";
-		AdressTyp adresse = new AdressTyp("Starweg", "86a", "22926", "Ahrensburg");
+		//Simpler Testaufruf:
+		String name = "Max Mustermann";
+		AdressTyp adresse = new AdressTyp("Musterweg", "42a", "12345", "Beispielstadt");
 		
-		System.out.println("Neuer Kunde, Id:" + fassade.legeKundeAn(name, adresse));
+		System.err.println("Neuer Kunde, Id:" + fassade.legeKundeAn(name, adresse));
 
 	}
 
