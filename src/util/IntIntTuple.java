@@ -10,12 +10,12 @@ public class IntIntTuple {
 	@Id
 	@GeneratedValue
 	private int TupleId;
-	private int erste;
-	private int zweite;
+	private int produktId;
+	private int menge;
 
-	public IntIntTuple(int erste, int zweite) {
-		this.erste = erste;
-		this.zweite = zweite;
+	public IntIntTuple(int produktId, int menge) {
+		this.produktId = produktId;
+		this.menge = menge;
 	}
 
 	
@@ -27,25 +27,25 @@ public class IntIntTuple {
 		TupleId = tupleId;
 	}
 
-	public int getErste() {
-		return erste;
+	public int getProduktId() {
+		return produktId;
 	}
 
-	public void setErste(int erste) {
-		this.erste = erste;
+	public void setProduktId(int produktId) {
+		this.produktId = produktId;
 	}
 
 	public int getMenge() {
-		return zweite;
+		return menge;
 	}
 
-	public void setMenge(int zweite) {
-		this.zweite = zweite;
+	public void setMenge(int menge) {
+		this.menge = menge;
 	}
 
 	@Override
 	public String toString() {
-		return "<" + erste + "," + zweite + ">";
+		return "<" + produktId + "," + menge + ">";
 	}
 	
 }
