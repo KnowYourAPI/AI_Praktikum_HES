@@ -99,7 +99,8 @@ public class FassadeImpl implements IFassade {
 
 	@Override
 	public void markiereLieferungAlsErfolgt(int lieferungId) {
-		lieferungMgmt.markiereLieferungAlsErfolgt(lieferungId);	
+		Session session = sessionFactory.getCurrentSession();
+		lieferungMgmt.markiereLieferungAlsErfolgt(lieferungId, session);	
 	}
 	
 	@Override
