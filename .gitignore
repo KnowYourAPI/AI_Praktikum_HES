@@ -12,3 +12,9 @@ hibernate.cfg.xml
 .project
 .settings/
 bin/
+
+# Rumspielen #
+
+src\hes\TestStarterJulian.java
+
+/.gitignore
