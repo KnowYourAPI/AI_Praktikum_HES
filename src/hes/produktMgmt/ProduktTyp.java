@@ -26,7 +26,7 @@ public class ProduktTyp {
 		return lagerbestand;
 	}
 
-	public float preis() {
+	public float getPreis() {
 		return preis;
 	}
 	
