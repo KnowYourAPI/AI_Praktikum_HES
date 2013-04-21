@@ -1,8 +1,12 @@
-package util;
+package hes.kundeMgmt;
 
 public class AdressTyp {
 	
 	private Adresse adresse;
+	
+	public AdressTyp(String strasse, String hausnummer, String postleitzahl, String ortsname) {
+		this.adresse = new Adresse(strasse, hausnummer, postleitzahl, ortsname);
+	}
 	
 	public AdressTyp(Adresse adresse) {
 		this.adresse = adresse;

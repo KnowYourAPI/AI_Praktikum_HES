@@ -1,4 +1,4 @@
-package util;
+package hes.kundeMgmt;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.TableGenerator;
+
 
 @Entity
 public class Adresse {
@@ -28,6 +29,13 @@ public class Adresse {
 		this.hausnummer = hausnummer;
 		this.postleitzahl = postleitzahl;
 		this.ortsname = ortsname;
+	}
+	
+	public Adresse(AdressTyp adressTyp) {
+		this.strasse = adressTyp.getStrasse();
+		this.hausnummer = adressTyp.getHausnummer();
+		this.postleitzahl = adressTyp.getPostleitzahl();
+		this.ortsname = adressTyp.getOrtsname();
 	}
 
 	public int getAdressTypId() {

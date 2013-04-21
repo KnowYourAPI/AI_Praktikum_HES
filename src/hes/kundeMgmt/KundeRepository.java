@@ -2,7 +2,6 @@ package hes.kundeMgmt;
 
 import org.hibernate.Session;
 
-import util.AdressTyp;
 
 class KundeRepository {
 	
@@ -13,7 +12,7 @@ class KundeRepository {
 	int erstelleKunde(String name, AdressTyp adresse, Session session) {
 		session.beginTransaction();
 		Kunde neuerKunde = new Kunde(name, adresse);
-		session.save(adresse);
+//		session.save(adresse);
 		session.save(neuerKunde);
 		session.getTransaction().commit();
 		return neuerKunde.getKundeId();

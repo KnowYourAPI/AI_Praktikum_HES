@@ -3,6 +3,7 @@ package hes.fassade;
 import hes.auftragMgmt.AngebotTyp;
 import hes.auftragMgmt.AuftragTyp;
 import hes.auftragMgmt.IAuftragMgmt;
+import hes.kundeMgmt.AdressTyp;
 import hes.kundeMgmt.IKundeMgmt;
 import hes.lieferungMgmt.ILieferungMgmt;
 import hes.produktMgmt.IProduktMgmt;
@@ -15,7 +16,6 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-import util.AdressTyp;
 
 public class FassadeImpl implements IFassade {
 	

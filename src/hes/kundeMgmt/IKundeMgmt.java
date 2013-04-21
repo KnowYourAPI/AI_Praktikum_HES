@@ -2,7 +2,6 @@ package hes.kundeMgmt;
 
 import org.hibernate.Session;
 
-import util.AdressTyp;
 
 public interface IKundeMgmt {
 

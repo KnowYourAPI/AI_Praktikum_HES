@@ -2,12 +2,12 @@ package hes.fassade;
 
 import hes.auftragMgmt.AngebotTyp;
 import hes.auftragMgmt.AuftragTyp;
+import hes.kundeMgmt.AdressTyp;
 import hes.produktMgmt.ProduktTyp;
 
 import java.util.Date;
 import java.util.List;
 
-import util.AdressTyp;
 
 public interface IFassade {
 	

@@ -1,16 +1,18 @@
 package hes;
 
+
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
 
-import util.AdressTyp;
 import hes.auftragMgmt.Angebot;
 import hes.auftragMgmt.Auftrag;
 import hes.auftragMgmt.AuftragMgmtFassade;
 import hes.auftragMgmt.IAuftragMgmt;
 import hes.fassade.FassadeImpl;
 import hes.fassade.IFassade;
+import hes.kundeMgmt.AdressTyp;
+import hes.kundeMgmt.Adresse;
 import hes.kundeMgmt.IKundeMgmt;
 import hes.kundeMgmt.Kunde;
 import hes.kundeMgmt.KundeMgmtFassade;
@@ -35,7 +37,7 @@ public class HESStarter {
 		
 		//Hibernate Setup:
 		AnnotationConfiguration config = new AnnotationConfiguration();
-		config.addAnnotatedClass(AdressTyp.class);
+		config.addAnnotatedClass(Adresse.class);
 		config.addAnnotatedClass(Kunde.class);
 		config.addAnnotatedClass(Angebot.class);
 		config.addAnnotatedClass(Auftrag.class);
@@ -43,7 +45,8 @@ public class HESStarter {
 		//Wenn einkommentiert, loescht dieser Befehl
 		//alle bestehenden Tabellen und erstellt neue
 		//aus den Annotations
-		new SchemaExport(config).create(true, true);
+		SchemaExport schemaExport = new SchemaExport(config);
+		schemaExport.create(true, true);
 		
 		SessionFactory sessionFactory = config.buildSessionFactory();
 		

@@ -16,7 +16,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.TableGenerator;
 
-import util.AdressTyp;
 
 @Entity
 public class Kunde {
@@ -29,15 +28,15 @@ public class Kunde {
 	@Column(nullable=false)
 	private String name;
 	@OneToOne(cascade=CascadeType.ALL)
-	private AdressTyp adresse;
+	private Adresse adresse;
 	@OneToMany(targetEntity=Angebot.class, mappedBy="kunde")
 	private List<Angebot> angebote;
 	@OneToMany(targetEntity=Auftrag.class, mappedBy="kunde")
 	private List<Auftrag> auftraege;
 	
-	public Kunde(String name, AdressTyp adresse) {
+	public Kunde(String name, AdressTyp adressTyp) {
 		this.name = name;
-		this.adresse = adresse;
+		this.adresse = new Adresse(adressTyp);
 		this.angebote = new ArrayList<Angebot>();
 		this.auftraege = new ArrayList<Auftrag>();
 	}
@@ -58,11 +57,11 @@ public class Kunde {
 		this.name = name;
 	}
 
-	public AdressTyp getAdresse() {
+	public Adresse getAdresse() {
 		return adresse;
 	}
 	
-	public void setAdresse(AdressTyp adresse) {
+	public void setAdresse(Adresse adresse) {
 		this.adresse = adresse;
 	}
 
