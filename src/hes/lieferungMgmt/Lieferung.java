@@ -1,5 +1,6 @@
 package hes.lieferungMgmt;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,7 +16,7 @@ public class Lieferung {
 	@GeneratedValue(strategy=GenerationType.TABLE, generator="lieferungId")
 	private int lieferungId;
 	
-	@OneToOne
+	@OneToOne(cascade=CascadeType.ALL)
 	private Transportauftrag transportauftrag;
 	
 	public Lieferung() {}
