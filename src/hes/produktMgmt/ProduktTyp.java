@@ -33,7 +33,7 @@ public class ProduktTyp {
 	@Override
 	public String toString() {
 		return "ProduktTyp [produktId=" + produktId + ", name=" + name
-				+ ", lagerbestand=" + lagerbestand + "]";
+				+ ", lagerbestand=" + lagerbestand + ", preis=" + preis + "]";
 	}
 
 	

@@ -14,7 +14,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.TableGenerator;
+
 
 
 @Entity
@@ -44,6 +46,9 @@ public class Produkt {
 	inverseJoinColumns={@JoinColumn(name="auftragId")})
 	private List<Auftrag> auftraege;
 	
+	@OneToMany(targetEntity=Warenausgangsmeldung.class, mappedBy="produkt")
+	private List<Warenausgangsmeldung> warenausgangsmeldungen;
+	
 	public Produkt() {}
 	
 	public Produkt(String name, int lagerbestand, float preis) {
@@ -52,6 +57,7 @@ public class Produkt {
 		this.preis = preis;
 		this.angebote = new ArrayList<Angebot>();
 		this.auftraege = new ArrayList<Auftrag>();
+		this.warenausgangsmeldungen = new ArrayList<Warenausgangsmeldung>();
 	}
 
 	public int getProduktId() {
@@ -70,6 +76,22 @@ public class Produkt {
 		return preis;
 	}
 	
+	public void setProduktId(int produktId) {
+		this.produktId = produktId;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setAngebote(List<Angebot> angebote) {
+		this.angebote = angebote;
+	}
+
+	public void setAuftraege(List<Auftrag> auftraege) {
+		this.auftraege = auftraege;
+	}
+
 	public void setLagerbestand(int lagerbestand) {
 		this.lagerbestand = lagerbestand;
 	}
@@ -78,6 +100,23 @@ public class Produkt {
 		this.preis = preis;
 	}
 	
+	public List<Warenausgangsmeldung> getWarenausgangsmeldungen() {
+		return warenausgangsmeldungen;
+	}
+
+	public void setWarenausgangsmeldungen(
+			List<Warenausgangsmeldung> warenausgangsmeldungen) {
+		this.warenausgangsmeldungen = warenausgangsmeldungen;
+	}
+
+	public List<Angebot> getAngebote() {
+		return angebote;
+	}
+
+	public List<Auftrag> getAuftraege() {
+		return auftraege;
+	}
+
 	public Produkt erhoeheLagerbestand(int menge) {
 		this.lagerbestand = lagerbestand + menge;
 		return this;
@@ -89,6 +128,10 @@ public class Produkt {
 	
 	public void addAuftrag(Auftrag auftrag) {
 		auftraege.add(auftrag);
+	}
+	
+	public void addWarenausgangsmeldung(Warenausgangsmeldung warenausgangsmeldung) {
+		warenausgangsmeldungen.add(warenausgangsmeldung);
 	}
 	
 	public ProduktTyp getProduktTyp() {

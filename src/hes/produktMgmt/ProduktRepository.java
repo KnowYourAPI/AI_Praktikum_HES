@@ -1,12 +1,11 @@
 package hes.produktMgmt;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Session;
 
-import util.Tuple;
+import util.IntIntTuple;
 
 public class ProduktRepository {
 
@@ -29,5 +28,24 @@ public class ProduktRepository {
 		session.getTransaction().commit();
 		return listProduktTyp;
 	}
+	
+	public boolean produkteVorraetig(List<IntIntTuple> bestellListe, Session session) {
+		session.beginTransaction();
+		for (IntIntTuple produktIdMenge : bestellListe) {
+			Produkt produkt = (Produkt)session.get(Produkt.class, produktIdMenge.getProduktId());
+			if(produkt == null || produkt.getLagerbestand() < produktIdMenge.getMenge()) {
+				session.getTransaction().commit();
+				return false;
+			}
+		}
+		session.getTransaction().commit();
+		return true;
+	}
+	
+	public void lagereAus(List<IntIntTuple> bestellListe, Session session) {
+		//TODO
+		//auslagern und Wareinausgangsmeldung erstellen!!!
+	}
+
 	
 }

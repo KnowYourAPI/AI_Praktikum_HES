@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.hibernate.Session;
 
-import util.Tuple;
+import util.IntIntTuple;
 
 public class ProduktMgmtFassade implements IProduktMgmt {
 
@@ -14,7 +14,7 @@ public class ProduktMgmtFassade implements IProduktMgmt {
 	
 	public ProduktMgmtFassade() {
 		produktRepository = new ProduktRepository();
-		produktLogik = new ProduktLogik();
+		produktLogik = new ProduktLogik(produktRepository);
 	}
 
 	@Override
@@ -27,21 +27,22 @@ public class ProduktMgmtFassade implements IProduktMgmt {
 		return produktRepository.getAlleProdukte(session);
 	}
 
+	
 	@Override
-	public boolean lagereAus(List<Tuple<Integer, Integer>> bestellListe) {
-		return produktLogik.lagereAus(bestellListe);
+	public boolean lagereAus(List<IntIntTuple> bestellListe, Session session) {
+		return produktLogik.lagereAus(bestellListe, session);
 	}
 
 	@Override
 	public void meldeWareneingang(int produktID, int produktMenge, Date datum,
-			String lieferantenName, Object lieferschein) {
-		produktLogik.meldeWareneingang(produktID, produktMenge, datum, lieferantenName, lieferschein);
+			String lieferantenName, Object lieferschein, Session session) {
+		produktLogik.meldeWareneingang(produktID, produktMenge, datum, lieferantenName, lieferschein, session);
 
 	}
 
 	@Override
-	public List<BestellungTyp> getAusstehendeBestellungen() {
-		return produktLogik.getAusstehendeBestellungen();
+	public List<BestellungTyp> getAusstehendeBestellungen(Session session) {
+		return produktLogik.getAusstehendeBestellungen(session);
 	}
 
 
