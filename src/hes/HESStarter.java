@@ -23,6 +23,7 @@ import hes.lieferungMgmt.Transportauftrag;
 import hes.produktMgmt.IProduktMgmt;
 import hes.produktMgmt.Produkt;
 import hes.produktMgmt.ProduktMgmtFassade;
+import hes.produktMgmt.Warenausgangsmeldung;
 import hes.rechnungMgmt.IRechnungMgmt;
 import hes.rechnungMgmt.RechnungMgmtFassade;
 
@@ -47,6 +48,7 @@ public class HESStarter {
 		config.addAnnotatedClass(Produkt.class);
 		config.addAnnotatedClass(Lieferung.class);
 		config.addAnnotatedClass(Transportauftrag.class);
+		config.addAnnotatedClass(Warenausgangsmeldung.class);
 		config.configure("hibernate.cfg.xml");
 		//Wenn einkommentiert, loescht dieser Befehl
 		//alle bestehenden Tabellen und erstellt neue
