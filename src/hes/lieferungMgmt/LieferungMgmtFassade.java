@@ -14,7 +14,6 @@ public class LieferungMgmtFassade implements ILieferungMgmt {
 
 	@Override
 	public int erstelleLieferungUndTransportauftrag(int auftragID, Session session) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
