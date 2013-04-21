@@ -12,8 +12,8 @@ public class KundeMgmtFassade implements IKundeMgmt {
 	}
 
 	@Override
-	public KundeTyp getKunde(int kundeId) {
-		return kundeRepository.getKunde(kundeId);
+	public KundeTyp getKunde(int kundeId, Session session) {
+		return kundeRepository.getKunde(kundeId, session);
 	}
 
 	@Override

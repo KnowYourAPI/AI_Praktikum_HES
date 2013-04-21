@@ -9,7 +9,7 @@ public interface IKundeMgmt {
 	 * @param kundeId Die ID des zu holenden Kunden.
 	 * @return Den Kunden mit der angegebenen ID, sonst null. 
 	 * */
-	KundeTyp getKunde(int kundeId);
+	KundeTyp getKunde(int kundeId, Session session);
 	
 	/**
 	 * @param name Der name des anzulegenden Kunden.

@@ -54,7 +54,8 @@ public class FassadeImpl implements IFassade {
 
 	@Override
 	public int getKundeId(String firmenName) {
-		return kundeMgmt.getKundeId(firmenName);
+		Session session = sessionFactory.getCurrentSession();
+		return kundeMgmt.getKundeId(firmenName, session);
 	}
 
 	@Override
