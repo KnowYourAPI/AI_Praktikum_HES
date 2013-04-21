@@ -4,13 +4,13 @@ import org.hibernate.Session;
 
 import util.AdressTyp;
 
-public class KundeRepository {
+class KundeRepository {
 	
-	public KundeTyp getKunde(int kundeId) {
+	KundeTyp getKunde(int kundeId) {
 		return null;
 	}
 
-	public int erstelleKunde(String name, AdressTyp adresse, Session session) {
+	int erstelleKunde(String name, AdressTyp adresse, Session session) {
 		session.beginTransaction();
 		Kunde neuerKunde = new Kunde(name, adresse);
 		session.save(adresse);
@@ -19,7 +19,7 @@ public class KundeRepository {
 		return neuerKunde.getKundeId();
 	}
 
-	public int getKundeId(String firmenName) {
+	int getKundeId(String firmenName) {
 		return 0;
 	}
 
