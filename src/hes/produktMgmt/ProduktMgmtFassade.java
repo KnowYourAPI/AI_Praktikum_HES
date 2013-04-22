@@ -18,12 +18,12 @@ public class ProduktMgmtFassade implements IProduktMgmt {
 	}
 
 	@Override
-	public int legeProduktAn(String name, int lagerbestand, float preis, Session session) {
+	public Produkt legeProduktAn(String name, int lagerbestand, float preis, Session session) {
 		return produktRepository.legeProduktAn(name, lagerbestand, preis, session);
 	}
 	
 	@Override
-	public List<ProduktTyp> getAlleProdukte(Session session) {
+	public List<Produkt> getAlleProdukte(Session session) {
 		return produktRepository.getAlleProdukte(session);
 	}
 

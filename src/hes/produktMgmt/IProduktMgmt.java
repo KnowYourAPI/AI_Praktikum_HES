@@ -15,15 +15,15 @@ public interface IProduktMgmt {
 	 * @param lagerbestand Der Lagerbestand des Produktes bei dessen Anlegung in der Datenbank
 	 * @param preis Der Preis des Produkts
 	 * @param session Die aktuelle Session
-	 * @return Die ID des gerade angelegten Produkts
+	 * @return Das gerade angelegte Produkt
 	 * */
-	int legeProduktAn(String name, int lagerbestand, float preis, Session session);
+	Produkt legeProduktAn(String name, int lagerbestand, float preis, Session session);
 
 	/**
 	 * @param session Die aktuelle Session.
 	 * @return eine Liste aller in der Datenbank vorhandenen Produkte
 	 */
-	List<ProduktTyp> getAlleProdukte(Session session);
+	List<Produkt> getAlleProdukte(Session session);
 	
 	/**
 	 * Falls die gewuenschten Mengen der angegebenen Produkte vorhanden sind, werden diese ausgelagert

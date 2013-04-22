@@ -7,9 +7,11 @@ import hes.kundeMgmt.AdressTyp;
 import hes.kundeMgmt.IKundeMgmt;
 import hes.lieferungMgmt.ILieferungMgmt;
 import hes.produktMgmt.IProduktMgmt;
+import hes.produktMgmt.Produkt;
 import hes.produktMgmt.ProduktTyp;
 import hes.rechnungMgmt.IRechnungMgmt;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -48,7 +50,8 @@ public class FassadeImpl implements IFassade {
 	@Override
 	public int legeProduktAn(String name, int lagerbestand, float preis) {
 		Session session = sessionFactory.getCurrentSession();
-		return produktMgmt.legeProduktAn(name, lagerbestand, preis, session);
+		Produkt produkt = produktMgmt.legeProduktAn(name, lagerbestand, preis, session);
+		return produkt.getProduktId();
 	}
 
 	@Override
@@ -65,7 +68,12 @@ public class FassadeImpl implements IFassade {
 	@Override
 	public List<ProduktTyp> getAlleProdukte() {
 		Session session = sessionFactory.getCurrentSession();
-		return produktMgmt.getAlleProdukte(session);
+		List<Produkt> produktList = produktMgmt.getAlleProdukte(session);
+		List<ProduktTyp> produktTypList = new ArrayList<ProduktTyp>();
+		for(Produkt produkt : produktList) {
+			produktTypList.add(produkt.getProduktTyp());
+		}
+		return produktTypList;
 	}
 
 	@Override

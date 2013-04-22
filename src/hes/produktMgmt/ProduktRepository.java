@@ -1,6 +1,5 @@
 package hes.produktMgmt;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -9,24 +8,19 @@ import util.IntIntTuple;
 
 public class ProduktRepository {
 
-	public int legeProduktAn(String name, int lagerbestand, float preis, Session session) {
+	public Produkt legeProduktAn(String name, int lagerbestand, float preis, Session session) {
 		session.beginTransaction();
-		Produkt produkt1 = new Produkt(name, lagerbestand, preis);
-		int produktId = produkt1.getProduktId();
-		session.save(produkt1);
+		Produkt produkt = new Produkt(name, lagerbestand, preis);
+		session.save(produkt);
 		session.getTransaction().commit();
-		return produktId;
+		return produkt;
 	}
 	
-	public List<ProduktTyp> getAlleProdukte(Session session) {
+	public List<Produkt> getAlleProdukte(Session session) {
 		session.beginTransaction();
-		List<ProduktTyp> listProduktTyp = new ArrayList<ProduktTyp>();
 		List<Produkt> produktList = session.createQuery("from Produkt").list();
-		for(Produkt produkt : produktList) {
-			listProduktTyp.add(produkt.getProduktTyp());
-		}
 		session.getTransaction().commit();
-		return listProduktTyp;
+		return produktList;
 	}
 	
 	public boolean produkteVorraetig(List<IntIntTuple> bestellListe, Session session) {
@@ -35,7 +29,10 @@ public class ProduktRepository {
 			Produkt produkt = (Produkt)session.get(Produkt.class, produktIdMenge.getProduktId());
 			if(produkt == null || produkt.getLagerbestand() < produktIdMenge.getMenge()) {
 				session.getTransaction().commit();
-				return false;
+				//return false;
+				
+				//Fur das 2.Praktukum nehen wir an, dass immer genuegend Produkte vorraetig sind, daher:
+				return true;
 			}
 		}
 		session.getTransaction().commit();
