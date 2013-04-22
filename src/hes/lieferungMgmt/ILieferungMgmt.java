@@ -7,11 +7,11 @@ import org.hibernate.Session;
 public interface ILieferungMgmt {
 
 	/**
-	 * Soll diese Methode automatisch oder ueber eine Benutzeroberflaeche aufgerufen werden
+	 * Soll diese Methode automatisch oder ueber eine Benutzeroberflaeche aufgerufen werden?
 	 * -> automatisch
 	 * 
-	 * @param auftragID Die ID des Auftrags, zu dem die zu erstellende Lieferung gehoert
-	 * @return Die ID des Lieferungsobjekts, fuer die Lieferung
+	 * @param auftrag Der Auftrag, zu dem die zu erstellende Lieferung gehoert
+	 * @return Das Lieferungsobjekt, fuer die Lieferung
 	 * */
 	Lieferung erstelleLieferung(Auftrag auftrag, Session session);
 	
