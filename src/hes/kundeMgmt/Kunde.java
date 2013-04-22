@@ -59,8 +59,8 @@ public class Kunde {
 		this.name = name;
 	}
 
-	public Adresse getAdresse() {
-		return adresse;
+	public AdressTyp getAdresse() {
+		return new AdressTyp(adresse);
 	}
 	
 	public void setAdresse(Adresse adresse) {
@@ -81,6 +81,51 @@ public class Kunde {
 
 	public void setAuftraege(List<Auftrag> auftraege) {
 		this.auftraege = auftraege;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((adresse == null) ? 0 : adresse.hashCode());
+		result = prime * result
+				+ ((angebote == null) ? 0 : angebote.hashCode());
+		result = prime * result
+				+ ((auftraege == null) ? 0 : auftraege.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Kunde other = (Kunde) obj;
+		if (adresse == null) {
+			if (other.adresse != null)
+				return false;
+		} else if (!adresse.equals(other.adresse))
+			return false;
+		if (angebote == null) {
+			if (other.angebote != null)
+				return false;
+		} else if (!angebote.equals(other.angebote))
+			return false;
+		if (auftraege == null) {
+			if (other.auftraege != null)
+				return false;
+		} else if (!auftraege.equals(other.auftraege))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		return true;
 	}
 
 }

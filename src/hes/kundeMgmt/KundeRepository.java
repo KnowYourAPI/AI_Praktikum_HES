@@ -9,7 +9,7 @@ import org.hibernate.Session;
 class KundeRepository {
 	
 	@SuppressWarnings("rawtypes")
-	KundeTyp getKunde(int kundeId, Session session) {
+	Kunde ladeKunde(int kundeId, Session session) {
 		session.beginTransaction();
 		Query query = session.createQuery("from Kunde where kundeId = :kundeId");
 		query.setParameter("kundeId", kundeId);
@@ -20,7 +20,7 @@ class KundeRepository {
 		} else {
 			Kunde kunde = (Kunde) list.get(0);
 			session.getTransaction().commit();
-			return new KundeTyp(kunde);
+			return kunde;
 		}
 	}
 

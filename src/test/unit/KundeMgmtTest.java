@@ -11,8 +11,9 @@ import hes.kundeMgmt.Adresse;
 import hes.kundeMgmt.IKundeMgmt;
 import hes.kundeMgmt.Kunde;
 import hes.kundeMgmt.KundeMgmtFassade;
-import hes.kundeMgmt.KundeTyp;
+import hes.lieferungMgmt.Lieferung;
 import hes.produktMgmt.Produkt;
+import hes.produktMgmt.Warenausgangsmeldung;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -47,6 +48,8 @@ public class KundeMgmtTest {
 		config.addAnnotatedClass(Angebot.class);
 		config.addAnnotatedClass(Auftrag.class);
 		config.addAnnotatedClass(Produkt.class);
+		config.addAnnotatedClass(Lieferung.class);
+		config.addAnnotatedClass(Warenausgangsmeldung.class);
 		config.configure("hibernate.cfg.xml");
 		//Wenn einkommentiert, loescht dieser Befehl
 		//alle bestehenden Tabellen und erstellt neue
@@ -130,21 +133,21 @@ public class KundeMgmtTest {
 		int kundeId3 = 3;
 		
 		session = sessionFactory.getCurrentSession();
-		KundeTyp kundeTyp1 = kundeMgmt.getKunde(kundeId1, session);
+		Kunde kunde1 = kundeMgmt.getKunde(kundeId1, session);
 		session = sessionFactory.getCurrentSession();
-		KundeTyp kundeTyp2 = kundeMgmt.getKunde(kundeId2, session);
+		Kunde kunde2 = kundeMgmt.getKunde(kundeId2, session);
 		session = sessionFactory.getCurrentSession();
-		KundeTyp kundeTyp3 = kundeMgmt.getKunde(kundeId3, session);
+		Kunde kunde3 = kundeMgmt.getKunde(kundeId3, session);
 		
-		assertTrue(kundeTyp1.getKundeId() == kundeId1);
-		assertEquals(kundeTyp1.getName(), name);
-		assertEquals(kundeTyp1.getAdresse(), adresse);
+		assertTrue(kunde1.getKundeId() == kundeId1);
+		assertEquals(kunde1.getName(), name);
+		assertEquals(kunde1.getAdresse(), adresse);
 		
-		assertTrue(kundeTyp2.getKundeId() == 2);
-		assertEquals(kundeTyp2.getName(), name2);
-		assertEquals(kundeTyp2.getAdresse(), adresse2);
+		assertTrue(kunde2.getKundeId() == 2);
+		assertEquals(kunde2.getName(), name2);
+		assertEquals(kunde2.getAdresse(), adresse2);
 		
-		assertNull(kundeTyp3);
+		assertNull(kunde3);
 	}
 	
 	@Test
