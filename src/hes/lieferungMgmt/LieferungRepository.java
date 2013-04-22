@@ -7,7 +7,7 @@ import org.hibernate.Session;
 
 class LieferungRepository {
 	
-	void markiereLieferungAlsErfolgt(int lieferungId, Session session) {
+	Lieferung ladeLieferung(int lieferungId, Session session) {
 		session.beginTransaction();
 		Query query = session.createQuery("from Lieferung where lieferungId = :lieferungId");
 		query.setParameter("lieferungId", lieferungId);
@@ -17,14 +17,14 @@ class LieferungRepository {
 		if(!list.isEmpty()) {
 			Lieferung lieferung = (Lieferung)list.get(0);
 			lieferung.setLieferungErfolgt(true);
-			
-			session.beginTransaction();
-			session.save(lieferung);
-			session.getTransaction().commit();
-		}
+			return lieferung;
+		} else
+			return null;
 	}
 	
 	void speichereLieferung(Lieferung lieferung, Session session) {
-		
+		session.beginTransaction();
+		session.save(lieferung);
+		session.getTransaction().commit();
 	}
 }

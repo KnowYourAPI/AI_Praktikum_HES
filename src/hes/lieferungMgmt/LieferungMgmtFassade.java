@@ -15,13 +15,17 @@ public class LieferungMgmtFassade implements ILieferungMgmt {
 	@Override
 	public Lieferung erstelleLieferung(Auftrag auftrag, Session session) {
 		Lieferung lieferung = new Lieferung(auftrag);
-		
-		return null;
+		lieferungRepository.speichereLieferung(lieferung, session);
+		return lieferung;
 	}
 
 	@Override
 	public void markiereLieferungAlsErfolgt(int lieferungId, Session session) {
-		lieferungRepository.markiereLieferungAlsErfolgt(lieferungId, session);
+		Lieferung lieferung = lieferungRepository.ladeLieferung(lieferungId, session);
+		if(lieferung != null) {
+			lieferung.setLieferungErfolgt(true);
+			lieferungRepository.speichereLieferung(lieferung, session);
+		}
 	}
 
 }
