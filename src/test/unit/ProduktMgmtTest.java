@@ -9,7 +9,6 @@ import hes.auftragMgmt.Angebot;
 import hes.auftragMgmt.Auftrag;
 import hes.kundeMgmt.Adresse;
 import hes.kundeMgmt.Kunde;
-import hes.kundeMgmt.KundeMgmtFassade;
 import hes.produktMgmt.IProduktMgmt;
 import hes.produktMgmt.Produkt;
 import hes.produktMgmt.ProduktMgmtFassade;
@@ -84,19 +83,19 @@ public class ProduktMgmtTest {
 	@Test
 	public void testGetAlleProdukte() {
 		Session session = sessionFactory.getCurrentSession();
-		assertEquals(produktMgmt.getAlleProdukte(session).get(0).getClass(), ProduktTyp.class); 
+		assertEquals(produktMgmt.getAlleProdukte(session).get(0).getClass(), Produkt.class); 
 		session = sessionFactory.getCurrentSession();
-		List<ProduktTyp> produktTypList = produktMgmt.getAlleProdukte(session);
-		assertTrue(produktTypList.size() == 3);
-		System.out.println(produktTypList);
-		assertEquals(produktTypList.get(0).getName(),name1);
-		assertEquals(produktTypList.get(1).getLagerbestand(), lagerbstand2);
+		List<Produkt> produktList = produktMgmt.getAlleProdukte(session);
+		assertTrue(produktList.size() == 3);
+		System.out.println(produktList);
+		assertEquals(produktList.get(0).getName(),name1);
+		assertEquals(produktList.get(1).getLagerbestand(), lagerbstand2);
 		
 		session = sessionFactory.getCurrentSession();
 		produktMgmt.legeProduktAn("Tulpe", lagerbstand2, preis2, session);
 		session = sessionFactory.getCurrentSession();
-		produktTypList = produktMgmt.getAlleProdukte(session);
-		assertFalse(produktTypList.size() == 3);
+		produktList = produktMgmt.getAlleProdukte(session);
+		assertFalse(produktList.size() == 3);
 	}
 	
 	@Test
@@ -104,6 +103,7 @@ public class ProduktMgmtTest {
 		List<IntIntTuple> bestellListe = new ArrayList<IntIntTuple>();
 		bestellListe.add(new IntIntTuple(1, 5));
 		Session session = sessionFactory.getCurrentSession();
+		//Zum Praktikum2 kommt hier immer True zurueck!
 		assertTrue(produktMgmt.lagereAus(bestellListe, session));
 	}
 
