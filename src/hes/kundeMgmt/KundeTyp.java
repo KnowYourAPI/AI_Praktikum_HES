@@ -24,7 +24,7 @@ public class KundeTyp {
 	}
 
 	public AdressTyp getAdresse() {
-		return new AdressTyp(kunde.getAdresse());
+		return kunde.getAdresse();
 	}
 
 	public List<Angebot> getAngebote() {
