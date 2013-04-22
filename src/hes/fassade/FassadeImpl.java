@@ -102,7 +102,8 @@ public class FassadeImpl implements IFassade {
 
 	@Override
 	public int getAuftragId(int rechnungId) {
-		return rechnungMgmt.getAuftragID(rechnungId);
+		Session session = sessionFactory.getCurrentSession();
+		return rechnungMgmt.getAuftragId(rechnungId, session);
 	}
 
 	@Override

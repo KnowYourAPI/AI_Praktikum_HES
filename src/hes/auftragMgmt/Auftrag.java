@@ -31,6 +31,11 @@ public class Auftrag {
 	@JoinTable(name="Join_Produkt_Auftrag", joinColumns={@JoinColumn(name="auftragId")},
 	inverseJoinColumns={@JoinColumn(name="produktId")})
 	private List<Produkt> produkte;
+	
+	//TODO
+	public float getGesamtpreis() {
+		return 0;
+	}
 
 	public int getAuftragId() {
 		return auftragId;

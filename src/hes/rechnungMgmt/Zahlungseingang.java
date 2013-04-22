@@ -21,5 +21,28 @@ public class Zahlungseingang {
 	private Rechnung rechnung;
 	@Column(nullable=false)
 	private float betrag;
-
+	
+	public int getZahlungseingangId() {
+		return zahlungseingangId;
+	}
+	
+	public void setZahlungseingangId(int zahlungseingangId) {
+		this.zahlungseingangId = zahlungseingangId;
+	}
+	
+	public Rechnung getRechnung() {
+		return rechnung;
+	}
+	
+	public void setRechnung(Rechnung rechnung) {
+		this.rechnung = rechnung;
+	}
+	
+	public float getBetrag() {
+		return betrag;
+	}
+	
+	public void setBetrag(float betrag) {
+		this.betrag = betrag;
+	}
 }
