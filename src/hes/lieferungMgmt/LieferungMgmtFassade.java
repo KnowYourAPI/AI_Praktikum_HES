@@ -1,20 +1,22 @@
 package hes.lieferungMgmt;
 
+import hes.auftragMgmt.Auftrag;
+
 import org.hibernate.Session;
 
 public class LieferungMgmtFassade implements ILieferungMgmt {
 	
 	private LieferungRepository lieferungRepository;
-	private TransportauftragRepository transportauftragRepository;
 	
 	public LieferungMgmtFassade() {
 		this.lieferungRepository = new LieferungRepository();
-		this.transportauftragRepository = new TransportauftragRepository();
 	}
 
 	@Override
-	public int erstelleLieferungUndTransportauftrag(int auftragID, Session session) {
-		return 0;
+	public Lieferung erstelleLieferung(Auftrag auftrag, Session session) {
+		Lieferung lieferung = new Lieferung(auftrag);
+		
+		return null;
 	}
 
 	@Override

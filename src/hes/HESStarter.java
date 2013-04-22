@@ -19,7 +19,6 @@ import hes.kundeMgmt.KundeMgmtFassade;
 import hes.lieferungMgmt.ILieferungMgmt;
 import hes.lieferungMgmt.Lieferung;
 import hes.lieferungMgmt.LieferungMgmtFassade;
-import hes.lieferungMgmt.Transportauftrag;
 import hes.produktMgmt.IProduktMgmt;
 import hes.produktMgmt.Produkt;
 import hes.produktMgmt.ProduktMgmtFassade;
@@ -47,7 +46,6 @@ public class HESStarter {
 		config.addAnnotatedClass(Auftrag.class);
 		config.addAnnotatedClass(Produkt.class);
 		config.addAnnotatedClass(Lieferung.class);
-		config.addAnnotatedClass(Transportauftrag.class);
 		config.addAnnotatedClass(Warenausgangsmeldung.class);
 		config.configure("hibernate.cfg.xml");
 		//Wenn einkommentiert, loescht dieser Befehl

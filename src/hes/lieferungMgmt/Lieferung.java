@@ -1,6 +1,11 @@
 package hes.lieferungMgmt;
 
+import java.util.Date;
+
+import hes.auftragMgmt.Auftrag;
+
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,12 +22,20 @@ public class Lieferung {
 	private int lieferungId;
 	
 	@OneToOne(cascade=CascadeType.ALL)
-	private Transportauftrag transportauftrag;
+	private Auftrag auftrag;
+	@Column(nullable=false)
+	private Date ausgangsdatum;
+	private Date lieferdatum;
+	
+	@Column(nullable=false)
+	private boolean lieferungErfolgt;
+	@Column(nullable=false)
+	private String transportdienstleister;
 	
 	public Lieferung() {}
 	
-	public Lieferung(Transportauftrag transportauftrag) {
-		this.transportauftrag = transportauftrag;
+	public Lieferung(Auftrag auftrag) {
+		this.auftrag = auftrag;
 	}
 
 	public int getLieferungId() {
@@ -33,39 +46,43 @@ public class Lieferung {
 		this.lieferungId = lieferungId;
 	}
 
-	public Transportauftrag getTransportauftrag() {
-		return transportauftrag;
+	public Auftrag getAuftrag() {
+		return auftrag;
 	}
 
-	public void setTransportauftrag(Transportauftrag transportauftrag) {
-		this.transportauftrag = transportauftrag;
+	public void setAuftrag(Auftrag auftrag) {
+		this.auftrag = auftrag;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime
-				* result
-				+ ((transportauftrag == null) ? 0 : transportauftrag.hashCode());
-		return result;
+	public Date getAusgangsdatum() {
+		return ausgangsdatum;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Lieferung other = (Lieferung) obj;
-		if (transportauftrag == null) {
-			if (other.transportauftrag != null)
-				return false;
-		} else if (!transportauftrag.equals(other.transportauftrag))
-			return false;
-		return true;
+	public void setAusgangsdatum(Date ausgangsdatum) {
+		this.ausgangsdatum = ausgangsdatum;
 	}
 
+	public Date getLieferdatum() {
+		return lieferdatum;
+	}
+
+	public void setLieferdatum(Date lieferdatum) {
+		this.lieferdatum = lieferdatum;
+	}
+
+	public boolean isLieferungErfolgt() {
+		return lieferungErfolgt;
+	}
+
+	public void setLieferungErfolgt(boolean lieferungErfolgt) {
+		this.lieferungErfolgt = lieferungErfolgt;
+	}
+
+	public String getTransportdienstleister() {
+		return transportdienstleister;
+	}
+
+	public void setTransportdienstleister(String transportdienstleister) {
+		this.transportdienstleister = transportdienstleister;
+	}
 }

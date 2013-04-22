@@ -1,5 +1,7 @@
 package hes.lieferungMgmt;
 
+import hes.auftragMgmt.Auftrag;
+
 import org.hibernate.Session;
 
 public interface ILieferungMgmt {
@@ -11,7 +13,7 @@ public interface ILieferungMgmt {
 	 * @param auftragID Die ID des Auftrags, zu dem die zu erstellende Lieferung gehoert
 	 * @return Die ID des Lieferungsobjekts, fuer die Lieferung
 	 * */
-	int erstelleLieferungUndTransportauftrag(int auftragID, Session session);
+	Lieferung erstelleLieferung(Auftrag auftrag, Session session);
 	
 	/**
 	 * @param lieferungId Die ID der Lieferung, die als erfolgt markiert werden soll
