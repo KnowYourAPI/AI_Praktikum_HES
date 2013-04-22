@@ -12,13 +12,6 @@ public interface IRechnungMgmt {
 	 * */
 	Rechnung legeRechnungAn(Auftrag auftrag, Session session);
 	
-//	WIRD JETZT INTERN IN meldeZahlungsEingang AUFGERUFEN
-//	/**
-//	 * @param auftragId Die ID des Auftrags, dessen Rechnung ueberprueft werden soll.
-//	 * @return True, falls die Rechnung fuer den Auftrag bezahlte wurde, sonst false.
-//	 * */
-//	boolean istRechnungFuerAuftragBezahlt(int auftragId);
-	
 	/**
 	 * @param rechnungID Die ID der Rechnung, die (teilweise) beglichen wurde
 	 * @param betrag Der eingegangene Betrag
