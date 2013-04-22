@@ -31,4 +31,28 @@ public class Auftrag {
 	@JoinTable(name="Join_Produkt_Auftrag", joinColumns={@JoinColumn(name="auftragId")},
 	inverseJoinColumns={@JoinColumn(name="produktId")})
 	private List<Produkt> produkte;
+
+	public int getAuftragId() {
+		return auftragId;
+	}
+
+	public void setAuftragId(int auftragId) {
+		this.auftragId = auftragId;
+	}
+
+	public Kunde getKunde() {
+		return kunde;
+	}
+
+	public void setKunde(Kunde kunde) {
+		this.kunde = kunde;
+	}
+
+	public List<Produkt> getProdukte() {
+		return produkte;
+	}
+
+	public void setProdukte(List<Produkt> produkte) {
+		this.produkte = produkte;
+	}
 }
