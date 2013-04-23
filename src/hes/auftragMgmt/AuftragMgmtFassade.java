@@ -52,14 +52,12 @@ public class AuftragMgmtFassade implements IAuftragMgmt {
 	
 	@Override
 	public AngebotTyp getAngebotTyp(Angebot angebot) {
-		// TODO Auto-generated method stub
-		return null;
+		return angebotRepository.getAngebotTyp(angebot);
 	}
 	
 	@Override
 	public AuftragTyp getAuftragTyp(Auftrag auftrag) {
-		// TODO Auto-generated method stub
-		return null;
+		return auftragRepository.getAuftragTyp(auftrag);
 	}
 
 	@Override

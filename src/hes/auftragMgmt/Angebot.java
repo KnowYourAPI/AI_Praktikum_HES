@@ -122,7 +122,9 @@ public class Angebot {
 	}
 
 	public Angebot fuegeProduktHinzu(Produkt produkt, int menge) {
-		produkte.add(produkt);//Hier?
+		if(!produkte.contains(produkt)){
+			produkte.add(produkt);
+		}
 		gesamtPreis += (produkt.getPreis() * menge);
 		if (!produktUmfang.keySet().contains(produkt)){
 			produktUmfang.put(produkt, 0);			
@@ -132,10 +134,12 @@ public class Angebot {
 	}
 	
 	public Angebot entferneProdukt(Produkt produkt) {
-		produkte.remove(produkt);//Hier?
-		int menge = produktUmfang.get(produkt);
-		gesamtPreis -= (produkt.getPreis() * menge);		
-		produktUmfang.remove(produkt);
+		if(produkte.contains(produkt)){
+			produkte.remove(produkt);
+			int menge = produktUmfang.get(produkt);
+			gesamtPreis -= (produkt.getPreis() * menge);		
+			produktUmfang.remove(produkt);
+		}
 		return this;
 	}
 	

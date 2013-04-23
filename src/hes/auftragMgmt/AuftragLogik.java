@@ -1,11 +1,8 @@
 package hes.auftragMgmt;
 
-import java.util.List;
 
 import hes.produktMgmt.Produkt;
-import hes.rechnungMgmt.Rechnung;
 
-import org.hibernate.Query;
 import org.hibernate.Session;
 
 public class AuftragLogik {

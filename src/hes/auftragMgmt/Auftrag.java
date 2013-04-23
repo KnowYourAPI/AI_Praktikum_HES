@@ -73,4 +73,12 @@ public class Auftrag {
 		AngebotTyp angebotTyp = angebot.getAngebotTyp();
 		return new AuftragTyp(auftragId, istAbgeschlossen, beauftragtAm, angebotTyp);
 	}
+
+	@Override
+	public String toString() {
+		return "Auftrag [auftragId=" + auftragId + ", istAbgeschlossen="
+				+ istAbgeschlossen + ", beauftragtAm=" + beauftragtAm + "]";
+	}
+	
+	
 }
