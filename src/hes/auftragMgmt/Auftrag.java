@@ -32,11 +32,12 @@ public class Auftrag {
 	inverseJoinColumns={@JoinColumn(name="produktId")})
 	private List<Produkt> produkte;
 	
-	//TODO
-	public float getGesamtpreis() {
-		return 0;
+	
+	public Auftrag(Abgebot angebot) {
+		
 	}
-
+	
+	
 	public int getAuftragId() {
 		return auftragId;
 	}

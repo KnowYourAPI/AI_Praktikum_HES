@@ -105,6 +105,7 @@ public class Angebot {
 	
 	public void addProdukt(Produkt produkt) {
 		produkte.add(produkt);
+		gesamtPreis += produkt.getPreis();
 	}
 	
 	@Override
