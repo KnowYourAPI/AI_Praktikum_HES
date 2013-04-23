@@ -38,12 +38,4 @@ public class Auftrag {
 	public void setAuftragId(int auftragId) {
 		this.auftragId = auftragId;
 	}
-
-	public List<Produkt> getProdukte() {
-		return produkte;
-	}
-
-	public void setProdukte(List<Produkt> produkte) {
-		this.produkte = produkte;
-	}
 }
