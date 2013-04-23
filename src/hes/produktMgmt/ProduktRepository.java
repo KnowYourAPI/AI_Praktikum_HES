@@ -43,6 +43,13 @@ public class ProduktRepository {
 		//TODO
 		//auslagern und Wareinausgangsmeldung erstellen!!!
 	}
+	
+	public Produkt getProdukt(int produktId, Session session) {
+		session.beginTransaction();
+		Produkt produkt = (Produkt) session.get(Produkt.class, produktId);
+		session.getTransaction().commit();
+		return produkt;
+	}
 
 	
 }

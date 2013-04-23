@@ -53,4 +53,7 @@ public interface IProduktMgmt {
 	 * @return Eine Liste mit Informationsobjekten aller ausstehenden Bestellungen.
 	 * */
 	List<Bestellung> getAusstehendeBestellungen(Session session);	
+	
+	
+	Produkt getProdukt(int produktId, Session session);
 }
