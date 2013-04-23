@@ -83,16 +83,14 @@ public class KundeMgmtTest {
 	@SuppressWarnings("rawtypes")
 	@Test
 	public void testErstelleKunde() {
-		//Kunde 1 erstellen und testen:
 		Session session = sessionFactory.getCurrentSession();
+		session.beginTransaction();
+		//Kunde 1 erstellen und testen:
 		kundeMgmt.erstelleKunde(name, adresse, session);
 		
-		session = sessionFactory.getCurrentSession();
-		session.beginTransaction();
 		Query query = session.createQuery("from Kunde where name = :name");
 		query.setParameter("name", name);
 		List resultList = query.list();
-		session.getTransaction().commit();
 		
 		assertTrue(resultList.size() == 1);
 		Kunde kunde = (Kunde)resultList.get(0);
@@ -101,29 +99,26 @@ public class KundeMgmtTest {
 		assertTrue(kunde.getKundeId() == 1);
 		
 		//Kunde 2 erstellen und testen:
-		session = sessionFactory.getCurrentSession();
 		kundeMgmt.erstelleKunde(name2, adresse2, session);
 		
-		session = sessionFactory.getCurrentSession();
-		session.beginTransaction();
 		Query query2 = session.createQuery("from Kunde where name = :name");
 		query2.setParameter("name", name2);
 		List resultList2 = query2.list();
-		session.getTransaction().commit();
 		
 		assertTrue(resultList2.size() == 1);
 		Kunde kunde2 = (Kunde)resultList2.get(0);
 		
 		assertEquals(kunde2.getName(), name2);
 		assertTrue(kunde2.getKundeId() == 2);
+		session.getTransaction().commit();
 	}
 	
 	@Test
 	public void testGetKunde() {
-		//Kunde 1 und Kunde 2 erstellen:
 		Session session = sessionFactory.getCurrentSession();
+		session.beginTransaction();
+		//Kunde 1 und Kunde 2 erstellen:
 		kundeMgmt.erstelleKunde(name, adresse, session);
-		session = sessionFactory.getCurrentSession();
 		kundeMgmt.erstelleKunde(name2, adresse2, session);
 		
 		
@@ -132,44 +127,41 @@ public class KundeMgmtTest {
 		int kundeId2 = 2;
 		int kundeId3 = 3;
 		
-		session = sessionFactory.getCurrentSession();
 		Kunde kunde1 = kundeMgmt.getKunde(kundeId1, session);
-		session = sessionFactory.getCurrentSession();
 		Kunde kunde2 = kundeMgmt.getKunde(kundeId2, session);
-		session = sessionFactory.getCurrentSession();
 		Kunde kunde3 = kundeMgmt.getKunde(kundeId3, session);
+		session.getTransaction().commit();
 		
 		assertTrue(kunde1.getKundeId() == kundeId1);
 		assertEquals(kunde1.getName(), name);
-		assertEquals(kunde1.getAdresse(), adresse);
+		assertEquals(kunde1.getAdresse(), new Adresse(adresse));
 		
 		assertTrue(kunde2.getKundeId() == 2);
 		assertEquals(kunde2.getName(), name2);
-		assertEquals(kunde2.getAdresse(), adresse2);
+		assertEquals(kunde2.getAdresse(), new Adresse(adresse2));
 		
 		assertNull(kunde3);
 	}
 	
 	@Test
 	public void testGetKundeId() {
-		//Kunde 1 und Kunde 2 erstellen:
 		Session session = sessionFactory.getCurrentSession();
+		session.beginTransaction();
+		
+		//Kunde 1 und Kunde 2 erstellen:
 		kundeMgmt.erstelleKunde(name, adresse, session);
-		session = sessionFactory.getCurrentSession();
 		kundeMgmt.erstelleKunde(name2, adresse2, session);
 		
 		//getKundeId() testen:
-		session = sessionFactory.getCurrentSession();
 		int kundeId1 = kundeMgmt.getKundeId(name, session);
-		session = sessionFactory.getCurrentSession();
 		int kundeId2 = kundeMgmt.getKundeId(name2, session);
-		session = sessionFactory.getCurrentSession();
 		int kundeId3 = kundeMgmt.getKundeId("", session);
 		assertTrue(kundeId1 == 1);
 		assertTrue(kundeId2 == 2);
 		
 		assertTrue(kundeId3 == -1);
 		assertFalse(kundeId3 == 3);
+		session.getTransaction().commit();
 	}
 	
 	@After
