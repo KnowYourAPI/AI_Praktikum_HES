@@ -3,6 +3,7 @@ package hes.kundeMgmt;
 import hes.auftragMgmt.Angebot;
 import hes.auftragMgmt.AngebotTyp;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class KundeTyp {
@@ -26,9 +27,13 @@ public class KundeTyp {
 	}
 
 	public List<AngebotTyp> getAngebote() {
+		List<AngebotTyp> angebotTypListe = new ArrayList<AngebotTyp>();
+		
 		for(Angebot angebot : kunde.getAngebote()) {
-			angebot.getAngebotTyp();
+			angebotTypListe.add(angebot.getAngebotTyp());
 		}
+		
+		return angebotTypListe;
 	}
 
 }
