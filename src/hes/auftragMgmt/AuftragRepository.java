@@ -1,44 +1,34 @@
 package hes.auftragMgmt;
 
 import hes.produktMgmt.Produkt;
-import hes.rechnungMgmt.Rechnung;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.hibernate.Query;
 import org.hibernate.Session;
 
 public class AuftragRepository {
 	
 	public Auftrag erstelleAuftrag(Angebot angebot, Session session) {
-		session.beginTransaction();
 		Auftrag auftrag = new Auftrag(angebot);
 		session.save(auftrag);
-		session.getTransaction().commit();
 		return auftrag;
 	}
 	
 	public Auftrag ladeAuftrag(int auftragId, Session session) {
-		session.beginTransaction();
 		Auftrag auftrag = (Auftrag)session.get(Auftrag.class, auftragId);
-		session.getTransaction().commit();
 		return auftrag;
 	}
 	
 	public void aktualisiereAuftrag(Auftrag auftrag, Session session) {
-		session.beginTransaction();
         if (auftrag != null){
         	session.update(auftrag);
         }
-		session.getTransaction().commit();
 	}
 	
 	public Auftrag getAuftrag(int auftragId, Session session) {
-		session.beginTransaction();
 		Auftrag auftrag = (Auftrag)session.get(Auftrag.class, auftragId);
-		session.getTransaction().commit();
 		return auftrag;
 	}
 	
@@ -47,7 +37,6 @@ public class AuftragRepository {
 	}
 	
 	public List<Auftrag> getNichtAbgeschlosseneAuftraege(Produkt produkt, Session session) {
-		session.beginTransaction();
 		//TODO die Query ist nicht vollstaendig!! <- Weil wir nur die ausstehenden fuer die uebergebenen produkte haben wollen, das kriege ich nicht hin.... 
 		List<?> oe = session.createSQLQuery("SELECT AuftragId FROM Auftrag WHERE Auftrag.istAbgeschlossen = 0" ).list();
 		List<Auftrag> ergebnis = new ArrayList<Auftrag>();
@@ -66,11 +55,9 @@ public class AuftragRepository {
 	}
 	
 	public void markiereAuftragAlsAbgeschlossen(int auftragId, Session session) {
-		session.beginTransaction();
 		Auftrag auftrag = (Auftrag)session.get(Auftrag.class, auftragId);
 		auftrag.setIstAbgeschlossen(true);
 		session.update(auftrag);
-		session.getTransaction().commit();
 	}
 	
 //	Query query = session.createQuery("from Auftrag a where rechnungId = :rechnungId");
