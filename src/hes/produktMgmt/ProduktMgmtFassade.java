@@ -45,5 +45,11 @@ public class ProduktMgmtFassade implements IProduktMgmt {
 		return produktLogik.getAusstehendeBestellungen(session);
 	}
 
+	@Override
+	public Produkt getProdukt(int produktId, Session session) {
+		return produktRepository.getProdukt(produktId, session);
+	}
+
+	
 
 }

@@ -67,4 +67,10 @@ public class Auftrag {
 	public void setAngebot(Angebot angebot) {
 		this.angebot = angebot;
 	}
+	
+	public AuftragTyp getAuftragTyp(){
+		Date beauftragtAm = new Date(this.beauftragtAm.getTime());
+		AngebotTyp angebotTyp = angebot.getAngebotTyp();
+		return new AuftragTyp(auftragId, istAbgeschlossen, beauftragtAm, angebotTyp);
+	}
 }
