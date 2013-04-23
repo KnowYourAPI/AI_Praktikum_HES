@@ -158,7 +158,7 @@ public class Angebot {
 	public String toString() {
 		return "Angebot [angebotId=" + angebotId + ", gueltigAb=" + gueltigAb
 				+ ", gueltigBis=" + gueltigBis + ", gesamtPreis=" + gesamtPreis
-				+ ", kunde=" + kunde + "]";
+				+ ", kunde=" + kunde + ", Produktumfang= " + produktUmfang + "]";
 	}	
 	
 }
