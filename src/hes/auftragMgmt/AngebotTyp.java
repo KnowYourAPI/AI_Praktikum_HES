@@ -4,7 +4,7 @@ import hes.kundeMgmt.KundeTyp;
 import hes.produktMgmt.ProduktTyp;
 
 import java.util.Date;
-import java.util.List;
+import java.util.Map;
 
 public class AngebotTyp {
 	
@@ -13,15 +13,15 @@ public class AngebotTyp {
 	Date gueltigBis; 
 	float gesamtPreis; 
 	KundeTyp kunde;
-	List<ProduktTyp> produkte;
+	private Map<ProduktTyp, Integer> produktUmfang;
 	
-	public AngebotTyp(int angebotId, Date gueltigAb, Date gueltigBis, float gesamtPreis, KundeTyp kunde, List<ProduktTyp> produkte) {
+	public AngebotTyp(int angebotId, Date gueltigAb, Date gueltigBis, float gesamtPreis, KundeTyp kunde, Map<ProduktTyp, Integer> produktUmfang) {
 		this.angebotId = angebotId; 
 		this.gueltigAb = gueltigAb; 
 		this.gueltigBis = gueltigBis;
 		this.gesamtPreis = gesamtPreis;
 		this.kunde = kunde; 
-		this.produkte = produkte;
+		this.produktUmfang = produktUmfang;
 	}
 
 	public int getAngebotId() {
@@ -44,10 +44,8 @@ public class AngebotTyp {
 		return kunde;
 	}
 
-	public List<ProduktTyp> getProdukte() {
-		return produkte;
+	public Map<ProduktTyp, Integer> getProduktUmfang() {
+		return produktUmfang;
 	}
-	
-	
 
 }
