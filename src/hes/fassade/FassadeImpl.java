@@ -8,6 +8,7 @@ import hes.auftragMgmt.IAuftragMgmt;
 import hes.kundeMgmt.AdressTyp;
 import hes.kundeMgmt.IKundeMgmt;
 import hes.kundeMgmt.Kunde;
+import hes.kundeMgmt.KundeMgmtFassade;
 import hes.lieferungMgmt.ILieferungMgmt;
 import hes.produktMgmt.IProduktMgmt;
 import hes.produktMgmt.Produkt;
@@ -68,7 +69,10 @@ public class FassadeImpl implements IFassade {
 		Session session = sessionFactory.getCurrentSession();
 		Kunde kunde = kundeMgmt.getKunde(kundeId, session);
 		session = sessionFactory.getCurrentSession();
-		return auftragMgmt.erstelleAngebot(kunde, session).getAngebotId();
+		Angebot angebot = auftragMgmt.erstelleAngebot(kunde, session);
+		session = sessionFactory.getCurrentSession();
+		kundeMgmt.verbindeKundeMitAngebot(kunde,angebot, session);
+		return angebot.getAngebotId();
 	}
 
 	@Override
@@ -90,6 +94,8 @@ public class FassadeImpl implements IFassade {
 		Produkt produkt = produktMgmt.getProdukt(produktId, session);
 		session = sessionFactory.getCurrentSession();
 		auftragMgmt.fuegeProduktZuAngebotHinzu(angebot, produkt, menge, session);
+		session = sessionFactory.getCurrentSession();
+		produktMgmt.verbindeProduktMitAngebot(produkt, angebot, session);
 		return auftragMgmt.getAngebotTyp(angebot);
 	}
 
@@ -101,6 +107,8 @@ public class FassadeImpl implements IFassade {
 		Produkt produkt = produktMgmt.getProdukt(produktId, session);
 		session = sessionFactory.getCurrentSession();
 		auftragMgmt.entferneProduktAusAngebot(angebot, produkt, session);
+		session = sessionFactory.getCurrentSession();
+		produktMgmt.trenneProduktUndAngebot(produkt, angebot, session);
 		return auftragMgmt.getAngebotTyp(angebot);
 	}
 
