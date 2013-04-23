@@ -2,7 +2,6 @@ package hes.auftragMgmt;
 
 import java.util.List;
 
-import hes.kundeMgmt.Kunde;
 import hes.produktMgmt.Produkt;
 
 import javax.persistence.Entity;
@@ -12,7 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.TableGenerator;
 
 @Entity
@@ -22,21 +20,21 @@ public class Auftrag {
 	@TableGenerator(name="auftragid", table="auftragPrimaryKeyTable", pkColumnName="auftragPrimaryKey", pkColumnValue="nextAuftragKey", allocationSize=1)
 	@GeneratedValue(strategy=GenerationType.TABLE, generator="auftragid")
 	private int auftragId;
-	
-	@ManyToOne
-	@JoinColumn(name="kunde_id")
-	private Kunde kunde;
 
 	@ManyToMany
 	@JoinTable(name="Join_Produkt_Auftrag", joinColumns={@JoinColumn(name="auftragId")},
 	inverseJoinColumns={@JoinColumn(name="produktId")})
 	private List<Produkt> produkte;
 	
+	public Auftrag() {}
 	
-	public Auftrag(Abgebot angebot) {
+	public Auftrag(Angebot angebot) {
 		
 	}
-	
+	//TODO: Benoetigt in RechnungMgmt
+	public float getGesamtpreis() {
+		return 0;
+	}
 	
 	public int getAuftragId() {
 		return auftragId;
@@ -44,14 +42,6 @@ public class Auftrag {
 
 	public void setAuftragId(int auftragId) {
 		this.auftragId = auftragId;
-	}
-
-	public Kunde getKunde() {
-		return kunde;
-	}
-
-	public void setKunde(Kunde kunde) {
-		this.kunde = kunde;
 	}
 
 	public List<Produkt> getProdukte() {

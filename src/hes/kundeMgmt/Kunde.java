@@ -1,7 +1,6 @@
 package hes.kundeMgmt;
 
 import hes.auftragMgmt.Angebot;
-import hes.auftragMgmt.Auftrag;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,8 +30,6 @@ public class Kunde {
 	private Adresse adresse;
 	@OneToMany(targetEntity=Angebot.class, mappedBy="kunde")
 	private List<Angebot> angebote;
-	@OneToMany(targetEntity=Auftrag.class, mappedBy="kunde")
-	private List<Auftrag> auftraege;
 	
 	public Kunde() {}
 	
@@ -40,7 +37,6 @@ public class Kunde {
 		this.name = name;
 		this.adresse = new Adresse(adressTyp);
 		this.angebote = new ArrayList<Angebot>();
-		this.auftraege = new ArrayList<Auftrag>();
 	}
 	
 	public int getKundeId() {
@@ -75,14 +71,6 @@ public class Kunde {
 		this.angebote = angebote;
 	}
 
-	public List<Auftrag> getAuftraege() {
-		return auftraege;
-	}
-
-	public void setAuftraege(List<Auftrag> auftraege) {
-		this.auftraege = auftraege;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -90,8 +78,6 @@ public class Kunde {
 		result = prime * result + ((adresse == null) ? 0 : adresse.hashCode());
 		result = prime * result
 				+ ((angebote == null) ? 0 : angebote.hashCode());
-		result = prime * result
-				+ ((auftraege == null) ? 0 : auftraege.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
@@ -114,11 +100,6 @@ public class Kunde {
 			if (other.angebote != null)
 				return false;
 		} else if (!angebote.equals(other.angebote))
-			return false;
-		if (auftraege == null) {
-			if (other.auftraege != null)
-				return false;
-		} else if (!auftraege.equals(other.auftraege))
 			return false;
 		if (name == null) {
 			if (other.name != null)
