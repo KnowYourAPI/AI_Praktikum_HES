@@ -1,10 +1,13 @@
 package hes.fassade;
 
+import hes.auftragMgmt.Angebot;
 import hes.auftragMgmt.AngebotTyp;
+import hes.auftragMgmt.Auftrag;
 import hes.auftragMgmt.AuftragTyp;
 import hes.auftragMgmt.IAuftragMgmt;
 import hes.kundeMgmt.AdressTyp;
 import hes.kundeMgmt.IKundeMgmt;
+import hes.kundeMgmt.Kunde;
 import hes.lieferungMgmt.ILieferungMgmt;
 import hes.produktMgmt.IProduktMgmt;
 import hes.produktMgmt.Produkt;
@@ -61,8 +64,10 @@ public class FassadeImpl implements IFassade {
 	}
 
 	@Override
-	public int erstelleAngebot(int kundenId) {
-		return auftragMgmt.erstelleAngebot(kundenId);
+	public int erstelleAngebot(int kundeId) {
+		Session session = sessionFactory.getCurrentSession();
+		Kunde kunde = kundeMgmt.getKunde(kundeId, session);
+		return auftragMgmt.erstelleAngebot(kunde).getAngebotId();
 	}
 
 	@Override
@@ -78,17 +83,20 @@ public class FassadeImpl implements IFassade {
 
 	@Override
 	public AngebotTyp fuegeProduktZuAngebotHinzu(int angebotId, int produktId, int menge) {
-		return auftragMgmt.fuegeProduktZuAngebotHinzu(angebotId, produktId, menge);
+		Angebot angebot = auftragMgmt.fuegeProduktZuAngebotHinzu(angebotId, produktId, menge);
+		return auftragMgmt.getAngebotTyp(angebot);
 	}
 
 	@Override
 	public AngebotTyp entferneProduktAusAngebot(int angebotId, int produktId) {
-		return auftragMgmt.entferneProduktAusAngebot(angebotId, produktId);
+		Angebot angebot = auftragMgmt.entferneProduktAusAngebot(angebotId, produktId);
+		return auftragMgmt.getAngebotTyp(angebot);
 	}
 
 	@Override
 	public AuftragTyp erstelleAuftrag(int angebotId) {
-		return auftragMgmt.erstelleAuftrag(angebotId);
+		Auftrag auftrag = auftragMgmt.erstelleAuftrag(angebotId);
+		return auftragMgmt.getAuftragTyp(auftrag);
 	}
 
 	@Override

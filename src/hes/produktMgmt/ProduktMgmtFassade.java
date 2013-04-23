@@ -41,7 +41,7 @@ public class ProduktMgmtFassade implements IProduktMgmt {
 	}
 
 	@Override
-	public List<BestellungTyp> getAusstehendeBestellungen(Session session) {
+	public List<Bestellung> getAusstehendeBestellungen(Session session) {
 		return produktLogik.getAusstehendeBestellungen(session);
 	}
 

@@ -30,7 +30,7 @@ public class ProduktLogik {
 		
 	}
 
-	public List<BestellungTyp> getAusstehendeBestellungen(Session session) {
+	public List<Bestellung> getAusstehendeBestellungen(Session session) {
 		// TODO Auto-generated method stub
 		return null;
 	}

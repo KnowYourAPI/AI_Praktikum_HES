@@ -52,5 +52,5 @@ public interface IProduktMgmt {
 	 * @param session Die aktuelle Session
 	 * @return Eine Liste mit Informationsobjekten aller ausstehenden Bestellungen.
 	 * */
-	List<BestellungTyp> getAusstehendeBestellungen(Session session);	
+	List<Bestellung> getAusstehendeBestellungen(Session session);	
 }
