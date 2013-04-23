@@ -25,7 +25,8 @@ import org.junit.Test;
 import util.IntIntTuple;
 
 public class ProduktMgmtTest {
-
+	
+	
 	IProduktMgmt produktMgmt;
 	SessionFactory sessionFactory;
 	SchemaExport schemaExport;
@@ -39,6 +40,7 @@ public class ProduktMgmtTest {
 	
 	@Before
 	public void setup() {
+		
 		AnnotationConfiguration config = new AnnotationConfiguration();
 		
 		config.addAnnotatedClass(Produkt.class);
@@ -72,46 +74,48 @@ public class ProduktMgmtTest {
 		produktMgmt = new ProduktMgmtFassade();
 		
 		Session session = sessionFactory.getCurrentSession();
+		session.beginTransaction();
 		produkt1 = produktMgmt.legeProduktAn(name1, lagerbstand1, preis1, session);
 		
-		session = sessionFactory.getCurrentSession();
 		produkt2 = produktMgmt.legeProduktAn(name2, lagerbstand2, preis2, session);
 		
-		session = sessionFactory.getCurrentSession();
 		produkt3 = produktMgmt.legeProduktAn(name3, lagerbstand3, lagerbstand3, session);
-		
+		session.getTransaction().commit();
 	}
 	
 	
 	@Test
 	public void testGetAlleProdukte() {
 		Session session = sessionFactory.getCurrentSession();
+		session.beginTransaction();
 		assertEquals(produktMgmt.getAlleProdukte(session).get(0).getClass(), Produkt.class); 
-		session = sessionFactory.getCurrentSession();
 		List<Produkt> produktList = produktMgmt.getAlleProdukte(session);
 		assertTrue(produktList.size() == 3);
 		System.out.println(produktList);
 		assertEquals(produktList.get(0).getName(),name1);
 		assertEquals(produktList.get(1).getLagerbestand(), lagerbstand2);
 		
-		session = sessionFactory.getCurrentSession();
 		produktMgmt.legeProduktAn("Tulpe", lagerbstand2, preis2, session);
-		session = sessionFactory.getCurrentSession();
 		produktList = produktMgmt.getAlleProdukte(session);
 		assertFalse(produktList.size() == 3);
+		session.getTransaction().commit();
 	}
 	
 	@Test
 	public void testGetProdukt() {
 		Session session = sessionFactory.getCurrentSession();
+		session.beginTransaction();
+
 		assertEquals(produktMgmt.getProdukt(1, session), produkt1);
-		session = sessionFactory.getCurrentSession();
 		assertEquals(produktMgmt.getProdukt(2, session), produkt2);
-		session = sessionFactory.getCurrentSession();
 		assertNull(produktMgmt.getProdukt(5, session));
 		
-		session = sessionFactory.getCurrentSession();
-		session = sessionFactory.getCurrentSession();
+		session.getTransaction().commit();
+	}
+	
+	@Test
+	public void TestVerbindeUndTrenneProduktUndAngebot(){
+		Session session = sessionFactory.getCurrentSession();
 		session.beginTransaction();
 		AdressTyp adressTyp1 = new AdressTyp("Neuer Weg", "1a", "07823", "Göttingen");
 		Kunde kunde1 = new Kunde("Hans Mayer", adressTyp1);
@@ -120,16 +124,14 @@ public class ProduktMgmtTest {
 		session.save(angebot1);
 		produktMgmt.verbindeProduktMitAngebot(produkt1, angebot1, session);
 		
-		session = sessionFactory.getCurrentSession();
 		session.beginTransaction();
 		Produkt p = (Produkt)session.get(Produkt.class, produkt1.getProduktId());
 		assertTrue(p.getAngebote().contains(angebot1));
 		session.getTransaction().commit();
+		
 		session = sessionFactory.getCurrentSession();
 		session.beginTransaction();
 		produktMgmt.trenneProduktUndAngebot(produkt1, angebot1, session);
-		session = sessionFactory.getCurrentSession();
-		session.beginTransaction();
 		p = (Produkt)session.get(Produkt.class, produkt1.getProduktId());
 		assertFalse(p.getAngebote().contains(angebot1));
 		session.getTransaction().commit();
@@ -137,11 +139,13 @@ public class ProduktMgmtTest {
 	
 	@Test
 	public void testLagereAus() {
+		Session session = sessionFactory.getCurrentSession();
+		session.beginTransaction();
 		List<IntIntTuple> bestellListe = new ArrayList<IntIntTuple>();
 		bestellListe.add(new IntIntTuple(1, 5));
-		Session session = sessionFactory.getCurrentSession();
 		//Zum Praktikum2 kommt hier immer True zurueck!
 		assertTrue(produktMgmt.lagereAus(bestellListe, session));
+		session.getTransaction();
 	}
 
 }
