@@ -20,8 +20,8 @@ public interface IRechnungMgmt {
 	boolean meldeZahlungsEingang(int rechnungId, float betrag, Session session);
 	
 	/**
-	 * @param rechnungID Die ID der Rechnung, deren zugehoeriger Auftrag gesucht wird
-	 * @return Die ID des Auftrags, auf den sich die Rechnung mit der rechnungID bezieht
+	 * @param rechnungId Die ID der Rechnung, deren zugehoeriger Auftrag gesucht wird
+	 * @return Die ID des Auftrags, auf den sich die Rechnung mit der rechnungId bezieht
 	 * */
 	int getAuftragId(int rechnungId, Session session);
 	
