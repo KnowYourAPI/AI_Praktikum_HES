@@ -1,38 +1,47 @@
 package hes.auftragMgmt;
 
 import hes.kundeMgmt.Kunde;
+import hes.produktMgmt.Produkt;
 
 import java.util.List;
 
 public class AuftragMgmtFassade implements IAuftragMgmt {
 
+	AngebotRepository angebotRepository;
+	AuftragRepository auftragRepository;
+	
+	public AuftragMgmtFassade() {
+		angebotRepository = new AngebotRepository();
+		auftragRepository = new AuftragRepository();
+	}
+	
 	@Override
-	public Angebot erstelleAngebot(Kunde kundenId) {
+	public Angebot erstelleAngebot(Kunde kunde) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Angebot fuegeProduktZuAngebotHinzu(int angebotId, int produktId,
+	public Angebot fuegeProduktZuAngebotHinzu(Angebot angebot, Produkt produkt,
 			int menge) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Angebot entferneProduktAusAngebot(int angebotId, int produktId) {
+	public Angebot entferneProduktAusAngebot(Angebot angebot, Produkt produkt) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Auftrag erstelleAuftrag(int angebotId) {
+	public Auftrag erstelleAuftrag(Angebot angebot) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<Auftrag> getNichtAbgeschlosseneAuftraege(int produktID) {
+	public List<Auftrag> getNichtAbgeschlosseneAuftraege(Produkt produkt) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -42,17 +51,16 @@ public class AuftragMgmtFassade implements IAuftragMgmt {
 		// TODO Auto-generated method stub
 		
 	}
-
+	
 	@Override
 	public AngebotTyp getAngebotTyp(Angebot angebot) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
 	@Override
 	public AuftragTyp getAuftragTyp(Auftrag auftrag) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 }
