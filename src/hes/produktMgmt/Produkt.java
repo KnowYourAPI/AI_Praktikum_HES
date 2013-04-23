@@ -1,7 +1,6 @@
 package hes.produktMgmt;
 
 import hes.auftragMgmt.Angebot;
-import hes.auftragMgmt.Auftrag;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,11 +39,6 @@ public class Produkt {
 	@JoinTable(name="Join_Produkt_Angebot", joinColumns={@JoinColumn(name="produktId")},
 	inverseJoinColumns={@JoinColumn(name="angebotId")})
 	private List<Angebot> angebote;
-
-	@ManyToMany
-	@JoinTable(name="Join_Produkt_Auftrag", joinColumns={@JoinColumn(name="produktId")},
-	inverseJoinColumns={@JoinColumn(name="auftragId")})
-	private List<Auftrag> auftraege;
 	
 	@OneToMany(targetEntity=Warenausgangsmeldung.class, mappedBy="produkt")
 	private List<Warenausgangsmeldung> warenausgangsmeldungen;
@@ -56,7 +50,6 @@ public class Produkt {
 		this.lagerbestand = lagerbestand;
 		this.preis = preis;
 		this.angebote = new ArrayList<Angebot>();
-		this.auftraege = new ArrayList<Auftrag>();
 		this.warenausgangsmeldungen = new ArrayList<Warenausgangsmeldung>();
 	}
 
@@ -98,14 +91,6 @@ public class Produkt {
 
 	public void setAngebote(List<Angebot> angebote) {
 		this.angebote = angebote;
-	}
-
-	public List<Auftrag> getAuftraege() {
-		return auftraege;
-	}
-
-	public void setAuftraege(List<Auftrag> auftraege) {
-		this.auftraege = auftraege;
 	}
 
 	public List<Warenausgangsmeldung> getWarenausgangsmeldungen() {
@@ -156,9 +141,6 @@ public class Produkt {
 		angebote.add(angebot);
 	}
 	
-	public void addAuftrag(Auftrag auftrag) {
-		auftraege.add(auftrag);
-	}
 	
 	public void addWarenausgangsmeldung(Warenausgangsmeldung warenausgangsmeldung) {
 		warenausgangsmeldungen.add(warenausgangsmeldung);
