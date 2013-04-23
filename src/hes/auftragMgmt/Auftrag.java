@@ -20,11 +20,6 @@ public class Auftrag {
 	@TableGenerator(name="auftragid", table="auftragPrimaryKeyTable", pkColumnName="auftragPrimaryKey", pkColumnValue="nextAuftragKey", allocationSize=1)
 	@GeneratedValue(strategy=GenerationType.TABLE, generator="auftragid")
 	private int auftragId;
-
-	@ManyToMany
-	@JoinTable(name="Join_Produkt_Auftrag", joinColumns={@JoinColumn(name="auftragId")},
-	inverseJoinColumns={@JoinColumn(name="produktId")})
-	private List<Produkt> produkte;
 	
 	public Auftrag() {}
 	
