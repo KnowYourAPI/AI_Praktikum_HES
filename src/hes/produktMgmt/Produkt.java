@@ -64,42 +64,50 @@ public class Produkt {
 		return produktId;
 	}
 
-	public String getName() {
-		return name;
-	}
-
-	public int getLagerbestand() {
-		return lagerbestand;
-	}
-
-	public float getPreis() {
-		return preis;
-	}
-	
 	public void setProduktId(int produktId) {
 		this.produktId = produktId;
+	}
+
+	public String getName() {
+		return name;
 	}
 
 	public void setName(String name) {
 		this.name = name;
 	}
 
+	public int getLagerbestand() {
+		return lagerbestand;
+	}
+
+	public void setLagerbestand(int lagerbestand) {
+		this.lagerbestand = lagerbestand;
+	}
+
+	public float getPreis() {
+		return preis;
+	}
+
+	public void setPreis(float preis) {
+		this.preis = preis;
+	}
+
+	public List<Angebot> getAngebote() {
+		return angebote;
+	}
+
 	public void setAngebote(List<Angebot> angebote) {
 		this.angebote = angebote;
+	}
+
+	public List<Auftrag> getAuftraege() {
+		return auftraege;
 	}
 
 	public void setAuftraege(List<Auftrag> auftraege) {
 		this.auftraege = auftraege;
 	}
 
-	public void setLagerbestand(int lagerbestand) {
-		this.lagerbestand = lagerbestand;
-	}
-	
-	public void setPreis(float preis) {
-		this.preis = preis;
-	}
-	
 	public List<Warenausgangsmeldung> getWarenausgangsmeldungen() {
 		return warenausgangsmeldungen;
 	}
@@ -109,12 +117,34 @@ public class Produkt {
 		this.warenausgangsmeldungen = warenausgangsmeldungen;
 	}
 
-	public List<Angebot> getAngebote() {
-		return angebote;
+	
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + Float.floatToIntBits(preis);
+		return result;
 	}
 
-	public List<Auftrag> getAuftraege() {
-		return auftraege;
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Produkt other = (Produkt) obj;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (Float.floatToIntBits(preis) != Float.floatToIntBits(other.preis))
+			return false;
+		return true;
 	}
 
 	public Produkt erhoeheLagerbestand(int menge) {
