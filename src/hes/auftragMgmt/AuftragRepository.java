@@ -40,6 +40,10 @@ public class AuftragRepository {
 		return auftrag;
 	}
 	
+	public AuftragTyp getAuftragTyp(Auftrag auftrag) {
+		return auftrag.getAuftragTyp();
+	}
+	
 	public List<Auftrag> getNichtAbgeschlosseneAuftraege(Produkt produkt, Session session) {
 		session.beginTransaction();
 		//TODO die Query ist nicht vollstaendig!!
