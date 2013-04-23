@@ -14,7 +14,7 @@ public class Adresse {
 	@Id
 	@TableGenerator(name="adressTypId", table="adressTypPrimaryKeyTable", pkColumnName="adressTypPrimaryKey", pkColumnValue="nextAdressTypKey", allocationSize=1)
 	@GeneratedValue(strategy=GenerationType.TABLE, generator="adressTypId")
-	private int adressTypId;
+	private int adresseId;
 	@Column(nullable=false)
 	private String strasse;
 	@Column(nullable=false)
@@ -40,12 +40,12 @@ public class Adresse {
 		this.ortsname = adressTyp.getOrtsname();
 	}
 
-	public int getAdressTypId() {
-		return adressTypId;
+	public int getAdresseId() {
+		return adresseId;
 	}
 
-	public void setAdressTypId(int adressTypId) {
-		this.adressTypId = adressTypId;
+	public void setAdresseId(int adressTypId) {
+		this.adresseId = adressTypId;
 	}
 
 	public String getStrasse() {
@@ -84,7 +84,7 @@ public class Adresse {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + adressTypId;
+		result = prime * result + adresseId;
 		result = prime * result
 				+ ((hausnummer == null) ? 0 : hausnummer.hashCode());
 		result = prime * result

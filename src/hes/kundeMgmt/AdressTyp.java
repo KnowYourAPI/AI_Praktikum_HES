@@ -12,8 +12,8 @@ public class AdressTyp {
 		this.adresse = adresse;
 	}
 
-	public int getAdressTypId() {
-		return adresse.getAdressTypId();
+	public int getAdresseId() {
+		return adresse.getAdresseId();
 	}
 
 	public String getStrasse() {
