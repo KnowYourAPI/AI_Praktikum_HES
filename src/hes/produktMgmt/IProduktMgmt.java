@@ -1,6 +1,8 @@
 package hes.produktMgmt;
 
 
+import hes.auftragMgmt.Angebot;
+
 import java.util.Date;
 import java.util.List;
 
@@ -20,7 +22,7 @@ public interface IProduktMgmt {
 	Produkt legeProduktAn(String name, int lagerbestand, float preis, Session session);
 
 	/**
-	 * @param session Die aktuelle Session.
+	 * @param session Die aktuelle Session
 	 * @return eine Liste aller in der Datenbank vorhandenen Produkte
 	 */
 	List<Produkt> getAlleProdukte(Session session);
@@ -63,4 +65,18 @@ public interface IProduktMgmt {
 	 * @return Das Produkt mit der ProduktId produktId.
 	 * */
 	Produkt getProdukt(int produktId, Session session);
+	
+	/**
+	 * @param produkt Das Produkt, das mit dem Angebot verbunden werden soll
+	 * @param angebot Das Angebot, das mit dem Produkt verbunden werden soll
+	 * @param session Die aktuelle Session.
+	 * */
+	public void verbindeProduktMitAngebot(Produkt produkt, Angebot angebot, Session session);
+	
+	/**
+	 * @param produkt Das Produkt, das von dem Angebot getrennt werden soll
+	 * @param angebot Das Angebot, das von dem Produkt getrennt werden soll
+	 * @param session Die aktuelle Session.
+	 * */
+	public void trenneProduktUndAngebot(Produkt produkt, Angebot angebot, Session session);
 }

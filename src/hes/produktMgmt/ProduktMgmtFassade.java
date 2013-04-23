@@ -1,5 +1,7 @@
 package hes.produktMgmt;
 
+import hes.auftragMgmt.Angebot;
+
 import java.util.Date;
 import java.util.List;
 
@@ -50,6 +52,14 @@ public class ProduktMgmtFassade implements IProduktMgmt {
 		return produktRepository.getProdukt(produktId, session);
 	}
 
+	@Override
+	public void verbindeProduktMitAngebot(Produkt produkt, Angebot angebot, Session session){
+		produktRepository.verbindeProduktMitAngebot(produkt, angebot, session);
+	}
 	
+	@Override
+	public void trenneProduktUndAngebot(Produkt produkt, Angebot angebot, Session session){
+		produktRepository.trenneProduktUndAngebot(produkt, angebot, session);
+	}
 
 }

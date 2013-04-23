@@ -141,6 +141,9 @@ public class Produkt {
 		angebote.add(angebot);
 	}
 	
+	public void entferneAngebot(Angebot angebot) {
+		angebote.remove(angebot);
+	}
 	
 	public void addWarenausgangsmeldung(Warenausgangsmeldung warenausgangsmeldung) {
 		warenausgangsmeldungen.add(warenausgangsmeldung);

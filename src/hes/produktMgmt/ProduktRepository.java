@@ -1,5 +1,7 @@
 package hes.produktMgmt;
 
+import hes.auftragMgmt.Angebot;
+
 import java.util.List;
 
 import org.hibernate.Session;
@@ -49,6 +51,21 @@ public class ProduktRepository {
 		Produkt produkt = (Produkt) session.get(Produkt.class, produktId);
 		session.getTransaction().commit();
 		return produkt;
+	}
+	
+	public void verbindeProduktMitAngebot(Produkt produkt, Angebot angebot, Session session){
+		session.beginTransaction();
+		produkt.addAngebot(angebot);
+		session.update(produkt);
+		session.getTransaction().commit();
+	}
+	
+	
+	public void trenneProduktUndAngebot(Produkt produkt, Angebot angebot, Session session){
+		session.beginTransaction();
+		produkt.entferneAngebot(angebot);
+		session.update(produkt);
+		session.getTransaction().commit();
 	}
 
 	
