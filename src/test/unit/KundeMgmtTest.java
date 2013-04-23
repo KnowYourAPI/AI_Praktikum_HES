@@ -60,7 +60,7 @@ public class KundeMgmtTest {
 		sessionFactory = config.buildSessionFactory();
 		kundeMgmt = new KundeMgmtFassade();
 		
-		//Daten fuer Kunden1:
+		//Daten fuer Kunde1:
 		
 		name = "TestKunde1";
 		strasse = "Musterweg";
@@ -69,7 +69,7 @@ public class KundeMgmtTest {
 		stadt = "Beispielstadt";
 		adresse = new AdressTyp(strasse, hausnummer, plz, stadt);
 		
-		//Daten fuer Kunden2:
+		//Daten fuer Kunde2:
 		
 		name2 = "TestKunde2";
 		strasse2 = "Musterweg2";
