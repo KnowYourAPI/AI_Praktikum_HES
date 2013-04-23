@@ -10,6 +10,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import hes.kundeMgmt.Kunde;
+import hes.kundeMgmt.KundeTyp;
 import hes.produktMgmt.Produkt;
 import hes.produktMgmt.ProduktTyp;
 
@@ -128,13 +129,14 @@ public class Angebot {
 		produkte.add(produkt);//Hier?
 		gesamtPreis += (produkt.getPreis() * menge);
 		if (!produktUmfang.keySet().contains(produkt)){
-			produktUmfang.put(produkt, menge);			
+			produktUmfang.put(produkt, 0);			
 		}
+		produktUmfang.put(produkt, produktUmfang.get(produkt) + menge);
 		return this;
 	}
 	
 	public Angebot entferneProdukt(Produkt produkt, int menge) {
-		produkte.remove(produkt);//Hier?
+		//produkte.remove(produkt);//Hier?
 		gesamtPreis -= (produkt.getPreis() * menge);
 		
 		produktUmfang.remove(produkt)
