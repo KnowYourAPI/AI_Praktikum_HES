@@ -13,6 +13,7 @@ import hes.rechnungMgmt.Rechnung;
 import hes.rechnungMgmt.RechnungMgmtFassade;
 import hes.rechnungMgmt.Zahlungseingang;
 
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
@@ -52,7 +53,33 @@ public class RechnungMgmtTest {
 
 	@Test
 	public void testLegeRechnungAn() {
-		fail("Not yet implemented");
+		//Erstelle und teste Rechnung 1:
+		Session session = sessionFactory.getCurrentSession();
+		rechnungMgmt.legeRechnungAn(null, session);
+		
+		session = sessionFactory.getCurrentSession();
+		int rechnungId1 = 1;
+		session.beginTransaction();
+		Rechnung rechnung1 = (Rechnung) session.get(Rechnung.class, rechnungId1);
+		session.getTransaction().commit();
+		
+		assertTrue(rechnung1.getRechnungId() == rechnungId1);
+		assertFalse(rechnung1.isIstBezahlt());
+		assertTrue(rechnung1.getZahlungseingaenge().isEmpty());
+		
+		//Erstelle und teste Rechnung 2:
+		session = sessionFactory.getCurrentSession();
+		rechnungMgmt.legeRechnungAn(null, session);
+		
+		session = sessionFactory.getCurrentSession();
+		int rechnungId2 = 2;
+		session.beginTransaction();
+		Rechnung rechnung2 = (Rechnung) session.get(Rechnung.class, rechnungId2);
+		session.getTransaction().commit();
+		
+		assertTrue(rechnung2.getRechnungId() == rechnungId2);
+		assertFalse(rechnung2.isIstBezahlt());
+		assertTrue(rechnung2.getZahlungseingaenge().isEmpty());
 	}
 	
 	@Test
