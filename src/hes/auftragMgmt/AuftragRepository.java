@@ -46,8 +46,8 @@ public class AuftragRepository {
 	
 	public List<Auftrag> getNichtAbgeschlosseneAuftraege(Produkt produkt, Session session) {
 		session.beginTransaction();
-		//TODO die Query ist nicht vollstaendig!!
-		List<Auftrag> ergebnis = session.createSQLQuery("from Auftrag a where a.istAbgschlossen = true").list();
+		//TODO die Query ist nicht vollstaendig!! <- Julian: Tippfehler korrigiert. Duerfte jetzt funktionieren.
+		List<Auftrag> ergebnis = session.createSQLQuery("from Auftrag a where a.istAbgeschlossen = true").list();
 		session.getTransaction().commit();
 		return ergebnis;
 	}
