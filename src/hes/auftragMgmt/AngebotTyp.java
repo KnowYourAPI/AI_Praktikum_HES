@@ -48,4 +48,13 @@ public class AngebotTyp {
 		return produktUmfang;
 	}
 
+	@Override
+	public String toString() {
+		return "AngebotTyp [angebotId=" + angebotId + ", gueltigAb="
+				+ gueltigAb + ", gueltigBis=" + gueltigBis + ", gesamtPreis="
+				+ gesamtPreis + ", kunde=" + kunde + ", produktUmfang="
+				+ produktUmfang + "]";
+	}
+
+	
 }
