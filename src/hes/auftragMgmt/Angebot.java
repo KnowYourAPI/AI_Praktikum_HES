@@ -3,11 +3,8 @@ package hes.auftragMgmt;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
 
 import hes.kundeMgmt.Kunde;
 import hes.kundeMgmt.KundeTyp;
@@ -44,9 +41,8 @@ public class Angebot {
 	@Column(nullable=false)
 	private float gesamtPreis;
 	
-	//TODO : hash statt IntIntTuple produkt -> Menge
 	@CollectionOfElements
-	private HashMap<Produkt, Integer> produktUmfang;
+	private Map<Produkt, Integer> produktUmfang;
 	
 	@ManyToOne
 	@JoinColumn(name="kunde_id")
@@ -135,11 +131,11 @@ public class Angebot {
 		return this;
 	}
 	
-	public Angebot entferneProdukt(Produkt produkt, int menge) {
-		//produkte.remove(produkt);//Hier?
-		gesamtPreis -= (produkt.getPreis() * menge);
-		
-		produktUmfang.remove(produkt)
+	public Angebot entferneProdukt(Produkt produkt) {
+		produkte.remove(produkt);//Hier?
+		int menge = produktUmfang.get(produkt);
+		gesamtPreis -= (produkt.getPreis() * menge);		
+		produktUmfang.remove(produkt);
 		return this;
 	}
 	
@@ -155,7 +151,6 @@ public class Angebot {
 		    	int menge = eintrag.getValue();
 		    	produktUmfangTyp.put(produktTyp, menge);
 		    }
-		
 		return new AngebotTyp(this.angebotId, gueltigAb, gueltigBis, this.gesamtPreis, kundeTyp, produktUmfangTyp);
 	}
 	
