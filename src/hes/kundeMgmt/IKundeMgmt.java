@@ -1,5 +1,7 @@
 package hes.kundeMgmt;
 
+import hes.auftragMgmt.Angebot;
+
 import org.hibernate.Session;
 
 
@@ -24,4 +26,10 @@ public interface IKundeMgmt {
 	 * */
 	int getKundeId(String firmenName, Session session);
 	
+	/**
+	 * @param kunde Der Kunde, fuer den das angebot erstellt wurde
+	 * @param angebot Das Angebot, das fuer den Kunden erstellt wurde
+	 * @param session Die aktuelle Session
+	 * */
+	void verbindeKundeMitAngebot(Kunde kunde, Angebot angebot, Session session);
 }
