@@ -41,28 +41,28 @@ public class RechnungMgmtTest {
 	
 	//Testdaten:
 	//Testkunde
-	String name;
-	String strasse;
-	String hausnummer;
-	String postleitzahl;
-	String ortsname;
-	AdressTyp adresse;
-	int kundeId;
-	Kunde kunde;
+	private String name;
+	private String strasse;
+	private String hausnummer;
+	private String postleitzahl;
+	private String ortsname;
+	private AdressTyp adresse;
+	private int kundeId;
+	private Kunde kunde;
 	
 	//Produkte:
-	String produktName1, produktName2;
-	int lagerbestand1, lagerbestand2;
-	float preis1, preis2;
-	Produkt produkt1, produkt2;
+	private String produktName1, produktName2;
+	private int lagerbestand1, lagerbestand2;
+	private float preis1, preis2;
+	private Produkt produkt1, produkt2;
 	
 	//Testangebot:
-	Angebot angebot1, angebot2;
-	int produkt1Menge, produkt2Menge;
-	float angebot1Gesamtpreis, angebot2Gesamtpreis;
+	private Angebot angebot1, angebot2;
+	private int produkt1Menge, produkt2Menge;
+	private float angebot1Gesamtpreis, angebot2Gesamtpreis;
 	
 	//Testauftrag:
-	Auftrag auftrag1, auftrag2;
+	private Auftrag auftrag1, auftrag2;
 	
 	@Before
 	public void setup() {
