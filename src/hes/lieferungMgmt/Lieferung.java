@@ -36,6 +36,8 @@ public class Lieferung {
 	
 	public Lieferung(Auftrag auftrag) {
 		this.auftrag = auftrag;
+		this.ausgangsdatum = new Date();
+		this.transportdienstleister = "DHL";
 	}
 
 	public int getLieferungId() {

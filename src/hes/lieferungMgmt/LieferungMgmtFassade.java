@@ -1,5 +1,7 @@
 package hes.lieferungMgmt;
 
+import java.util.Date;
+
 import hes.auftragMgmt.Auftrag;
 
 import org.hibernate.Session;
@@ -24,6 +26,7 @@ public class LieferungMgmtFassade implements ILieferungMgmt {
 		Lieferung lieferung = lieferungRepository.ladeLieferung(lieferungId, session);
 		if(lieferung != null) {
 			lieferung.setLieferungErfolgt(true);
+			lieferung.setLieferdatum(new Date());
 			lieferungRepository.aktualisiereLieferung(lieferung, session);
 		}
 	}
