@@ -20,7 +20,8 @@ public class ZahlungseingangFassadeImpl implements IZahlungseingangFassade {
 		if(rechnungBezahlt) {
 			session = sessionFactory.getCurrentSession();
 			int auftragId = rechnungMgmt.getAuftragId(rechnungId, session);
-			auftragMgmt.markiereAuftragAlsAbgeschlossen(auftragId);
+			session = sessionFactory.getCurrentSession();
+			auftragMgmt.markiereAuftragAlsAbgeschlossen(auftragId, session);
 		}
 	}
 
