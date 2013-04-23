@@ -39,6 +39,10 @@ public class Kunde {
 		this.angebote = new ArrayList<Angebot>();
 	}
 	
+	public void addAngebot(Angebot angebot) {
+		angebote.add(angebot);
+	}
+	
 	public KundeTyp getKundeTyp() {
 		return new KundeTyp(this);
 	}
