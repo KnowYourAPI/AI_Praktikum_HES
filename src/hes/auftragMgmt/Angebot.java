@@ -2,10 +2,16 @@ package hes.auftragMgmt;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import hes.kundeMgmt.Kunde;
 import hes.produktMgmt.Produkt;
+import hes.produktMgmt.ProduktTyp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,6 +23,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.TableGenerator;
+
+import org.hibernate.annotations.CollectionOfElements;
 
 @Entity
 public class Angebot {
@@ -35,9 +43,13 @@ public class Angebot {
 	@Column(nullable=false)
 	private float gesamtPreis;
 	
+	//TODO : hash statt IntIntTuple produkt -> Menge
+	@CollectionOfElements
+	private HashMap<Produkt, Integer> produktUmfang;
+	
 	@ManyToOne
 	@JoinColumn(name="kunde_id")
-	private Kunde kunde;
+	private Kunde kunde;	
 	
 	@ManyToMany
 	@JoinTable(name="Join_Produkt_Angebot", joinColumns={@JoinColumn(name="angebotId")},
@@ -53,6 +65,7 @@ public class Angebot {
 		this.gesamtPreis = 0.0F;
 		this.kunde = kunde;	
 		this.produkte = new ArrayList<Produkt>();
+		this.produktUmfang = new HashMap<Produkt,Integer>();
 	}
 
 	public int getAngebotId() {
@@ -103,9 +116,45 @@ public class Angebot {
 		this.produkte = produkte;
 	}
 	
-	public void addProdukt(Produkt produkt) {
-		produkte.add(produkt);
-		gesamtPreis += produkt.getPreis();
+	public Map<Produkt, Integer> getProduktUmfang() {
+		return produktUmfang;
+	}
+
+	public void setProduktUmfang(HashMap<Produkt, Integer> produktUmfang) {
+		this.produktUmfang = produktUmfang;
+	}
+
+	public Angebot fuegeProduktHinzu(Produkt produkt, int menge) {
+		produkte.add(produkt);//Hier?
+		gesamtPreis += (produkt.getPreis() * menge);
+		if (!produktUmfang.keySet().contains(produkt)){
+			produktUmfang.put(produkt, menge);			
+		}
+		return this;
+	}
+	
+	public Angebot entferneProdukt(Produkt produkt, int menge) {
+		produkte.remove(produkt);//Hier?
+		gesamtPreis -= (produkt.getPreis() * menge);
+		
+		produktUmfang.remove(produkt)
+		return this;
+	}
+	
+	public AngebotTyp getAngebotTyp() {
+		Date gueltigAb = new Date(this.gueltigAb.getTime());
+		Date gueltigBis = new Date(this.gueltigBis.getTime());
+		KundeTyp kundeTyp = this.kunde.getKundeTyp();
+		Map<ProduktTyp, Integer> produktUmfangTyp = new HashMap<ProduktTyp, Integer>();
+
+
+		    for (Map.Entry<Produkt, Integer> eintrag : produktUmfang.entrySet()) {
+		    	ProduktTyp produktTyp = eintrag.getKey().getProduktTyp();
+		    	int menge = eintrag.getValue();
+		    	produktUmfangTyp.put(produktTyp, menge);
+		    }
+		
+		return new AngebotTyp(this.angebotId, gueltigAb, gueltigBis, this.gesamtPreis, kundeTyp, produktUmfangTyp);
 	}
 	
 	@Override

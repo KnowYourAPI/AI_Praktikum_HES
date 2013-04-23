@@ -1,5 +1,7 @@
 package hes.auftragMgmt;
 
+import hes.produktMgmt.ProduktTyp;
+
 import java.util.Date;
 import java.util.List;
 
