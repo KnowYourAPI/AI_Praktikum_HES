@@ -1,5 +1,7 @@
 package hes.kundeMgmt;
 
+import hes.auftragMgmt.Angebot;
+
 import org.hibernate.Session;
 
 
@@ -24,6 +26,12 @@ public class KundeMgmtFassade implements IKundeMgmt {
 	@Override
 	public int getKundeId(String firmenName, Session session) {
 		return kundeRepository.getKundeId(firmenName, session);
+	}
+
+	@Override
+	public void verbindeKundeMitAngebot(Kunde kunde, Angebot angebot, Session session) {
+		kunde.addAngebot(angebot);
+		kundeRepository.aktualisiereKunde(kunde, session);
 	}
 
 }
