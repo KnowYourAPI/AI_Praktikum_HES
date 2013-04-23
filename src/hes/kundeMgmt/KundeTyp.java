@@ -26,7 +26,7 @@ public class KundeTyp {
 		return new AdressTyp(kunde.getAdresse());
 	}
 
-	public List<AngebotTyp> getAngebote() {
+	public List<AngebotTyp> getAngebotTypen() {
 		List<AngebotTyp> angebotTypListe = new ArrayList<AngebotTyp>();
 		
 		for(Angebot angebot : kunde.getAngebote()) {
