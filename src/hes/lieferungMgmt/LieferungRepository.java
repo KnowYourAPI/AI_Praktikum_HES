@@ -1,25 +1,15 @@
 package hes.lieferungMgmt;
 
-import java.util.List;
-
-import org.hibernate.Query;
 import org.hibernate.Session;
 
 class LieferungRepository {
 	
 	Lieferung ladeLieferung(int lieferungId, Session session) {
 		session.beginTransaction();
-		Query query = session.createQuery("from Lieferung where lieferungId = :lieferungId");
-		query.setParameter("lieferungId", lieferungId);
-		List<?> list = query.list();
+		Lieferung lieferung = (Lieferung) session.get(Lieferung.class, lieferungId);
 		session.getTransaction().commit();
 		
-		if(!list.isEmpty()) {
-			Lieferung lieferung = (Lieferung)list.get(0);
-			lieferung.setLieferungErfolgt(true);
-			return lieferung;
-		} else
-			return null;
+		return lieferung;
 	}
 	
 	void speichereLieferung(Lieferung lieferung, Session session) {
