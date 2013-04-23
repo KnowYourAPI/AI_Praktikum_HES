@@ -39,6 +39,10 @@ public class Kunde {
 		this.angebote = new ArrayList<Angebot>();
 	}
 	
+	public KundeTyp getKundeTyp() {
+		return new KundeTyp(this);
+	}
+	
 	public int getKundeId() {
 		return kundeId;
 	}
@@ -55,8 +59,8 @@ public class Kunde {
 		this.name = name;
 	}
 
-	public AdressTyp getAdresse() {
-		return new AdressTyp(adresse);
+	public Adresse getAdresse() {
+		return adresse;
 	}
 	
 	public void setAdresse(Adresse adresse) {
