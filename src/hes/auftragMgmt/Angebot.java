@@ -158,11 +158,37 @@ public class Angebot {
 		return new AngebotTyp(this.angebotId, gueltigAb, gueltigBis, this.gesamtPreis, kundeTyp, produktUmfangTyp);
 	}
 	
+
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + angebotId;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Angebot other = (Angebot) obj;
+		if (angebotId != other.angebotId)
+			return false;
+		return true;
+	}
+
 	@Override
 	public String toString() {
 		return "Angebot [angebotId=" + angebotId + ", gueltigAb=" + gueltigAb
 				+ ", gueltigBis=" + gueltigBis + ", gesamtPreis=" + gesamtPreis
 				+ ", kunde=" + kunde + ", Produktumfang= " + produktUmfang + "]";
 	}	
+	
+	
 	
 }
