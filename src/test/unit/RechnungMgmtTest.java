@@ -57,12 +57,12 @@ public class RechnungMgmtTest {
 	Produkt produkt1, produkt2;
 	
 	//Testangebot:
-	Angebot angebot;
+	Angebot angebot1, angebot2;
 	int produkt1Menge, produkt2Menge;
-	float angebotGesamtpreis;
+	float angebot1Gesamtpreis, angebot2Gesamtpreis;
 	
 	//Testauftrag:
-	Auftrag auftrag;
+	Auftrag auftrag1, auftrag2;
 	
 	@Before
 	public void setup() {
@@ -115,18 +115,26 @@ public class RechnungMgmtTest {
 		produkt2 = produktMgmt.legeProduktAn(produktName2, lagerbestand2, preis2, session);
 		
 		//Angebot erstellen:
-		angebot = auftragMgmt.erstelleAngebot(kunde, session);
+		angebot1 = auftragMgmt.erstelleAngebot(kunde, session);
 		
 		produkt1Menge = 2; //2 * 50€
 		produkt2Menge = 1; //1 * 100€
 		
-		auftragMgmt.fuegeProduktZuAngebotHinzu(angebot, produkt1, produkt1Menge, session);
-		auftragMgmt.fuegeProduktZuAngebotHinzu(angebot, produkt2, produkt2Menge, session);
+		auftragMgmt.fuegeProduktZuAngebotHinzu(angebot1, produkt1, produkt1Menge, session);
+		auftragMgmt.fuegeProduktZuAngebotHinzu(angebot1, produkt2, produkt2Menge, session);
 		
-		angebotGesamtpreis = angebot.getGesamtPreis();
+		angebot1Gesamtpreis = angebot1.getGesamtPreis();
+		
+		angebot2 = auftragMgmt.erstelleAngebot(kunde, session);
+		
+		auftragMgmt.fuegeProduktZuAngebotHinzu(angebot2, produkt1, produkt1Menge, session);
+		auftragMgmt.fuegeProduktZuAngebotHinzu(angebot2, produkt2, produkt2Menge, session);
+		
+		angebot2Gesamtpreis = angebot2.getGesamtPreis();
 		
 		//Auftrag erstellen:
-		auftrag = auftragMgmt.erstelleAuftrag(angebot, session);
+		auftrag1 = auftragMgmt.erstelleAuftrag(angebot1, session);
+		auftrag2 = auftragMgmt.erstelleAuftrag(angebot2, session);
 		session.getTransaction().commit();
 	}
 
@@ -135,7 +143,7 @@ public class RechnungMgmtTest {
 		Session session = sessionFactory.getCurrentSession();
 		session.beginTransaction();
 		//Erstelle und teste Rechnung 1:
-		rechnungMgmt.legeRechnungAn(auftrag, session);
+		rechnungMgmt.legeRechnungAn(auftrag1, session);
 		
 		int rechnungId1 = 1;
 		Rechnung rechnung1 = (Rechnung) session.get(Rechnung.class, rechnungId1);
@@ -160,21 +168,36 @@ public class RechnungMgmtTest {
 	public void testMeldeZahlungsEingang(){
 		Session session = sessionFactory.getCurrentSession();
 		session.beginTransaction();
-		//Erstelle Rechnung:
-		Rechnung rechnung = rechnungMgmt.legeRechnungAn(auftrag, session);
+		//Erstelle Rechnungen 1 und 2:
+		Rechnung rechnung1 = rechnungMgmt.legeRechnungAn(auftrag1, session);
+		Rechnung rechnung2 = rechnungMgmt.legeRechnungAn(auftrag2, session);
 		
-		//Teste meldeZahlungseingang()
-		rechnungMgmt.meldeZahlungsEingang(rechnung.getRechnungId(), angebotGesamtpreis, session);
+		//Teste meldeZahlungseingang() mit Rechnung 1 (istBezahlt() = true)
+		rechnungMgmt.meldeZahlungsEingang(rechnung1.getRechnungId(), angebot1Gesamtpreis, session);
+		assertTrue(rechnung1.isIstBezahlt());
 		
-		assertTrue(rechnung.isIstBezahlt());
+		//Teste meldeZahlungseingang() mit Rechnung 2 (istBezahlt() = false)
+		rechnungMgmt.meldeZahlungsEingang(rechnung2.getRechnungId(), angebot2Gesamtpreis/2, session);
+		assertFalse(rechnung2.isIstBezahlt());
+		
 		session.getTransaction().commit();
 	}
 	
 	@Test
 	public void testGetAuftragId() {
-		fail("Not yet implemented");
 		Session session = sessionFactory.getCurrentSession();
 		session.beginTransaction();
+		
+		Rechnung rechnung1 = rechnungMgmt.legeRechnungAn(auftrag1, session);
+		Rechnung rechnung2 = rechnungMgmt.legeRechnungAn(auftrag2, session);
+		
+		int rechnung1AuftragId = rechnungMgmt.getAuftragId(rechnung1.getRechnungId(), session);
+		int rechnung2AuftragId = rechnungMgmt.getAuftragId(rechnung2.getRechnungId(), session);
+		
+		assertTrue(rechnung1AuftragId == auftrag1.getAuftragId());
+		assertTrue(rechnung2AuftragId == auftrag2.getAuftragId());
+		assertFalse(rechnung1AuftragId == auftrag2.getAuftragId());
+		
 		session.getTransaction().commit();
 	}
 	
