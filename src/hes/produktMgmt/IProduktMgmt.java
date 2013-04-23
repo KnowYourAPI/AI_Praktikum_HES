@@ -25,6 +25,7 @@ public interface IProduktMgmt {
 	 */
 	List<Produkt> getAlleProdukte(Session session);
 	
+	//TODO Noch nicht implementiert
 	/**
 	 * Falls die gewuenschten Mengen der angegebenen Produkte vorhanden sind, werden diese ausgelagert
 	 * anderenfalls wird false zurueckgegeben und die fehlenden Produkte werden nachbestellt
@@ -36,8 +37,9 @@ public interface IProduktMgmt {
 	 * 		   sonst false
 	 * */
 	boolean lagereAus(List<IntIntTuple> bestellListe, Session session);
+	
+	//TODO Noch nicht implementiert
 	/**
-	 * LISTENER(?) -> waren gehen analog ein
 	 * Erstellt eine Wareneingangsmeldung fuer die angegebene Bestellung
 	 * @param produktId Die ID des Produkts, das geliefert wurde
 	 * @param produktMenge Die Liefermenge, des Produkts
@@ -48,12 +50,17 @@ public interface IProduktMgmt {
 	 * */
 	void meldeWareneingang(int produktId, int produktMenge, Date datum, String lieferantenName, Object lieferschein, Session session);
 	
+	//TODO Noch nicht implementiert
 	/**
 	 * @param session Die aktuelle Session
 	 * @return Eine Liste mit Informationsobjekten aller ausstehenden Bestellungen.
 	 * */
 	List<Bestellung> getAusstehendeBestellungen(Session session);	
 	
-	
+	/**
+	 * @param produktId Die ProduktId des gesuchten Produkts
+	 * @param session Die aktuelle Session.
+	 * @return Das Produkt mit der ProduktId produktId.
+	 * */
 	Produkt getProdukt(int produktId, Session session);
 }
