@@ -7,12 +7,12 @@ import java.util.List;
 
 import hes.auftragMgmt.Angebot;
 import hes.auftragMgmt.Auftrag;
+import hes.kundeMgmt.AdressTyp;
 import hes.kundeMgmt.Adresse;
 import hes.kundeMgmt.Kunde;
 import hes.produktMgmt.IProduktMgmt;
 import hes.produktMgmt.Produkt;
 import hes.produktMgmt.ProduktMgmtFassade;
-import hes.produktMgmt.ProduktTyp;
 import hes.produktMgmt.Warenausgangsmeldung;
 
 import org.hibernate.Session;
@@ -33,6 +33,9 @@ public class ProduktMgmtTest {
 	String name1, name2, name3;
 	int lagerbstand1, lagerbstand2, lagerbstand3;
 	float preis1, preis2, preis3;
+	Produkt produkt1, produkt2, produkt3;
+	Angebot angebot1;
+	Kunde kunde1;
 	
 	@Before
 	public void setup() {
@@ -69,13 +72,13 @@ public class ProduktMgmtTest {
 		produktMgmt = new ProduktMgmtFassade();
 		
 		Session session = sessionFactory.getCurrentSession();
-		produktMgmt.legeProduktAn(name1, lagerbstand1, preis1, session);
+		produkt1 = produktMgmt.legeProduktAn(name1, lagerbstand1, preis1, session);
 		
 		session = sessionFactory.getCurrentSession();
-		produktMgmt.legeProduktAn(name2, lagerbstand2, preis2, session);
+		produkt2 = produktMgmt.legeProduktAn(name2, lagerbstand2, preis2, session);
 		
 		session = sessionFactory.getCurrentSession();
-		produktMgmt.legeProduktAn(name3, lagerbstand3, lagerbstand3, session);
+		produkt3 = produktMgmt.legeProduktAn(name3, lagerbstand3, lagerbstand3, session);
 		
 	}
 	
@@ -99,7 +102,41 @@ public class ProduktMgmtTest {
 	}
 	
 	@Test
-	public void test() {
+	public void testGetProdukt() {
+		Session session = sessionFactory.getCurrentSession();
+		assertEquals(produktMgmt.getProdukt(1, session), produkt1);
+		session = sessionFactory.getCurrentSession();
+		assertEquals(produktMgmt.getProdukt(2, session), produkt2);
+		session = sessionFactory.getCurrentSession();
+		assertNull(produktMgmt.getProdukt(5, session));
+		
+		session = sessionFactory.getCurrentSession();
+		session = sessionFactory.getCurrentSession();
+		session.beginTransaction();
+		AdressTyp adressTyp1 = new AdressTyp("Neuer Weg", "1a", "07823", "Göttingen");
+		Kunde kunde1 = new Kunde("Hans Mayer", adressTyp1);
+		session.save(kunde1);
+		Angebot angebot1 = new Angebot(kunde1);
+		session.save(angebot1);
+		produktMgmt.verbindeProduktMitAngebot(produkt1, angebot1, session);
+		
+		session = sessionFactory.getCurrentSession();
+		session.beginTransaction();
+		Produkt p = (Produkt)session.get(Produkt.class, produkt1.getProduktId());
+		assertTrue(p.getAngebote().contains(angebot1));
+		session.getTransaction().commit();
+		session = sessionFactory.getCurrentSession();
+		session.beginTransaction();
+		produktMgmt.trenneProduktUndAngebot(produkt1, angebot1, session);
+		session = sessionFactory.getCurrentSession();
+		session.beginTransaction();
+		p = (Produkt)session.get(Produkt.class, produkt1.getProduktId());
+		assertFalse(p.getAngebote().contains(angebot1));
+		session.getTransaction().commit();
+	}
+	
+	@Test
+	public void testLagereAus() {
 		List<IntIntTuple> bestellListe = new ArrayList<IntIntTuple>();
 		bestellListe.add(new IntIntTuple(1, 5));
 		Session session = sessionFactory.getCurrentSession();
