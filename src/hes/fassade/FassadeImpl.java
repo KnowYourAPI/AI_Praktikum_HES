@@ -48,76 +48,85 @@ public class FassadeImpl implements IFassade {
 	@Override
 	public int legeKundeAn(String name, AdressTyp adresse) {
 		Session session = sessionFactory.getCurrentSession();
-		return kundeMgmt.erstelleKunde(name, adresse, session);
+		session.beginTransaction();
+		int kundeId = kundeMgmt.erstelleKunde(name, adresse, session);
+		session.getTransaction().commit();
+		return kundeId;
 	}
 	
 	@Override
 	public int legeProduktAn(String name, int lagerbestand, float preis) {
 		Session session = sessionFactory.getCurrentSession();
+		session.beginTransaction();
 		Produkt produkt = produktMgmt.legeProduktAn(name, lagerbestand, preis, session);
+		session.getTransaction().commit();
 		return produkt.getProduktId();
 	}
 
 	@Override
 	public int getKundeId(String firmenName) {
 		Session session = sessionFactory.getCurrentSession();
-		return kundeMgmt.getKundeId(firmenName, session);
+		session.beginTransaction();
+		int kundeId = kundeMgmt.getKundeId(firmenName, session);
+		session.getTransaction().commit();
+		return kundeId;
 	}
 
 	@Override
 	public int erstelleAngebot(int kundeId) {
 		Session session = sessionFactory.getCurrentSession();
+		session.beginTransaction();
 		Kunde kunde = kundeMgmt.getKunde(kundeId, session);
-		session = sessionFactory.getCurrentSession();
 		Angebot angebot = auftragMgmt.erstelleAngebot(kunde, session);
-		session = sessionFactory.getCurrentSession();
 		kundeMgmt.verbindeKundeMitAngebot(kunde,angebot, session);
+		session.getTransaction().commit();
 		return angebot.getAngebotId();
 	}
 
 	@Override
 	public List<ProduktTyp> getAlleProdukte() {
 		Session session = sessionFactory.getCurrentSession();
+		session.beginTransaction();
 		List<Produkt> produktList = produktMgmt.getAlleProdukte(session);
 		List<ProduktTyp> produktTypList = new ArrayList<ProduktTyp>();
 		for(Produkt produkt : produktList) {
 			produktTypList.add(produkt.getProduktTyp());
 		}
+		session.getTransaction().commit();
 		return produktTypList;
 	}
 
 	@Override
 	public AngebotTyp fuegeProduktZuAngebotHinzu(int angebotId, int produktId, int menge) {
 		Session session = sessionFactory.getCurrentSession();
+		session.beginTransaction();
 		Angebot angebot = auftragMgmt.getAngebot(angebotId, session);
-		session = sessionFactory.getCurrentSession();
 		Produkt produkt = produktMgmt.getProdukt(produktId, session);
-		session = sessionFactory.getCurrentSession();
 		auftragMgmt.fuegeProduktZuAngebotHinzu(angebot, produkt, menge, session);
-		session = sessionFactory.getCurrentSession();
 		produktMgmt.verbindeProduktMitAngebot(produkt, angebot, session);
+		session.getTransaction().commit();
 		return auftragMgmt.getAngebotTyp(angebot);
 	}
 
 	@Override
 	public AngebotTyp entferneProduktAusAngebot(int angebotId, int produktId) {
 		Session session = sessionFactory.getCurrentSession();
+		session.beginTransaction();
 		Angebot angebot = auftragMgmt.getAngebot(angebotId, session);
-		session = sessionFactory.getCurrentSession();
 		Produkt produkt = produktMgmt.getProdukt(produktId, session);
-		session = sessionFactory.getCurrentSession();
 		auftragMgmt.entferneProduktAusAngebot(angebot, produkt, session);
-		session = sessionFactory.getCurrentSession();
 		produktMgmt.trenneProduktUndAngebot(produkt, angebot, session);
+		session.getTransaction().commit();
 		return auftragMgmt.getAngebotTyp(angebot);
 	}
 
 	@Override
 	public AuftragTyp erstelleAuftrag(int angebotId) {		
 		Session session = sessionFactory.getCurrentSession();
+		session.beginTransaction();
 		Angebot angebot = auftragMgmt.getAngebot(angebotId, session);
-		session = sessionFactory.getCurrentSession();
 		Auftrag auftrag = auftragMgmt.erstelleAuftrag(angebot, session);
+		session.getTransaction().commit();
 		return auftragMgmt.getAuftragTyp(auftrag);
 	}
 
@@ -125,27 +134,35 @@ public class FassadeImpl implements IFassade {
 	public void meldeWareneingang(int produktId, int produktMenge, Date datum,
 			String lieferantenName, Object lieferschein) {
 		Session session = sessionFactory.getCurrentSession();
+		session.beginTransaction();
 		produktMgmt.meldeWareneingang(produktId, produktMenge, datum,
 				lieferantenName, lieferschein, session);
-
+		session.getTransaction().commit();
 	}
 
 	@Override
 	public int getAuftragId(int rechnungId) {
 		Session session = sessionFactory.getCurrentSession();
-		return rechnungMgmt.getAuftragId(rechnungId, session);
+		session.beginTransaction();
+		int auftragId = rechnungMgmt.getAuftragId(rechnungId, session);
+		session.getTransaction().commit();
+		return auftragId;
 	}
 
 	@Override
 	public void markiereLieferungAlsErfolgt(int lieferungId) {
 		Session session = sessionFactory.getCurrentSession();
+		session.beginTransaction();
 		lieferungMgmt.markiereLieferungAlsErfolgt(lieferungId, session);
+		session.getTransaction().commit();
 	}
 	
 	@Override
 	public void markiereAuftragAlsAbgeschlossen(int auftragId) {
 		Session session = sessionFactory.getCurrentSession();
+		session.beginTransaction();
 		auftragMgmt.markiereAuftragAlsAbgeschlossen(auftragId, session);
+		session.getTransaction().commit();
 	}
 
 }
