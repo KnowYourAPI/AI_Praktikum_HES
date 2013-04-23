@@ -24,7 +24,7 @@ public class LieferungMgmtFassade implements ILieferungMgmt {
 		Lieferung lieferung = lieferungRepository.ladeLieferung(lieferungId, session);
 		if(lieferung != null) {
 			lieferung.setLieferungErfolgt(true);
-			lieferungRepository.speichereLieferung(lieferung, session);
+			lieferungRepository.aktualisiereLieferung(lieferung, session);
 		}
 	}
 

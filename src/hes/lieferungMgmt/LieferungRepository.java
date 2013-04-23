@@ -27,4 +27,10 @@ class LieferungRepository {
 		session.save(lieferung);
 		session.getTransaction().commit();
 	}
+	
+	void aktualisiereLieferung(Lieferung lieferung, Session session) {
+		session.beginTransaction();
+		session.update(lieferung);
+		session.getTransaction().commit();
+	}
 }
