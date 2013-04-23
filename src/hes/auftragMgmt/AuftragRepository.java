@@ -3,6 +3,8 @@ package hes.auftragMgmt;
 import hes.produktMgmt.Produkt;
 import hes.rechnungMgmt.Rechnung;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.hibernate.Query;
@@ -46,9 +48,20 @@ public class AuftragRepository {
 	
 	public List<Auftrag> getNichtAbgeschlosseneAuftraege(Produkt produkt, Session session) {
 		session.beginTransaction();
-		//TODO die Query ist nicht vollstaendig!! <- Julian: Tippfehler korrigiert. Duerfte jetzt funktionieren.
-		List<Auftrag> ergebnis = session.createSQLQuery("from Auftrag a where a.istAbgeschlossen = true").list();
-		session.getTransaction().commit();
+		//TODO die Query ist nicht vollstaendig!! <- Weil wir nur die ausstehenden fuer die uebergebenen produkte haben wollen, das kriege ich nicht hin.... 
+		List<?> oe = session.createSQLQuery("SELECT AuftragId FROM Auftrag WHERE Auftrag.istAbgeschlossen = 0" ).list();
+		List<Auftrag> ergebnis = new ArrayList<Auftrag>();
+		System.err.println(oe);
+		
+		Iterator<?> iter = oe.iterator();
+		while(iter.hasNext()){
+			Object obj = iter.next();
+			System.err.println(obj.getClass());
+			if(obj instanceof Integer){
+				int auftragId = (Integer)obj;
+				ergebnis.add(this.getAuftrag(auftragId, session));
+			}
+		}
 		return ergebnis;
 	}
 	
