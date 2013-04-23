@@ -67,7 +67,8 @@ public class FassadeImpl implements IFassade {
 	public int erstelleAngebot(int kundeId) {
 		Session session = sessionFactory.getCurrentSession();
 		Kunde kunde = kundeMgmt.getKunde(kundeId, session);
-		return auftragMgmt.erstelleAngebot(kunde).getAngebotId();
+		session = sessionFactory.getCurrentSession();
+		return auftragMgmt.erstelleAngebot(kunde, session).getAngebotId();
 	}
 
 	@Override
@@ -83,19 +84,32 @@ public class FassadeImpl implements IFassade {
 
 	@Override
 	public AngebotTyp fuegeProduktZuAngebotHinzu(int angebotId, int produktId, int menge) {
-		Angebot angebot = auftragMgmt.fuegeProduktZuAngebotHinzu(angebotId, produktId, menge);
+		Session session = sessionFactory.getCurrentSession();
+		Angebot angebot = auftragMgmt.getAngebot(angebotId, session);
+		session = sessionFactory.getCurrentSession();
+		Produkt produkt = produktMgmt.getProdukt(produktId, session);
+		session = sessionFactory.getCurrentSession();
+		auftragMgmt.fuegeProduktZuAngebotHinzu(angebot, produkt, menge, session);
 		return auftragMgmt.getAngebotTyp(angebot);
 	}
 
 	@Override
 	public AngebotTyp entferneProduktAusAngebot(int angebotId, int produktId) {
-		Angebot angebot = auftragMgmt.entferneProduktAusAngebot(angebotId, produktId);
+		Session session = sessionFactory.getCurrentSession();
+		Angebot angebot = auftragMgmt.getAngebot(angebotId, session);
+		session = sessionFactory.getCurrentSession();
+		Produkt produkt = produktMgmt.getProdukt(produktId, session);
+		session = sessionFactory.getCurrentSession();
+		auftragMgmt.entferneProduktAusAngebot(angebot, produkt, session);
 		return auftragMgmt.getAngebotTyp(angebot);
 	}
 
 	@Override
-	public AuftragTyp erstelleAuftrag(int angebotId) {
-		Auftrag auftrag = auftragMgmt.erstelleAuftrag(angebotId);
+	public AuftragTyp erstelleAuftrag(int angebotId) {		
+		Session session = sessionFactory.getCurrentSession();
+		Angebot angebot = auftragMgmt.getAngebot(angebotId, session);
+		session = sessionFactory.getCurrentSession();
+		Auftrag auftrag = auftragMgmt.erstelleAuftrag(angebot, session);
 		return auftragMgmt.getAuftragTyp(auftrag);
 	}
 
@@ -122,7 +136,8 @@ public class FassadeImpl implements IFassade {
 	
 	@Override
 	public void markiereAuftragAlsAbgeschlossen(int auftragId) {
-		auftragMgmt.markiereAuftragAlsAbgeschlossen(auftragId);
+		Session session = sessionFactory.getCurrentSession();
+		auftragMgmt.markiereAuftragAlsAbgeschlossen(auftragId, session);
 	}
 
 }
