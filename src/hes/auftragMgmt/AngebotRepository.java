@@ -35,6 +35,10 @@ public class AngebotRepository {
 		Angebot angebot = (Angebot)session.get(Angebot.class, angebotId);
 		session.getTransaction().commit();
 		return angebot;
+	}	
+	
+	public AngebotTyp getAngebotTyp(Angebot angebot) {
+		return angebot.getAngebotTyp();
 	}
 
 }
