@@ -1,6 +1,6 @@
-package hes.transporteingangFassade;
+package hes.transporteingangAdapter;
 
-public interface ITransporteingangFassade {
+public interface ITransporteingangAdapter {
 	
 	/**
 	 * @param lieferungId Die ID der Lieferung, die als erfolgt markiert werden soll

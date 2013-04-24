@@ -1,12 +1,12 @@
-package hes.zahlungseingangFassade;
+package hes.zahlungseingangAdapter;
 
 import hes.fassade.IFassade;
 
-public class ZahlungseingangFassadeImpl implements IZahlungseingangFassade {
+public class ZahlungseingangAdapterImpl implements IZahlungseingangAdapter {
 
 	private IFassade hesFassade;
 	
-	public ZahlungseingangFassadeImpl(IFassade hesFassade) {
+	public ZahlungseingangAdapterImpl(IFassade hesFassade) {
 		this.hesFassade = hesFassade;
 	}
 	

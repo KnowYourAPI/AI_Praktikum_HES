@@ -1,6 +1,6 @@
-package hes.zahlungseingangFassade;
+package hes.zahlungseingangAdapter;
 
-public interface IZahlungseingangFassade {
+public interface IZahlungseingangAdapter {
 	
 	/**
 	 * @param rechnungId Die ID der Rechnung, die (teilweise) beglichen wurde
