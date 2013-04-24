@@ -17,7 +17,7 @@ public class ZahlungseingangFassadeImpl implements IZahlungseingangFassade {
 	
 	@Override
 	public void meldeZahlungsEingang(int rechnungId, float betrag) {
-		boolean rechnungBezahlt = hesFassade.meldeZahlungsEingang(rechnungId, betrag);
+		boolean rechnungBezahlt = hesFassade.meldeZahlungseingang(rechnungId, betrag);
 
 		if(rechnungBezahlt) {
 			int auftragId = hesFassade.getAuftragId(rechnungId);
