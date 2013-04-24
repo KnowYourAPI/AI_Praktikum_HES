@@ -17,6 +17,7 @@ public class ProduktRepository {
 	}
 	
 	public List<Produkt> getAlleProdukte(Session session) {
+		@SuppressWarnings("unchecked")
 		List<Produkt> produktList = session.createQuery("from Produkt").list();
 		return produktList;
 	}

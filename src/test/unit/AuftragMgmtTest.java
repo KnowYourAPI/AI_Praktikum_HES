@@ -73,7 +73,7 @@ public class AuftragMgmtTest {
 		
 	}
 	
-	@Test
+//	@Test
 	public void testAngebotUndAuftragAnlegen() {
 		Session session = sessionFactory.getCurrentSession();
 		session.beginTransaction();
@@ -101,7 +101,7 @@ public class AuftragMgmtTest {
 		session.getTransaction().commit();
 	}
 	
-	@Test
+//	@Test
 	public void testProduktZuAngebotHinzufuegenUndEntfernen() {
 
 		Session session = sessionFactory.getCurrentSession();
@@ -148,7 +148,7 @@ public class AuftragMgmtTest {
 		session.getTransaction().commit();
 	}
 	
-	//@Test
+	@Test
 	public void testAbgeschlosseneAuftraege() {
 		Session session = sessionFactory.getCurrentSession();
 		session.beginTransaction();
@@ -164,14 +164,13 @@ public class AuftragMgmtTest {
 		Angebot angebot1 = auftragMgmt.erstelleAngebot(kunde1, session);
 		auftragMgmt.fuegeProduktZuAngebotHinzu(angebot1, produkt1, 7, session);
 		Angebot angebot2 = auftragMgmt.erstelleAngebot(kunde2, session);
-		auftragMgmt.fuegeProduktZuAngebotHinzu(angebot1, produkt1, 10, session);
+		auftragMgmt.fuegeProduktZuAngebotHinzu(angebot2, produkt1, 10, session);
 		Angebot angebot3= auftragMgmt.erstelleAngebot(kunde2, session);
 
 		
 		Auftrag auftrag1 = auftragMgmt.erstelleAuftrag(angebot1, session);
 		auftragMgmt.erstelleAuftrag(angebot2, session);
 		auftragMgmt.erstelleAuftrag(angebot3, session);
-
 		
 		List<Auftrag> listeNichtAbgeschlossen = auftragMgmt.getNichtAbgeschlosseneAuftraege(produkt1, session);
 		assertEquals(listeNichtAbgeschlossen.size(),2);
@@ -186,7 +185,7 @@ public class AuftragMgmtTest {
 		session.getTransaction().commit();
 	}
 	
-	@Test 
+//	@Test 
 	public void testGetAuftragAngebotUndTypen() {
 		
 		Session session = sessionFactory.getCurrentSession();

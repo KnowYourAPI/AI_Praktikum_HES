@@ -2,10 +2,9 @@ package hes.auftragMgmt;
 
 import hes.produktMgmt.Produkt;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 
 public class AuftragRepository {
@@ -37,21 +36,12 @@ public class AuftragRepository {
 	}
 	
 	public List<Auftrag> getNichtAbgeschlosseneAuftraege(Produkt produkt, Session session) {
-		//TODO die Query ist nicht vollstaendig!! <- Weil wir nur die ausstehenden fuer die uebergebenen produkte haben wollen, das kriege ich nicht hin.... 
-		List<?> oe = session.createSQLQuery("SELECT AuftragId FROM Auftrag WHERE Auftrag.istAbgeschlossen = 0" ).list();
-		List<Auftrag> ergebnis = new ArrayList<Auftrag>();
-		System.err.println(oe);
-		
-		Iterator<?> iter = oe.iterator();
-		while(iter.hasNext()){
-			Object obj = iter.next();
-			System.err.println(obj.getClass());
-			if(obj instanceof Integer){
-				int auftragId = (Integer)obj;
-				ergebnis.add(this.getAuftrag(auftragId, session));
-			}
-		}
-		return ergebnis;
+		Query query = session.createQuery("from Auftrag a where a.istAbgeschlossen = false and :produkt member of a.angebot.produkte" );
+		query.setParameter("produkt", produkt);
+		@SuppressWarnings("unchecked")
+		List<Auftrag> queryResultList = query.list();
+		System.err.println(queryResultList);
+		return queryResultList;		
 	}
 	
 	public void markiereAuftragAlsAbgeschlossen(int auftragId, Session session) {
@@ -59,8 +49,5 @@ public class AuftragRepository {
 		auftrag.setIstAbgeschlossen(true);
 		session.update(auftrag);
 	}
-	
-//	Query query = session.createQuery("from Auftrag a where rechnungId = :rechnungId");
-//	query.setParameter("rechnungId", rechnungId);
 
 }
