@@ -32,7 +32,17 @@ public class HESStarter {
 
 	public static void main(String[] args) {
 		
+		IFassade fassade = startup();
 		
+		//Simpler Testaufruf:
+		String name = "Max Mustermann";
+		AdressTyp adresse = new AdressTyp("Musterweg", "42a", "12345", "Beispielstadt");
+		
+		System.err.println("Neuer Kunde, Id:" + fassade.legeKundeAn(name, adresse));
+
+	}
+	
+	public static IFassade startup() {
 		/**
 		 * HES Startup:
 		 * 1. Hibernate einrichten
@@ -69,12 +79,7 @@ public class HESStarter {
 		IFassade fassade = new FassadeImpl(auftragMgmt, kundeMgmt,
 				rechnungMgmt, produktMgmt, lieferungMgmt, sessionFactory);
 		
-		//Simpler Testaufruf:
-		String name = "Max Mustermann";
-		AdressTyp adresse = new AdressTyp("Musterweg", "42a", "12345", "Beispielstadt");
-		
-		System.err.println("Neuer Kunde, Id:" + fassade.legeKundeAn(name, adresse));
-
+		return fassade;
 	}
 
 }
