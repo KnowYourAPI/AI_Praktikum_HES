@@ -159,13 +159,16 @@ public class Angebot {
 		return new AngebotTyp(this.angebotId, gueltigAb, gueltigBis, this.gesamtPreis, kundeTyp, produktUmfangTyp);
 	}
 	
-
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + angebotId;
+		result = prime * result
+				+ ((gueltigAb == null) ? 0 : gueltigAb.hashCode());
+		result = prime * result
+				+ ((gueltigBis == null) ? 0 : gueltigBis.hashCode());
+		result = prime * result + ((kunde == null) ? 0 : kunde.hashCode());
 		return result;
 	}
 
@@ -179,6 +182,21 @@ public class Angebot {
 			return false;
 		Angebot other = (Angebot) obj;
 		if (angebotId != other.angebotId)
+			return false;
+		if (gueltigAb == null) {
+			if (other.gueltigAb != null)
+				return false;
+		} else if (!gueltigAb.equals(other.gueltigAb))
+			return false;
+		if (gueltigBis == null) {
+			if (other.gueltigBis != null)
+				return false;
+		} else if (!gueltigBis.equals(other.gueltigBis))
+			return false;
+		if (kunde == null) {
+			if (other.kunde != null)
+				return false;
+		} else if (!kunde.equals(other.kunde))
 			return false;
 		return true;
 	}

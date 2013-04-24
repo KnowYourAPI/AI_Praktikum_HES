@@ -75,6 +75,44 @@ public class Auftrag {
 	}
 
 	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((angebot == null) ? 0 : angebot.hashCode());
+		result = prime * result + auftragId;
+		result = prime * result
+				+ ((beauftragtAm == null) ? 0 : beauftragtAm.hashCode());
+		result = prime * result + (istAbgeschlossen ? 1231 : 1237);
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Auftrag other = (Auftrag) obj;
+		if (angebot == null) {
+			if (other.angebot != null)
+				return false;
+		} else if (!angebot.equals(other.angebot))
+			return false;
+		if (auftragId != other.auftragId)
+			return false;
+		if (beauftragtAm == null) {
+			if (other.beauftragtAm != null)
+				return false;
+		} else if (!beauftragtAm.equals(other.beauftragtAm))
+			return false;
+		if (istAbgeschlossen != other.istAbgeschlossen)
+			return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		return "Auftrag [auftragId=" + auftragId + ", istAbgeschlossen="
 				+ istAbgeschlossen + ", beauftragtAm=" + beauftragtAm + "]";
