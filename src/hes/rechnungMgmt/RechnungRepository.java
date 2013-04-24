@@ -22,5 +22,9 @@ public class RechnungRepository {
 		} else
 			return null;
 	}
+	
+	public void aktualisiereRechnung(Rechnung rechnung, Session session) {
+		session.update(rechnung);		
+	}
 
 }

@@ -25,7 +25,7 @@ public class RechnungMgmtFassade implements IRechnungMgmt {
 		
 		if(rechnung != null) {
 			boolean istRechnungBezahlt = rechnung.addiereZahlungseingang(betrag);
-			rechnungRepository.speichereRechnung(rechnung, session);
+			rechnungRepository.aktualisiereRechnung(rechnung, session);
 			return istRechnungBezahlt;
 		} else
 			return false;
