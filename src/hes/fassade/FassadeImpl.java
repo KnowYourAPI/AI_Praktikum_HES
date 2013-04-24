@@ -8,7 +8,6 @@ import hes.auftragMgmt.IAuftragMgmt;
 import hes.kundeMgmt.AdressTyp;
 import hes.kundeMgmt.IKundeMgmt;
 import hes.kundeMgmt.Kunde;
-import hes.kundeMgmt.KundeMgmtFassade;
 import hes.lieferungMgmt.ILieferungMgmt;
 import hes.produktMgmt.IProduktMgmt;
 import hes.produktMgmt.Produkt;
@@ -163,6 +162,15 @@ public class FassadeImpl implements IFassade {
 		session.beginTransaction();
 		auftragMgmt.markiereAuftragAlsAbgeschlossen(auftragId, session);
 		session.getTransaction().commit();
+	}
+
+	@Override
+	public boolean meldeZahlungseingang(int rechnungId, float betrag) {
+		Session session = sessionFactory.getCurrentSession();
+		session.beginTransaction();
+		boolean rechnungBezahlt = rechnungMgmt.meldeZahlungsEingang(rechnungId, betrag, session);
+		session.getTransaction().commit();
+		return rechnungBezahlt;
 	}
 
 }

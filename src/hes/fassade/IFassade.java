@@ -90,5 +90,12 @@ public interface IFassade {
 	 * @param auftragId Die ID des als abgeschlossen zu markierenden Auftrags.
 	 * */
 	void markiereAuftragAlsAbgeschlossen(int auftragId);
+	
+	/**
+	 * @param rechnungId Die ID der Rechnung, fuer die ein Zahlungseingang gemeldet werden soll
+	 * @param betrag Die Hoehe des Zahlungseingangs
+	 * @return True, wenn die Rechnung beglichen wurde, sonst false
+	 * */
+	boolean meldeZahlungseingang(int rechnungId, float betrag);
 
 }
