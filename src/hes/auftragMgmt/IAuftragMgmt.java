@@ -77,6 +77,6 @@ public interface IAuftragMgmt {
 	 * @param session Die aktuelle Session.
 	 * @return Der Auftrag, der zur uebergebenen ID gehoert.
 	 * */
-	Auftrag auftrag(int AuftragId, Session session);
+	Auftrag getAuftrag(int auftragId, Session session);
 
 }

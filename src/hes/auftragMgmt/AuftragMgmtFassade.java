@@ -66,7 +66,7 @@ public class AuftragMgmtFassade implements IAuftragMgmt {
 	}
 
 	@Override
-	public Auftrag auftrag(int auftragId, Session session) {
+	public Auftrag getAuftrag(int auftragId, Session session) {
 		return auftragRepository.getAuftrag(auftragId, session);
 	}
 }
