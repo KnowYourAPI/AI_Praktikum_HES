@@ -28,10 +28,10 @@ import hes.rechnungMgmt.IRechnungMgmt;
 import hes.rechnungMgmt.Rechnung;
 import hes.rechnungMgmt.RechnungMgmtFassade;
 import hes.rechnungMgmt.Zahlungseingang;
-import hes.transporteingangFassade.ITransporteingangFassade;
-import hes.transporteingangFassade.TransporteingangFassadeImpl;
-import hes.zahlungseingangFassade.IZahlungseingangFassade;
-import hes.zahlungseingangFassade.ZahlungseingangFassadeImpl;
+import hes.transporteingangAdapter.ITransporteingangAdapter;
+import hes.transporteingangAdapter.TransporteingangAdapterImpl;
+import hes.zahlungseingangAdapter.IZahlungseingangAdapter;
+import hes.zahlungseingangAdapter.ZahlungseingangAdapterImpl;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -53,8 +53,8 @@ public class Systemtest {
 	private IKundeMgmt kundeMgmt;
 	private ILieferungMgmt lieferungMgmt;
 	private IRechnungMgmt rechnungMgmt;
-	private ITransporteingangFassade transporteingangFassade;
-	private IZahlungseingangFassade zahlungseingangFassade;
+	private ITransporteingangAdapter transporteingangFassade;
+	private IZahlungseingangAdapter zahlungseingangFassade;
 	
 	//Testdaten:
 	//Testkunde
@@ -109,8 +109,8 @@ public class Systemtest {
 		lieferungMgmt = new LieferungMgmtFassade();
 		hesFassade = new FassadeImpl(auftragMgmt, kundeMgmt,
 				rechnungMgmt, produktMgmt, lieferungMgmt, sessionFactory);
-		transporteingangFassade = new TransporteingangFassadeImpl(hesFassade);
-		zahlungseingangFassade = new ZahlungseingangFassadeImpl(hesFassade);
+		transporteingangFassade = new TransporteingangAdapterImpl(hesFassade);
+		zahlungseingangFassade = new ZahlungseingangAdapterImpl(hesFassade);
 
 		testKundeStrasse = "Musterweg";
 		testKundeHausnummer = "42a";
