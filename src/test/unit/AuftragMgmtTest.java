@@ -1,9 +1,14 @@
 package test.unit;
 
 import static org.junit.Assert.*;
+
+import java.util.List;
+
 import hes.auftragMgmt.Angebot;
+import hes.auftragMgmt.AngebotTyp;
 import hes.auftragMgmt.Auftrag;
 import hes.auftragMgmt.AuftragMgmtFassade;
+import hes.auftragMgmt.AuftragTyp;
 import hes.auftragMgmt.IAuftragMgmt;
 import hes.kundeMgmt.AdressTyp;
 import hes.kundeMgmt.Adresse;
@@ -68,8 +73,8 @@ public class AuftragMgmtTest {
 		
 	}
 	
-//	@Test
-	public void testAnlegen() {
+	@Test
+	public void testAngebotUndAuftragAnlegen() {
 		Session session = sessionFactory.getCurrentSession();
 		session.beginTransaction();
 
@@ -92,10 +97,11 @@ public class AuftragMgmtTest {
 		assertEquals(au1, auftrag1);
 		assertFalse(au1.isIstAbgeschlossen());
 		assertEquals(au1.getAuftragId(),1);
+		assertFalse(auftrag2.equals(au1));
 		session.getTransaction().commit();
 	}
 	
-//	@Test
+	@Test
 	public void testProduktZuAngebotHinzufuegenUndEntfernen() {
 
 		Session session = sessionFactory.getCurrentSession();
@@ -107,12 +113,7 @@ public class AuftragMgmtTest {
 		session.save(kunde2);
 		
 		Angebot angebot1 = auftragMgmt.erstelleAngebot(kunde1, session);
-		Angebot angebot2 = auftragMgmt.erstelleAngebot(kunde2, session);
-		Auftrag auftrag1 = auftragMgmt.erstelleAuftrag(angebot1, session);
-		Auftrag auftrag2 = auftragMgmt.erstelleAuftrag(angebot2, session);
-		
-		Angebot an1 = (Angebot)session.get(Angebot.class, 1);
-		Auftrag au1 = (Auftrag)session.get(Auftrag.class, 1);
+
 		
 		Produkt produkt1 = new Produkt("Chrysantheme", 10, 5.0F);
 		session.save(produkt1);
@@ -147,16 +148,93 @@ public class AuftragMgmtTest {
 		session.getTransaction().commit();
 	}
 	
-//	@Test
+	//@Test
 	public void testAbgeschlosseneAuftraege() {
-		//TODO Die Methode ist noch nicht richtig!!
-//		auftragMgmt.markiereAuftragAlsAbgeschlossen(auftragId, session)
-//		auftragMgmt.getNichtAbgeschlosseneAuftraege(produkt, session)
+		Session session = sessionFactory.getCurrentSession();
+		session.beginTransaction();
+
+		Kunde kunde1 = new Kunde(name1, adressTyp1);
+		session.save(kunde1);
+		Kunde kunde2 = new Kunde(name2, adressTyp2);
+		session.save(kunde2);
+		
+		Produkt produkt1 = new Produkt("Chrysantheme", 10, 5.0F);
+		session.save(produkt1);
+		
+		Angebot angebot1 = auftragMgmt.erstelleAngebot(kunde1, session);
+		auftragMgmt.fuegeProduktZuAngebotHinzu(angebot1, produkt1, 7, session);
+		Angebot angebot2 = auftragMgmt.erstelleAngebot(kunde2, session);
+		auftragMgmt.fuegeProduktZuAngebotHinzu(angebot1, produkt1, 10, session);
+		Angebot angebot3= auftragMgmt.erstelleAngebot(kunde2, session);
+
+		
+		Auftrag auftrag1 = auftragMgmt.erstelleAuftrag(angebot1, session);
+		auftragMgmt.erstelleAuftrag(angebot2, session);
+		auftragMgmt.erstelleAuftrag(angebot3, session);
+
+		
+		List<Auftrag> listeNichtAbgeschlossen = auftragMgmt.getNichtAbgeschlosseneAuftraege(produkt1, session);
+		assertEquals(listeNichtAbgeschlossen.size(),2);
+		assertFalse(auftrag1.isIstAbgeschlossen());
+		
+		auftragMgmt.markiereAuftragAlsAbgeschlossen(auftrag1.getAuftragId(), session);
+		assertTrue(auftrag1.isIstAbgeschlossen());
+		
+		listeNichtAbgeschlossen = auftragMgmt.getNichtAbgeschlosseneAuftraege(produkt1, session);
+		assertEquals(listeNichtAbgeschlossen.size(),1);
+		
+		session.getTransaction().commit();
 	}
 	
 	@Test 
 	public void testGetAuftragAngebotUndTypen() {
 		
+		Session session = sessionFactory.getCurrentSession();
+		session.beginTransaction();
+
+		Kunde kunde1 = new Kunde(name1, adressTyp1);
+		session.save(kunde1);
+		Kunde kunde2 = new Kunde(name2, adressTyp2);
+		session.save(kunde2);
+		
+		Produkt produkt1 = new Produkt("Chrysantheme", 10, 5.0F);
+		session.save(produkt1);
+		
+		Angebot angebot1 = auftragMgmt.erstelleAngebot(kunde1, session);
+		Angebot angebot2 = auftragMgmt.erstelleAngebot(kunde2, session);
+		Auftrag auftrag1 = auftragMgmt.erstelleAuftrag(angebot1, session);
+		Auftrag auftrag2 = auftragMgmt.erstelleAuftrag(angebot2, session);
+		
+		
+		AngebotTyp angebotTyp1a = auftragMgmt.getAngebotTyp(angebot1);
+		AngebotTyp angebotTyp1b = auftragMgmt.getAngebotTyp(angebot1);
+		AngebotTyp angebotTyp2a = auftragMgmt.getAngebotTyp(angebot2);
+		
+		assertEquals(angebotTyp1a,angebotTyp1b);
+		assertFalse(angebotTyp1a.equals(angebotTyp2a));
+		
+		AuftragTyp auftragTyp1a = auftragMgmt.getAuftragTyp(auftrag1);
+		AuftragTyp auftragTyp1b = auftragMgmt.getAuftragTyp(auftrag1);
+		AuftragTyp auftragTyp2a = auftragMgmt.getAuftragTyp(auftrag2);
+
+		assertEquals(auftragTyp1a,auftragTyp1b);
+		assertFalse(auftragTyp1a.equals(auftragTyp2a));
+		
+
+		Angebot an1 =  auftragMgmt.getAngebot(angebot1.getAngebotId(), session);
+		Auftrag auf1 = auftragMgmt.getAuftrag(auftrag1.getAuftragId(), session);
+		
+		assertEquals(an1, angebot1);
+		assertEquals(auf1, auftrag1);
+		
+		
+		auftragMgmt.markiereAuftragAlsAbgeschlossen(auftrag2.getAuftragId(), session);
+		Auftrag auf2 = auftragMgmt.getAuftrag(auftrag2.getAuftragId(), session);
+		assertTrue(auf2.equals(auftrag2));
+		AuftragTyp auftragTyp2b = auftragMgmt.getAuftragTyp(auftrag2);
+		assertFalse(auftragTyp2a.equals(auftragTyp2b));
+		
+		session.getTransaction().commit();
 	}
 	
 
