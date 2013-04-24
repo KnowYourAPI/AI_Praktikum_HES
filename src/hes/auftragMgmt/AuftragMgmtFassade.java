@@ -16,7 +16,7 @@ public class AuftragMgmtFassade implements IAuftragMgmt {
 	public AuftragMgmtFassade() {
 		angebotRepository = new AngebotRepository();
 		auftragRepository = new AuftragRepository();
-		auftragLogik = new AuftragLogik(angebotRepository, auftragRepository);
+		auftragLogik = new AuftragLogik(angebotRepository);
 	}
 	
 	@Override

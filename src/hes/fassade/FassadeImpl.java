@@ -125,6 +125,8 @@ public class FassadeImpl implements IFassade {
 		session.beginTransaction();
 		Angebot angebot = auftragMgmt.getAngebot(angebotId, session);
 		Auftrag auftrag = auftragMgmt.erstelleAuftrag(angebot, session);
+		//Machen wir noch nicht, Produkte sollen nicht weniger werden, immer genuegend vorraetig 
+//		produktMgmt.lagereAus(bestellListe, session);
 		lieferungMgmt.erstelleLieferung(auftrag, session);
 		rechnungMgmt.legeRechnungAn(auftrag, session);
 		session.getTransaction().commit();

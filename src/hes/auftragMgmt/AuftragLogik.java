@@ -8,11 +8,9 @@ import org.hibernate.Session;
 public class AuftragLogik {
 
 	private AngebotRepository angebotRepository;
-	private AuftragRepository auftragRepository;
 	
-	public AuftragLogik(AngebotRepository angebotRepository, AuftragRepository auftragRepository) {
+	public AuftragLogik(AngebotRepository angebotRepository) {
 		this.angebotRepository = angebotRepository;
-		this.auftragRepository = auftragRepository;
 	}
 	
 	public Angebot fuegeProduktZuAngebotHinzu(Angebot angebot, Produkt produkt, int menge, Session session) {
