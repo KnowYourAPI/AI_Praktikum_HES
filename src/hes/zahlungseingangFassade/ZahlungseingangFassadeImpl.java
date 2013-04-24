@@ -1,11 +1,6 @@
 package hes.zahlungseingangFassade;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-
-import hes.auftragMgmt.IAuftragMgmt;
 import hes.fassade.IFassade;
-import hes.rechnungMgmt.IRechnungMgmt;
 
 public class ZahlungseingangFassadeImpl implements IZahlungseingangFassade {
 
