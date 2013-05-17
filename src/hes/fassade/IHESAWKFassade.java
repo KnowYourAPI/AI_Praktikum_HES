@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 
-public interface IFassade {
+public interface IHESAWKFassade {
 	
 	/**
 	 * @param name Der Name des anzulegenden Kunden

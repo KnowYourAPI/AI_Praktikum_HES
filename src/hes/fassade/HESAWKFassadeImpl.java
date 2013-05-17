@@ -21,7 +21,7 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-public class FassadeImpl implements IFassade {
+public class HESAWKFassadeImpl implements IHESAWKFassade {
 	
 	//HES-Komponenten:
 	private IAuftragMgmt auftragMgmt;
@@ -33,7 +33,7 @@ public class FassadeImpl implements IFassade {
 	//Hibernate Session-Factory:
 	private SessionFactory sessionFactory;
 	
-	public FassadeImpl(IAuftragMgmt auftragMgmt, IKundeMgmt kundeMgmt,
+	public HESAWKFassadeImpl(IAuftragMgmt auftragMgmt, IKundeMgmt kundeMgmt,
 			IRechnungMgmt rechnungMgmt, IProduktMgmt produktMgmt,
 			ILieferungMgmt lieferungMgmt, SessionFactory sessionFactory) {
 		this.auftragMgmt = auftragMgmt;
