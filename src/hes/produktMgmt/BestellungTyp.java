@@ -1,5 +1,9 @@
 package hes.produktMgmt;
 
-public class BestellungTyp {
+import java.io.Serializable;
+
+public class BestellungTyp implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 }

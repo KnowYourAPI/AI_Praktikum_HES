@@ -1,6 +1,10 @@
 package hes.produktMgmt;
 
-public class ProduktTyp {
+import java.io.Serializable;
+
+public class ProduktTyp implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private int produktId;
 	private String name;

@@ -5,15 +5,31 @@ import hes.auftragMgmt.AuftragTyp;
 import hes.kundeMgmt.AdressTyp;
 import hes.produktMgmt.ProduktTyp;
 
+import java.net.MalformedURLException;
+import java.rmi.Naming;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.Date;
 import java.util.List;
 
-public class HESRemoteAWKFassadeServer implements IHESRemoteAWKFassadeServer {
+public class HESRemoteAWKFassadeServer extends UnicastRemoteObject implements IHESRemoteAWKFassadeServer {
 
 	private IHESAWKFassade hesAwkFassade;
 	
-	public HESRemoteAWKFassadeServer(IHESAWKFassade hesAwkFassade) {
+	private String name;
+	private HESStatusReporter statusReporter;
+	
+	public HESRemoteAWKFassadeServer(IHESAWKFassade hesAwkFassade, HESStatusReporter statusReporter, String name) throws RemoteException {
 		this.hesAwkFassade = hesAwkFassade;
+		this.statusReporter = statusReporter;
+		this.name = name;
+		try {
+			Naming.rebind(name, this);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@Override

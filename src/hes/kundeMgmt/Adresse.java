@@ -1,5 +1,7 @@
 package hes.kundeMgmt;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,7 +11,9 @@ import javax.persistence.TableGenerator;
 
 
 @Entity
-public class Adresse {
+public class Adresse implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@TableGenerator(name="adressTypId", table="adressTypPrimaryKeyTable", pkColumnName="adressTypPrimaryKey", pkColumnValue="nextAdressTypKey", allocationSize=1)

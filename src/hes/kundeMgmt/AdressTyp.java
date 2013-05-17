@@ -1,6 +1,10 @@
 package hes.kundeMgmt;
 
-public class AdressTyp {
+import java.io.Serializable;
+
+public class AdressTyp implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
 	
 	private Adresse adresse;
 	

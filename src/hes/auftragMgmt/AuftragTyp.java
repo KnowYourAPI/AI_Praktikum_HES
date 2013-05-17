@@ -1,9 +1,12 @@
 package hes.auftragMgmt;
 
+import java.io.Serializable;
 import java.util.Date;
 
 
-public class AuftragTyp {
+public class AuftragTyp implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
 	
 	private int auftragId;
 	private boolean istAbgeschlossen;

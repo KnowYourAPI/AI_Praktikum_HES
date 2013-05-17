@@ -18,6 +18,14 @@ public class Tuple<T, U> {
 		return second;
 	}
 
+	public void setFirst(T first) {
+		this.first = first;
+	}
+
+	public void setSecond(U second) {
+		this.second = second;
+	}
+
 	@Override
 	public String toString() {
 		return "<" + first + "," + second + ">";

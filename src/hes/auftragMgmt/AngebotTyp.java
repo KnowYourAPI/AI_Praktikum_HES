@@ -3,10 +3,13 @@ package hes.auftragMgmt;
 import hes.kundeMgmt.KundeTyp;
 import hes.produktMgmt.ProduktTyp;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Map;
 
-public class AngebotTyp {
+public class AngebotTyp implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
 	
 	int angebotId; 
 	Date gueltigAb; 

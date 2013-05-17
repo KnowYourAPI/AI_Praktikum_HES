@@ -3,10 +3,13 @@ package hes.kundeMgmt;
 import hes.auftragMgmt.Angebot;
 import hes.auftragMgmt.AngebotTyp;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class KundeTyp {
+public class KundeTyp implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
 	
 	private Kunde kunde;
 	

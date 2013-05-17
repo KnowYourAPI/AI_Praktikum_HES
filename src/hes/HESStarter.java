@@ -1,6 +1,8 @@
 package hes;
 
 
+import java.rmi.RemoteException;
+
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
@@ -10,7 +12,10 @@ import hes.auftragMgmt.Auftrag;
 import hes.auftragMgmt.AuftragMgmtFassade;
 import hes.auftragMgmt.IAuftragMgmt;
 import hes.fassade.HESAWKFassadeImpl;
+import hes.fassade.HESRemoteAWKFassadeServer;
+import hes.fassade.HESStatusReporter;
 import hes.fassade.IHESAWKFassade;
+import hes.fassade.IHESRemoteAWKFassadeServer;
 import hes.kundeMgmt.AdressTyp;
 import hes.kundeMgmt.Adresse;
 import hes.kundeMgmt.IKundeMgmt;
@@ -29,20 +34,27 @@ import hes.rechnungMgmt.RechnungMgmtFassade;
 import hes.rechnungMgmt.Zahlungseingang;
 
 public class HESStarter {
+	
+	private static final String HES_NAME = "HES1";
+	private static final long PING_WARTZEIT_IN_MILLISEKUNDEN = 2000;
+	private static final String MONITOR_NAME = "monitor";
+	private static final String MONITOR_SERVER = "localhost";
 
 	public static void main(String[] args) {
 		
-		IHESAWKFassade fassade = startup();
+		IHESAWKFassade fassade = startup(HES_NAME, PING_WARTZEIT_IN_MILLISEKUNDEN, MONITOR_NAME, MONITOR_SERVER);
+		
+		System.out.println("HES-Server steht nun bereit Client-Anfragen entgegen zu nehmen...");
 		
 		//Simpler Testaufruf:
-		String name = "Max Mustermann";
-		AdressTyp adresse = new AdressTyp("Musterweg", "42a", "12345", "Beispielstadt");
-		
-		System.err.println("Neuer Kunde, Id:" + fassade.legeKundeAn(name, adresse));
+//		String name = "Max Mustermann";
+//		AdressTyp adresse = new AdressTyp("Musterweg", "42a", "12345", "Beispielstadt");
+//		
+//		System.err.println("Neuer Kunde, Id:" + fassade.legeKundeAn(name, adresse));
 
 	}
 	
-	public static IHESAWKFassade startup() {
+	public static IHESAWKFassade startup(String hesName, long pingWarteZeitInMillisekunden, String monitorName, String monitorServer) {
 		/**
 		 * HES Startup:
 		 * 1. Hibernate einrichten
@@ -78,6 +90,15 @@ public class HESStarter {
 		ILieferungMgmt lieferungMgmt = new LieferungMgmtFassade();
 		IHESAWKFassade fassade = new HESAWKFassadeImpl(auftragMgmt, kundeMgmt,
 				rechnungMgmt, produktMgmt, lieferungMgmt, sessionFactory);
+		HESStatusReporter statusReporter = new HESStatusReporter(monitorServer, monitorName, pingWarteZeitInMillisekunden);
+		
+		try {
+			IHESRemoteAWKFassadeServer fassadeServer = new HESRemoteAWKFassadeServer(fassade, statusReporter, hesName);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		//Beispielaufruf
+		//Evtl den Namen spaeter als Kommandokonsolenparameter uebergeben
 		
 		return fassade;
 	}

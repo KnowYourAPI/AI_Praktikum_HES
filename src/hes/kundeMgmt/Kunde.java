@@ -2,6 +2,7 @@ package hes.kundeMgmt;
 
 import hes.auftragMgmt.Angebot;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,8 +18,10 @@ import javax.persistence.TableGenerator;
 
 
 @Entity
-public class Kunde {
+public class Kunde implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@TableGenerator(name="kundeid", table="kundePrimaryKeyTable", pkColumnName="kundePrimaryKey", pkColumnValue="nextKundeKey", allocationSize=1)
 	@GeneratedValue(strategy=GenerationType.TABLE, generator="kundeid")
