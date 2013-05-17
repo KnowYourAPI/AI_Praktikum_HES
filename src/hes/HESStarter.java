@@ -9,8 +9,8 @@ import hes.auftragMgmt.Angebot;
 import hes.auftragMgmt.Auftrag;
 import hes.auftragMgmt.AuftragMgmtFassade;
 import hes.auftragMgmt.IAuftragMgmt;
-import hes.fassade.FassadeImpl;
-import hes.fassade.IFassade;
+import hes.fassade.HESAWKFassadeImpl;
+import hes.fassade.IHESAWKFassade;
 import hes.kundeMgmt.AdressTyp;
 import hes.kundeMgmt.Adresse;
 import hes.kundeMgmt.IKundeMgmt;
@@ -32,7 +32,7 @@ public class HESStarter {
 
 	public static void main(String[] args) {
 		
-		IFassade fassade = startup();
+		IHESAWKFassade fassade = startup();
 		
 		//Simpler Testaufruf:
 		String name = "Max Mustermann";
@@ -42,7 +42,7 @@ public class HESStarter {
 
 	}
 	
-	public static IFassade startup() {
+	public static IHESAWKFassade startup() {
 		/**
 		 * HES Startup:
 		 * 1. Hibernate einrichten
@@ -76,7 +76,7 @@ public class HESStarter {
 		IRechnungMgmt rechnungMgmt = new RechnungMgmtFassade();
 		IProduktMgmt produktMgmt = new ProduktMgmtFassade();
 		ILieferungMgmt lieferungMgmt = new LieferungMgmtFassade();
-		IFassade fassade = new FassadeImpl(auftragMgmt, kundeMgmt,
+		IHESAWKFassade fassade = new HESAWKFassadeImpl(auftragMgmt, kundeMgmt,
 				rechnungMgmt, produktMgmt, lieferungMgmt, sessionFactory);
 		
 		return fassade;

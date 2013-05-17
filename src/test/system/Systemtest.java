@@ -10,8 +10,8 @@ import hes.auftragMgmt.Auftrag;
 import hes.auftragMgmt.AuftragMgmtFassade;
 import hes.auftragMgmt.AuftragTyp;
 import hes.auftragMgmt.IAuftragMgmt;
-import hes.fassade.FassadeImpl;
-import hes.fassade.IFassade;
+import hes.fassade.HESAWKFassadeImpl;
+import hes.fassade.IHESAWKFassade;
 import hes.kundeMgmt.AdressTyp;
 import hes.kundeMgmt.Adresse;
 import hes.kundeMgmt.IKundeMgmt;
@@ -47,7 +47,7 @@ public class Systemtest {
 	SessionFactory sessionFactory;
 	
 	//HES-Komponenten:
-	private IFassade hesFassade;
+	private IHESAWKFassade hesFassade;
 	private IAuftragMgmt auftragMgmt;
 	private IProduktMgmt produktMgmt;
 	private IKundeMgmt kundeMgmt;
@@ -107,7 +107,7 @@ public class Systemtest {
 		rechnungMgmt = new RechnungMgmtFassade();
 		produktMgmt = new ProduktMgmtFassade();
 		lieferungMgmt = new LieferungMgmtFassade();
-		hesFassade = new FassadeImpl(auftragMgmt, kundeMgmt,
+		hesFassade = new HESAWKFassadeImpl(auftragMgmt, kundeMgmt,
 				rechnungMgmt, produktMgmt, lieferungMgmt, sessionFactory);
 		transporteingangFassade = new TransporteingangAdapterImpl(hesFassade);
 		zahlungseingangFassade = new ZahlungseingangAdapterImpl(hesFassade);
