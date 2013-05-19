@@ -124,7 +124,7 @@ public class Dispatcher implements Observer, IHESRemoteAWKFassadeServer {
 		if (observable instanceof Monitor) {
 			Object[] objectAry = (Object[]) object;
 			String hesInstanzName = (String)objectAry[0];
-			boolean istLebendig = (boolean)objectAry[1];
+			boolean istLebendig = (Boolean)objectAry[1];
 			hesInstanzZustaende.put(hesInstanzName, istLebendig);
 		}
 	}
@@ -135,8 +135,10 @@ public class Dispatcher implements Observer, IHESRemoteAWKFassadeServer {
 		naechsterIndex = naechsterIndex == hesRemoteClients.size() ? 0 : naechsterIndex;
 		boolean istErsterDurchlauf = true;
 		
-		while ((alterIndex != naechsterIndex) || istErsterDurchlauf) {
-			istErsterDurchlauf = false;
+		while (istErsterDurchlauf) {
+			if (alterIndex == naechsterIndex) {
+				istErsterDurchlauf = false;				
+			}
 			HESRemoteClient naechsterHesRemoteClient = hesRemoteClients.get(naechsterIndex);
 			if (istLebendig(naechsterHesRemoteClient)) {
 				return hesRemoteClients.get(naechsterIndex);
