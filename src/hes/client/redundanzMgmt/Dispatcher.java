@@ -167,4 +167,9 @@ public class Dispatcher implements Observer, IHESRemoteAWKFassadeServer {
 	private boolean istLebendig(HESRemoteClient client) {
 		return hesInstanzZustaende.get(client.getHesName());
 	}
+	
+	public int getAnzahlBearbeiteterAnfragen(String hesName) throws RemoteException {
+		//TODO
+		return 0;
+	}
 }
