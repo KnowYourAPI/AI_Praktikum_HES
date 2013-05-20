@@ -43,7 +43,8 @@ public class Monitor extends Observable implements IMonitor, Serializable {
 				setChanged();
 			}
 		} else {
-			hesInstanzZustand = hesInstanzZustaende.put(hesName, new Tuple<Boolean, Boolean>(true, true));
+			hesInstanzZustand = new Tuple<Boolean, Boolean>(true, true);
+			hesInstanzZustaende.put(hesName, hesInstanzZustand);
 			setChanged();
 		}
 		
