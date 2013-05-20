@@ -31,21 +31,27 @@ import hes.rechnungMgmt.IRechnungMgmt;
 import hes.rechnungMgmt.Rechnung;
 import hes.rechnungMgmt.RechnungMgmtFassade;
 import hes.rechnungMgmt.Zahlungseingang;
+import hes.redundanzMgmt.RedundanzMgmtFassade;
 
 public class HESStarter {
 	
 	private static final long PING_WARTZEIT_IN_MILLISEKUNDEN = 10000;
-	private static final String MONITOR_NAME = "monitor";
-	private static final String MONITOR_SERVER = "localhost";
+	private static final String REDUNDANZ_MGMT_NAME = "redundanzmgmt";
+	private static final String REDUNDANZ_MGMT_SERVER = "localhost";
 
 	public static void main(String[] args) throws RemoteException {
+
+		//Dispatcher etc starten:
+		new RedundanzMgmtFassade(REDUNDANZ_MGMT_NAME);
+		System.out.println("RedundanzMgmt-Komponente online und an den Namensdienst gebunden");
 		
-		startup("HES1", PING_WARTZEIT_IN_MILLISEKUNDEN, MONITOR_NAME, MONITOR_SERVER);
-		startup("HES2", PING_WARTZEIT_IN_MILLISEKUNDEN, MONITOR_NAME, MONITOR_SERVER);
+		//2 HE-Systeme starten:
+		startup("HES1", PING_WARTZEIT_IN_MILLISEKUNDEN);
+		startup("HES2", PING_WARTZEIT_IN_MILLISEKUNDEN);
 
 	}
 	
-	public static IHESRemoteAWKFassadeServer startup(String hesName, long pingWarteZeitInMillisekunden, String monitorName, String monitorServer) throws RemoteException {
+	public static IHESRemoteAWKFassadeServer startup(String hesName, long pingWarteZeitInMillisekunden) throws RemoteException {
 		/**
 		 * HES Startup:
 		 * 1. Hibernate einrichten
@@ -81,7 +87,7 @@ public class HESStarter {
 		ILieferungMgmt lieferungMgmt = new LieferungMgmtFassade();
 		IHESAWKFassade fassade = new HESAWKFassadeImpl(auftragMgmt, kundeMgmt,
 				rechnungMgmt, produktMgmt, lieferungMgmt, sessionFactory);
-		HESStatusReporter statusReporter = new HESStatusReporter(hesName, monitorServer, monitorName, pingWarteZeitInMillisekunden);
+		HESStatusReporter statusReporter = new HESStatusReporter(hesName, REDUNDANZ_MGMT_SERVER, REDUNDANZ_MGMT_NAME, PING_WARTZEIT_IN_MILLISEKUNDEN);
 		
 		IHESRemoteAWKFassadeServer fassadeServer = new HESRemoteAWKFassadeServer(fassade, statusReporter, hesName);
 		System.err.println(hesName + " steht nun bereit Client-Anfragen entgegen zu nehmen...");

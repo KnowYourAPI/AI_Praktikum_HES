@@ -1,6 +1,6 @@
 package hes.fassade;
 
-import hes.client.redundanzMgmt.IMonitor;
+import hes.redundanzMgmt.IRedundanzMgmt;
 
 import java.net.InetAddress;
 import java.net.MalformedURLException;
@@ -14,13 +14,13 @@ public class HESStatusReporter implements Runnable {
 	private final String URL_PREFIX = "rmi://";
 	private String hesName;
 	private String remoteMonitorURL;
-	private IMonitor monitor;
+	private IRedundanzMgmt redundanzMgmt;
 	private long wartezeitInMillisekunden;
 	private boolean running;
 	
-	public HESStatusReporter(String hesName, String monitorServer, String monitorName, long warteZeitInMillisekunden) {
+	public HESStatusReporter(String hesName, String redundanzMgmtServer, String redundanzMgmtName, long warteZeitInMillisekunden) {
 		this.hesName = hesName;
-		this.remoteMonitorURL = URL_PREFIX + monitorServer + "/" + monitorName;
+		this.remoteMonitorURL = URL_PREFIX + redundanzMgmtServer + "/" + redundanzMgmtName;
 		this.wartezeitInMillisekunden = warteZeitInMillisekunden;
 		this.running = true;
 	}
@@ -29,10 +29,10 @@ public class HESStatusReporter implements Runnable {
 	public void run() {
 		
 		while(running) {
-			if (monitor == null) {
+			if (redundanzMgmt == null) {
 				
 				try {
-					this.monitor = (IMonitor) Naming.lookup(remoteMonitorURL);
+					this.redundanzMgmt = (IRedundanzMgmt) Naming.lookup(remoteMonitorURL);
 				} catch (MalformedURLException e) {
 					//URL nicht in Ordnung
 					
@@ -48,8 +48,8 @@ public class HESStatusReporter implements Runnable {
 				
 			} else {
 				try {
-					String localHostIP = InetAddress.getLocalHost().getHostAddress();
-					monitor.ping(localHostIP, hesName);
+					String localHost = InetAddress.getLocalHost().getHostName();
+					redundanzMgmt.ping(localHost, hesName);
 				} catch (RemoteException e) {
 					e.printStackTrace();
 				} catch (UnknownHostException e) {

@@ -7,6 +7,7 @@ import hes.kundeMgmt.AdressTyp;
 import hes.produktMgmt.ProduktTyp;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -24,19 +25,9 @@ public class Dispatcher implements Observer, IHESRemoteAWKFassadeServer {
 	
 	private HESRemoteClient hesRemoteClient;
 	
-	public Dispatcher(List<HESRemoteClient> hesRemoteClients) {
+	public Dispatcher() {
 		hesInstanzZustaende = new HashMap<String, Boolean>();
-		if (!hesRemoteClients.isEmpty()) {
-			this.hesRemoteClients = hesRemoteClients;
-		} else {
-			throw new IllegalArgumentException("Es muss mindestens ein HESRemoteClient in der Liste enthalten sein!");
-		}
-		
-		for(HESRemoteClient remoteClient : hesRemoteClients) {
-			hesInstanzZustaende.put(remoteClient.getHesName(), true);
-		}
-		
-		hesRemoteClient = hesRemoteClients.get(0);
+		hesRemoteClients = new ArrayList<HESRemoteClient>();
 	}
 
 	@Override
@@ -123,9 +114,26 @@ public class Dispatcher implements Observer, IHESRemoteAWKFassadeServer {
 	public void update(Observable observable, Object object) {
 		if (observable instanceof Monitor) {
 			Object[] objectAry = (Object[]) object;
-			String hesInstanzName = (String)objectAry[0];
-			boolean istLebendig = (Boolean)objectAry[1];
-			hesInstanzZustaende.put(hesInstanzName, istLebendig);
+			
+			//An/Ausschalten
+			if(objectAry.length == 2) {
+				String hesInstanzName = (String)objectAry[0];
+				boolean istLebendig = (Boolean)objectAry[1];
+				hesInstanzZustaende.put(hesInstanzName, istLebendig);
+				hesInstanzZustaende.put(hesInstanzName, istLebendig);
+			//Ping
+			} else if (objectAry.length == 3) {
+				String hesServer = (String)objectAry[0];
+				String hesInstanzName = (String)objectAry[1];
+				boolean istLebendig = (Boolean)objectAry[2];
+				
+				if(!hesInstanzZustaende.keySet().contains(hesInstanzName)) {
+					System.out.println(hesInstanzName + " auf Rechner "  + hesServer + " beim Dispatcher registriert.");
+					hesRemoteClients.add(new HESRemoteClient(hesServer, hesInstanzName));
+				}
+				
+				hesInstanzZustaende.put(hesInstanzName, istLebendig);
+			}
 		}
 	}
 

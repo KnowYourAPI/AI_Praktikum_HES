@@ -1,12 +1,15 @@
 package hes.redundanzMgmt;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Observable;
 
 import util.Tuple;
 
-public class Monitor extends Observable {
+public class Monitor extends Observable implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
 	
 	// Zuordnung:
 	// {HESName -> lebendig, online}
@@ -19,7 +22,8 @@ public class Monitor extends Observable {
 		this.hesInstanzZustaende = new HashMap<String, Tuple<Boolean, Boolean>>();
 	}
 
-	public void ping(String hesName) {
+	public void ping(String server, String hesName) {
+		System.out.println("Ping erhalten von: " + hesName);
 		Tuple<Boolean, Boolean> hesInstanzZustand = hesInstanzZustaende.get(hesName);
 		if(hesInstanzZustand != null) {
 			if(hesInstanzZustand.getFirst() == false) {
@@ -27,11 +31,12 @@ public class Monitor extends Observable {
 				setChanged();
 			}
 		} else {
-			hesInstanzZustand = hesInstanzZustaende.put(hesName, new Tuple<Boolean, Boolean>(true, true));
+			hesInstanzZustand = new Tuple<Boolean, Boolean>(true, true);
+			hesInstanzZustaende.put(hesName, hesInstanzZustand);
 			setChanged();
 		}
 		
-		notifyObservers(new Object[] {hesName, istLebendig(hesInstanzZustand)});
+		notifyObservers(new Object[] {server, hesName, istLebendig(hesInstanzZustand)});
 	}
 
 	public void schalteOnline(String hesName) {
@@ -63,5 +68,4 @@ public class Monitor extends Observable {
 	private boolean istLebendig(Tuple<Boolean, Boolean> hesInstanzZustand) {
 		return hesInstanzZustand.getFirst() && hesInstanzZustand.getSecond();
 	}
-
 }
