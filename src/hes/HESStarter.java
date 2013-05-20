@@ -46,12 +46,12 @@ public class HESStarter {
 		System.out.println("RedundanzMgmt-Komponente online und an den Namensdienst gebunden");
 		
 		//2 HE-Systeme starten:
-		startup("HES1", PING_WARTZEIT_IN_MILLISEKUNDEN);
-		startup("HES2", PING_WARTZEIT_IN_MILLISEKUNDEN);
+		startup("HES1", PING_WARTZEIT_IN_MILLISEKUNDEN, true);
+		startup("HES2", PING_WARTZEIT_IN_MILLISEKUNDEN, false);
 
 	}
 	
-	public static IHESRemoteAWKFassadeServer startup(String hesName, long pingWarteZeitInMillisekunden) throws RemoteException {
+	public static IHESRemoteAWKFassadeServer startup(String hesName, long pingWarteZeitInMillisekunden, boolean setupHibernate) throws RemoteException {
 		/**
 		 * HES Startup:
 		 * 1. Hibernate einrichten
@@ -74,8 +74,11 @@ public class HESStarter {
 		//Wenn einkommentiert, loescht dieser Befehl
 		//alle bestehenden Tabellen und erstellt neue
 		//aus den Annotations
-		SchemaExport schemaExport = new SchemaExport(config);
-		schemaExport.create(true, true);
+		
+		if(setupHibernate) {
+			SchemaExport schemaExport = new SchemaExport(config);
+			schemaExport.create(true, true);
+		}
 		
 		SessionFactory sessionFactory = config.buildSessionFactory();
 		
