@@ -50,13 +50,14 @@ public class HESStatusReporter implements Runnable {
 				} catch (RemoteException e) {
 					e.printStackTrace();
 				}
-				
-				try {
-					Thread.sleep(wartezeitInMillisekunden);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
 			}
+			
+			try {
+				Thread.sleep(wartezeitInMillisekunden);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			
 		}
 				
 	}
