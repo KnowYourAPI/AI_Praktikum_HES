@@ -19,6 +19,7 @@ public class HESStatusReporter implements Runnable {
 	public HESStatusReporter(String monitorServer, String monitorName, long warteZeitInMillisekunden) {
 		this.remoteMonitorURL = URL_PREFIX + monitorServer + "/" + monitorName;
 		this.wartezeitInMillisekunden = warteZeitInMillisekunden;
+		this.running = true;
 	}
 
 	@Override
