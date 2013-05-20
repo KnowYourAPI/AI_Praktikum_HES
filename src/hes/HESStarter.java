@@ -31,8 +31,6 @@ import hes.rechnungMgmt.IRechnungMgmt;
 import hes.rechnungMgmt.Rechnung;
 import hes.rechnungMgmt.RechnungMgmtFassade;
 import hes.rechnungMgmt.Zahlungseingang;
-import hes.redundanzMgmt.IRedundanzMgmt;
-import hes.redundanzMgmt.RedundanzMgmtFassade;
 
 public class HESStarter {
 	
