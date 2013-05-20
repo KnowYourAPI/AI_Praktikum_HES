@@ -35,16 +35,14 @@ import hes.rechnungMgmt.Zahlungseingang;
 
 public class HESStarter {
 	
-	private static final String HES_NAME = "HES1";
 	private static final long PING_WARTZEIT_IN_MILLISEKUNDEN = 2000;
 	private static final String MONITOR_NAME = "monitor";
 	private static final String MONITOR_SERVER = "localhost";
 
 	public static void main(String[] args) {
 		
-		IHESAWKFassade fassade = startup(HES_NAME, PING_WARTZEIT_IN_MILLISEKUNDEN, MONITOR_NAME, MONITOR_SERVER);
-		
-		System.out.println("HES-Server steht nun bereit Client-Anfragen entgegen zu nehmen...");
+		IHESAWKFassade fassade = startup("HES1", PING_WARTZEIT_IN_MILLISEKUNDEN, MONITOR_NAME, MONITOR_SERVER);
+		IHESAWKFassade fassade2 = startup("HES2", PING_WARTZEIT_IN_MILLISEKUNDEN, MONITOR_NAME, MONITOR_SERVER);
 		
 		//Simpler Testaufruf:
 //		String name = "Max Mustermann";
@@ -94,6 +92,7 @@ public class HESStarter {
 		
 		try {
 			IHESRemoteAWKFassadeServer fassadeServer = new HESRemoteAWKFassadeServer(fassade, statusReporter, hesName);
+			System.out.println(hesName + " steht nun bereit Client-Anfragen entgegen zu nehmen...");
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
