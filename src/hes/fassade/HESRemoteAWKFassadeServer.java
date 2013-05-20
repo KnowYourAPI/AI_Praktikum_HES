@@ -25,6 +25,7 @@ public class HESRemoteAWKFassadeServer extends UnicastRemoteObject implements IH
 		this.name = name;
 		try {
 			Naming.rebind(name, this);
+			new Thread(statusReporter).start();
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		} catch (MalformedURLException e) {
