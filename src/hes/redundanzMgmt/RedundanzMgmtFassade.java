@@ -10,6 +10,7 @@ public class RedundanzMgmtFassade implements IRedundanzMgmt {
 	public RedundanzMgmtFassade() {
 		this.dispatcher = new Dispatcher();
 		this.monitor = new Monitor();
+		monitor.addObserver(dispatcher);
 	}
 
 	@Override
