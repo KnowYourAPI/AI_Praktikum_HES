@@ -14,6 +14,7 @@ public class HESClientStarter {
 	private static String HES2_SERVER =	"localhost";	
 	private static String HES1_NAME = "HES1";
 	private static String HES2_NAME = "HES2";
+	private static String MONITOR_NAME = "monitor";
 	
 	public static void main(String[] args) {
 		HESRemoteClient hesRemoteClient1 = new HESRemoteClient(HES1_SERVER, HES1_NAME);
@@ -22,7 +23,7 @@ public class HESClientStarter {
 		remoteClients.add(hesRemoteClient1);
 //		remoteClients.add(hesRemoteClient2);
 		Dispatcher dispatcher = new Dispatcher(remoteClients);
-		Monitor monitor = new Monitor();
+		Monitor monitor = new Monitor(MONITOR_NAME);
 		
 		monitor.addObserver(dispatcher);
 		
