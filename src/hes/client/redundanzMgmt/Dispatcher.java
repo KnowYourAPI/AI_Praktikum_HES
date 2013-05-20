@@ -160,6 +160,7 @@ public class Dispatcher implements Observer, IHESRemoteAWKFassadeServer {
 			}
 			naechsterClient = _waehleNaechstenClient();
 		}
+		System.out.println("Naechster Aufruf geht an: " + naechsterClient.getHesName());
 		return naechsterClient;
 	}
 
