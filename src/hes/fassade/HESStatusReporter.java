@@ -44,18 +44,18 @@ public class HESStatusReporter implements Runnable {
 					System.out.println("Das remote Objekt unter dem Namen " + remoteMonitorURL + " konnte nicht gefunden werden.");
 				}
 				
-			}
-			
-			try {
-				monitor.ping(hesName);
-			} catch (RemoteException e) {
-				e.printStackTrace();
-			}
-			
-			try {
-				Thread.sleep(wartezeitInMillisekunden);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+			} else {
+				try {
+					monitor.ping(hesName);
+				} catch (RemoteException e) {
+					e.printStackTrace();
+				}
+				
+				try {
+					Thread.sleep(wartezeitInMillisekunden);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 				
