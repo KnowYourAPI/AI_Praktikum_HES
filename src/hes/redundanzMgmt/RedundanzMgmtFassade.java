@@ -29,8 +29,7 @@ public class RedundanzMgmtFassade implements IRedundanzMgmt {
 
 	@Override
 	public int getAnzahlBearbeiteterAnfragen(String hesName) throws RemoteException {
-		// TODO Auto-generated method stub
-		return 0;
+		return dispatcher.getAnzahlBearbeiteterAnfragen(hesName);
 	}
 
 }
