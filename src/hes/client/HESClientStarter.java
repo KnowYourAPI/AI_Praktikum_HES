@@ -18,10 +18,10 @@ public class HESClientStarter {
 	
 	public static void main(String[] args) {
 		HESRemoteClient hesRemoteClient1 = new HESRemoteClient(HES1_SERVER, HES1_NAME);
-//		HESRemoteClient hesRemoteClient2 = new HESRemoteClient(HES2_SERVER, HES2_NAME);
+		HESRemoteClient hesRemoteClient2 = new HESRemoteClient(HES2_SERVER, HES2_NAME);
 		ArrayList<HESRemoteClient> remoteClients = new ArrayList<HESRemoteClient>();
 		remoteClients.add(hesRemoteClient1);
-//		remoteClients.add(hesRemoteClient2);
+		remoteClients.add(hesRemoteClient2);
 		Dispatcher dispatcher = new Dispatcher(remoteClients);
 		Monitor monitor = new Monitor(MONITOR_NAME);
 		
@@ -40,9 +40,9 @@ public class HESClientStarter {
 			int angebotId = dispatcher.erstelleAngebot(1);
 			System.out.println("Neues Angebot: " + angebotId);
 			dispatcher.fuegeProduktZuAngebotHinzu(angebotId, produktId1, 25);
-			System.out.println("Produkt zu Angebt hinzugefuegt.");
+			System.out.println("Produkt zu Angebot hinzugefuegt.");
 			dispatcher.fuegeProduktZuAngebotHinzu(angebotId, produktId2, 32);
-			System.out.println("Produkt zu Angebt hinzugefuegt.");
+			System.out.println("Produkt zu Angebot hinzugefuegt.");
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
