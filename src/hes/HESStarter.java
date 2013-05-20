@@ -71,10 +71,10 @@ public class HESStarter {
 		config.addAnnotatedClass(Rechnung.class);
 		config.addAnnotatedClass(Zahlungseingang.class);
 		config.configure("hibernate.cfg.xml");
-		//Wenn einkommentiert, loescht dieser Befehl
+		
+		//Wenn per flag aktiviert, loescht dieser Befehl
 		//alle bestehenden Tabellen und erstellt neue
 		//aus den Annotations
-		
 		if(setupHibernate) {
 			SchemaExport schemaExport = new SchemaExport(config);
 			schemaExport.create(true, true);
