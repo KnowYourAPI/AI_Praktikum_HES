@@ -81,7 +81,7 @@ public class HESStarter {
 		ILieferungMgmt lieferungMgmt = new LieferungMgmtFassade();
 		IHESAWKFassade fassade = new HESAWKFassadeImpl(auftragMgmt, kundeMgmt,
 				rechnungMgmt, produktMgmt, lieferungMgmt, sessionFactory);
-		HESStatusReporter statusReporter = new HESStatusReporter(monitorServer, monitorName, pingWarteZeitInMillisekunden);
+		HESStatusReporter statusReporter = new HESStatusReporter(hesName, monitorServer, monitorName, pingWarteZeitInMillisekunden);
 		
 		IHESRemoteAWKFassadeServer fassadeServer = new HESRemoteAWKFassadeServer(fassade, statusReporter, hesName);
 		System.out.println(hesName + " steht nun bereit Client-Anfragen entgegen zu nehmen...");

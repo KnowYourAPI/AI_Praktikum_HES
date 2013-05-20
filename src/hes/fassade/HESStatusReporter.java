@@ -16,7 +16,8 @@ public class HESStatusReporter implements Runnable {
 	private long wartezeitInMillisekunden;
 	private boolean running;
 	
-	public HESStatusReporter(String monitorServer, String monitorName, long warteZeitInMillisekunden) {
+	public HESStatusReporter(String hesName, String monitorServer, String monitorName, long warteZeitInMillisekunden) {
+		this.hesName = hesName;
 		this.remoteMonitorURL = URL_PREFIX + monitorServer + "/" + monitorName;
 		this.wartezeitInMillisekunden = warteZeitInMillisekunden;
 		this.running = true;
