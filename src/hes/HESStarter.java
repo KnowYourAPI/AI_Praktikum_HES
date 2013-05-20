@@ -31,10 +31,12 @@ import hes.rechnungMgmt.IRechnungMgmt;
 import hes.rechnungMgmt.Rechnung;
 import hes.rechnungMgmt.RechnungMgmtFassade;
 import hes.rechnungMgmt.Zahlungseingang;
+import hes.redundanzMgmt.IRedundanzMgmt;
+import hes.redundanzMgmt.RedundanzMgmtFassade;
 
 public class HESStarter {
 	
-	private static final long PING_WARTZEIT_IN_MILLISEKUNDEN = 2000;
+	private static final long PING_WARTZEIT_IN_MILLISEKUNDEN = 10000;
 	private static final String MONITOR_NAME = "monitor";
 	private static final String MONITOR_SERVER = "localhost";
 
@@ -84,7 +86,7 @@ public class HESStarter {
 		HESStatusReporter statusReporter = new HESStatusReporter(hesName, monitorServer, monitorName, pingWarteZeitInMillisekunden);
 		
 		IHESRemoteAWKFassadeServer fassadeServer = new HESRemoteAWKFassadeServer(fassade, statusReporter, hesName);
-		System.out.println(hesName + " steht nun bereit Client-Anfragen entgegen zu nehmen...");
+		System.err.println(hesName + " steht nun bereit Client-Anfragen entgegen zu nehmen...");
 		return fassadeServer;
 	}
 
