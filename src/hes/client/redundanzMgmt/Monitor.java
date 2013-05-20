@@ -1,12 +1,18 @@
 package hes.client.redundanzMgmt;
 
+import java.io.Serializable;
+import java.net.MalformedURLException;
+import java.rmi.Naming;
+import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Observable;
 
 import util.Tuple;
 
-public class Monitor extends Observable implements IMonitor {
+public class Monitor extends Observable implements IMonitor, Serializable {
+	
+	private static final long serialVersionUID = 1L;
 	
 	// Zuordnung:
 	// {HESName -> lebendig, online}
@@ -15,8 +21,17 @@ public class Monitor extends Observable implements IMonitor {
 	// "HES1" ist lebendig, soll aber manuell als ausgeschaltet simuliert werden
 	private Map<String, Tuple<Boolean, Boolean>> hesInstanzZustaende;
 	
-	public Monitor() {
+	public Monitor(String monitorName) {
 		this.hesInstanzZustaende = new HashMap<String, Tuple<Boolean, Boolean>>();
+		
+		try {
+			Naming.rebind(monitorName, this);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 	@Override
