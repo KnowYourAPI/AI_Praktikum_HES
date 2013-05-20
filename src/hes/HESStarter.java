@@ -16,7 +16,6 @@ import hes.fassade.HESRemoteAWKFassadeServer;
 import hes.fassade.HESStatusReporter;
 import hes.fassade.IHESAWKFassade;
 import hes.fassade.IHESRemoteAWKFassadeServer;
-import hes.kundeMgmt.AdressTyp;
 import hes.kundeMgmt.Adresse;
 import hes.kundeMgmt.IKundeMgmt;
 import hes.kundeMgmt.Kunde;
@@ -39,20 +38,14 @@ public class HESStarter {
 	private static final String MONITOR_NAME = "monitor";
 	private static final String MONITOR_SERVER = "localhost";
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws RemoteException {
 		
-		IHESAWKFassade fassade = startup("HES1", PING_WARTZEIT_IN_MILLISEKUNDEN, MONITOR_NAME, MONITOR_SERVER);
-		IHESAWKFassade fassade2 = startup("HES2", PING_WARTZEIT_IN_MILLISEKUNDEN, MONITOR_NAME, MONITOR_SERVER);
-		
-		//Simpler Testaufruf:
-//		String name = "Max Mustermann";
-//		AdressTyp adresse = new AdressTyp("Musterweg", "42a", "12345", "Beispielstadt");
-//		
-//		System.err.println("Neuer Kunde, Id:" + fassade.legeKundeAn(name, adresse));
+		startup("HES1", PING_WARTZEIT_IN_MILLISEKUNDEN, MONITOR_NAME, MONITOR_SERVER);
+		startup("HES2", PING_WARTZEIT_IN_MILLISEKUNDEN, MONITOR_NAME, MONITOR_SERVER);
 
 	}
 	
-	public static IHESAWKFassade startup(String hesName, long pingWarteZeitInMillisekunden, String monitorName, String monitorServer) {
+	public static IHESRemoteAWKFassadeServer startup(String hesName, long pingWarteZeitInMillisekunden, String monitorName, String monitorServer) throws RemoteException {
 		/**
 		 * HES Startup:
 		 * 1. Hibernate einrichten
@@ -90,16 +83,9 @@ public class HESStarter {
 				rechnungMgmt, produktMgmt, lieferungMgmt, sessionFactory);
 		HESStatusReporter statusReporter = new HESStatusReporter(monitorServer, monitorName, pingWarteZeitInMillisekunden);
 		
-		try {
-			IHESRemoteAWKFassadeServer fassadeServer = new HESRemoteAWKFassadeServer(fassade, statusReporter, hesName);
-			System.out.println(hesName + " steht nun bereit Client-Anfragen entgegen zu nehmen...");
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		}
-		//Beispielaufruf
-		//Evtl den Namen spaeter als Kommandokonsolenparameter uebergeben
-		
-		return fassade;
+		IHESRemoteAWKFassadeServer fassadeServer = new HESRemoteAWKFassadeServer(fassade, statusReporter, hesName);
+		System.out.println(hesName + " steht nun bereit Client-Anfragen entgegen zu nehmen...");
+		return fassadeServer;
 	}
 
 }
