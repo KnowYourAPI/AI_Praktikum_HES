@@ -49,7 +49,7 @@ public class Monitor extends Observable implements IMonitor, Serializable {
 			setChanged();
 		}
 		
-		notifyObservers(new Object[] {hesName, istLebendig(hesInstanzZustand)});
+		notifyObservers(new Object[] {server, hesName, istLebendig(hesInstanzZustand)});
 	}
 
 	@Override
