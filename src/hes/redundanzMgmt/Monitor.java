@@ -20,7 +20,7 @@ public class Monitor extends Observable implements Serializable {
 	
 	private Map<String, HESTimer> timerListe;
 	
-	private static final int TIMEOUT = 10000;
+	private static final int TIMEOUT = 20000;
 	
 	public Monitor() {
 		this.hesInstanzZustaende = new HashMap<String, Tuple<Boolean, Boolean>>();
