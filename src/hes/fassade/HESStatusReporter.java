@@ -2,7 +2,9 @@ package hes.fassade;
 
 import hes.client.redundanzMgmt.IMonitor;
 
+import java.net.InetAddress;
 import java.net.MalformedURLException;
+import java.net.UnknownHostException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -46,8 +48,11 @@ public class HESStatusReporter implements Runnable {
 				
 			} else {
 				try {
-					monitor.ping(hesName);
+					String localHostIP = InetAddress.getLocalHost().getHostAddress();
+					monitor.ping(localHostIP, hesName);
 				} catch (RemoteException e) {
+					e.printStackTrace();
+				} catch (UnknownHostException e) {
 					e.printStackTrace();
 				}
 			}

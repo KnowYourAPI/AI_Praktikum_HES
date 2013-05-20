@@ -5,7 +5,7 @@ import java.rmi.RemoteException;
 
 public interface IMonitor extends Remote {
 	
-	public void ping(String hesName) throws RemoteException;
+	public void ping(String server,String hesName) throws RemoteException;
 	
 	public void schalteOnline(String hesName) throws RemoteException;
 	

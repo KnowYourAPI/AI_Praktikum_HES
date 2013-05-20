@@ -35,7 +35,7 @@ public class Monitor extends Observable implements IMonitor, Serializable {
 	}
 
 	@Override
-	public void ping(String hesName) {
+	public void ping(String server, String hesName) {
 		System.out.println("Ping erhalten von: " + hesName);
 		Tuple<Boolean, Boolean> hesInstanzZustand = hesInstanzZustaende.get(hesName);
 		if(hesInstanzZustand != null) {
