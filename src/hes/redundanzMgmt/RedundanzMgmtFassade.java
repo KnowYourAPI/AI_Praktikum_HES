@@ -3,6 +3,7 @@ package hes.redundanzMgmt;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
+import java.util.List;
 
 public class RedundanzMgmtFassade implements IRedundanzMgmt {
 	
@@ -10,8 +11,8 @@ public class RedundanzMgmtFassade implements IRedundanzMgmt {
 	private Monitor monitor;
 	private String name;
 	
-	public RedundanzMgmtFassade(String redundanzMgmtName) {
-		this.dispatcher = new Dispatcher();
+	public RedundanzMgmtFassade(String redundanzMgmtName, List<HESRemoteClient> hesRemoteClients) {
+		this.dispatcher = new Dispatcher(hesRemoteClients);
 		this.monitor = new Monitor();
 		monitor.addObserver(dispatcher);
 		this.name = redundanzMgmtName;
