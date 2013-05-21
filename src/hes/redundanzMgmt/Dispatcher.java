@@ -135,14 +135,15 @@ public class Dispatcher extends Observable implements Observer, IHESRemoteAWKFas
 
 			String hesServer = (String)objectAry[0];
 			String hesInstanzName = (String)objectAry[1];
-			boolean istLebendig = (Boolean)objectAry[2]; 
+			boolean istLebendig = (Boolean)objectAry[2];
+			boolean istAngeschaltet = (Boolean) objectAry[3];
 			
 			if(hesServer != null && !hesInstanzZustaende.keySet().contains(hesInstanzName)) {
 				System.out.println(hesInstanzName + " auf Rechner "  + hesServer + " beim Dispatcher registriert.");
 				hesRemoteClients.add(new HESRemoteClient(hesServer, hesInstanzName));
 			}
 			
-			hesInstanzZustaende.put(hesInstanzName, istLebendig);
+			hesInstanzZustaende.put(hesInstanzName, (istLebendig && istAngeschaltet));
 		}
 	}
 
