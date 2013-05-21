@@ -7,10 +7,13 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
 
+import processing.core.PApplet;
+
 import hes.auftragMgmt.Angebot;
 import hes.auftragMgmt.Auftrag;
 import hes.auftragMgmt.AuftragMgmtFassade;
 import hes.auftragMgmt.IAuftragMgmt;
+import hes.client.gui.DashboardGUI;
 import hes.fassade.HESAWKFassadeImpl;
 import hes.fassade.HESRemoteAWKFassadeServer;
 import hes.fassade.HESStatusReporter;
@@ -31,6 +34,7 @@ import hes.rechnungMgmt.IRechnungMgmt;
 import hes.rechnungMgmt.Rechnung;
 import hes.rechnungMgmt.RechnungMgmtFassade;
 import hes.rechnungMgmt.Zahlungseingang;
+import hes.redundanzMgmt.IRedundanzMgmt;
 import hes.redundanzMgmt.RedundanzMgmtFassade;
 
 public class HESStarter {
@@ -42,8 +46,16 @@ public class HESStarter {
 	public static void main(String[] args) throws RemoteException {
 
 		//Dispatcher etc starten:
-		new RedundanzMgmtFassade(REDUNDANZ_MGMT_NAME);
+		IRedundanzMgmt redundanzMgmt = new RedundanzMgmtFassade(REDUNDANZ_MGMT_NAME);
 		System.out.println("RedundanzMgmt-Komponente online und an den Namensdienst gebunden");
+		
+		//DashboardGUI starten und registrieren
+		DashboardGUI dashboardGUI = new DashboardGUI();
+		PApplet.runSketch(new String[]{"Dashboard"}, dashboardGUI);
+		
+		redundanzMgmt.addDispatcherObserver(dashboardGUI);
+		redundanzMgmt.addMonitorObserver(dashboardGUI);
+		
 		
 		//2 HE-Systeme starten:
 		startup("HES1", PING_WARTZEIT_IN_MILLISEKUNDEN, true);

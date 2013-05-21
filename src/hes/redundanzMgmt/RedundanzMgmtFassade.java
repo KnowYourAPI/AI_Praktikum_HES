@@ -11,6 +11,7 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Date;
 import java.util.List;
+import java.util.Observer;
 
 public class RedundanzMgmtFassade extends UnicastRemoteObject implements IRedundanzMgmt {
 	
@@ -48,6 +49,16 @@ public class RedundanzMgmtFassade extends UnicastRemoteObject implements IRedund
 	@Override
 	public void schalteOffline(String hesName) throws RemoteException {
 		monitor.schalteOffline(hesName);
+	}
+
+	@Override
+	public void addDispatcherObserver(Observer observer) throws RemoteException {
+		dispatcher.addObserver(observer);
+	}
+	
+	@Override
+	public void addMonitorObserver(Observer observer) throws RemoteException {
+		monitor.addObserver(observer);
 	}
 
 	@Override
@@ -119,5 +130,6 @@ public class RedundanzMgmtFassade extends UnicastRemoteObject implements IRedund
 			throws RemoteException {
 		return dispatcher.meldeZahlungseingang(rechnungId, betrag);
 	}
+
 
 }

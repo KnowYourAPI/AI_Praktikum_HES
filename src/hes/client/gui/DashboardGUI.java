@@ -57,7 +57,7 @@ public class DashboardGUI extends PApplet implements Observer{
 		hesAnzahlBearbeiteterAnfragen = new HashMap<String, Integer>();
 		size(500, 500);
 		background(255);
-		noLoop();
+		//noLoop();
 	}
 
 	public void draw() {
@@ -90,7 +90,10 @@ public class DashboardGUI extends PApplet implements Observer{
 			x += 20;
 			fill(0);
 			String hesName = eintrag.getKey();
-			int anzahlBearbeiteterAnfragen = hesAnzahlBearbeiteterAnfragen.get(hesName); 
+			int anzahlBearbeiteterAnfragen = 0;
+			if (hesAnzahlBearbeiteterAnfragen.get(hesName) != null) {
+				anzahlBearbeiteterAnfragen = hesAnzahlBearbeiteterAnfragen.get(hesName);
+			}
 			String hesText = hesName + " (" + anzahlBearbeiteterAnfragen + ")";
 			text(hesText, x, y);
 			aktAngezeigteListe.add(eintrag.getKey());
@@ -165,7 +168,7 @@ public class DashboardGUI extends PApplet implements Observer{
 			int anzahlAnfragen = (Integer) ary[1];
 			hesAnzahlBearbeiteterAnfragen.put(hesName, anzahlAnfragen);
 		}
-		redraw();
+		//redraw();
 	}
 
 }
