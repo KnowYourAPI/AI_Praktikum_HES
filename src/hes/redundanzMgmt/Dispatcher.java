@@ -32,6 +32,7 @@ public class Dispatcher extends Observable implements Observer, IHESRemoteAWKFas
 	public Dispatcher() {
 		hesInstanzZustaende = new HashMap<String, Boolean>();
 		hesRemoteClients = new ArrayList<HESRemoteClient>();
+		anzahlBearbeiteterAnfragen = new HashMap<String, Integer>();
 	}
 
 	@Override
