@@ -58,7 +58,7 @@ public class HESStarter {
 		redundanzMgmt.addMonitorObserver(dashboardGUI);
 		
 		
-		//2 HE-Systeme starten:
+		//HE-Systeme starten:
 		startup("HES1", PING_WARTZEIT_IN_MILLISEKUNDEN, true);
 		startup("HES2", PING_WARTZEIT_IN_MILLISEKUNDEN, false);
 		startup("HES3", PING_WARTZEIT_IN_MILLISEKUNDEN, false);
