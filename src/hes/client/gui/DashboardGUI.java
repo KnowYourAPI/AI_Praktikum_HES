@@ -133,21 +133,22 @@ public class DashboardGUI extends PApplet implements Observer{
 	}
 	
 	@Override
-    public void mouseReleased() {
+	public void mouseReleased() {
 		if (mouseX >= 5 && mouseX <= 15 && mouseY >= 75) {
-			int aktuelleListenPosition = ((mouseY - 75)/ 30);
-			System.out.println(aktuelleListenPosition);
-			String hesName = aktAngezeigteListe.get(aktuelleListenPosition);
-			
-			if (hesInstanzZustaende.get(hesName).getFirst()) {
-				try {
-					if (hesInstanzZustaende.get(hesName).getSecond()) {
-						redundanzMgmtFassade.schalteOffline(hesName);
-					} else {
-						redundanzMgmtFassade.schalteOnline(hesName);
+			int aktuelleListenPosition = ((mouseY - 75) / 30);
+			if (aktuelleListenPosition < hesInstanzZustaende.size()) {
+				String hesName = aktAngezeigteListe.get(aktuelleListenPosition);
+
+				if (hesInstanzZustaende.get(hesName).getFirst()) {
+					try {
+						if (hesInstanzZustaende.get(hesName).getSecond()) {
+							redundanzMgmtFassade.schalteOffline(hesName);
+						} else {
+							redundanzMgmtFassade.schalteOnline(hesName);
+						}
+					} catch (RemoteException e) {
+						e.printStackTrace();
 					}
-				} catch (RemoteException e) {
-					e.printStackTrace();
 				}
 			}
 		}

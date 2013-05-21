@@ -33,6 +33,8 @@ public class HESStatusReporter implements Runnable {
 				
 				try {
 					this.redundanzMgmt = (IRedundanzMgmt) Naming.lookup(remoteMonitorURL);
+					String localHost = InetAddress.getLocalHost().getHostName();
+					redundanzMgmt.ping(localHost, hesName);
 				} catch (MalformedURLException e) {
 					//URL nicht in Ordnung
 					
@@ -44,6 +46,8 @@ public class HESStatusReporter implements Runnable {
 				} catch (NotBoundException e) {
 					//Name nicht vorhanden
 					System.out.println("Das remote Objekt unter dem Namen " + remoteMonitorURL + " konnte nicht gefunden werden.");
+				} catch (UnknownHostException e) {
+					e.printStackTrace();
 				}
 				
 			} else {

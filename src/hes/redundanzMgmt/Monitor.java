@@ -28,7 +28,7 @@ public class Monitor extends Observable implements Serializable {
 	}
 	
 	
-	public void ping(String server, String hesName) {
+	public synchronized void ping(String server, String hesName) {
 		System.out.println("Ping erhalten von: " + hesName);
 		Tuple<Boolean, Boolean> hesInstanzZustand = hesInstanzZustaende.get(hesName);
 		if(hesInstanzZustand != null) {
@@ -48,15 +48,17 @@ public class Monitor extends Observable implements Serializable {
 		notifyObservers(new Object[] {server, hesName, hesInstanzZustand.getFirst(), hesInstanzZustand.getSecond()});
 	}
 
-	public void meldeTimeout(String hesName, HESTimer timer){
+	public synchronized void meldeTimeout(String hesName, HESTimer timer){
 		if (this.timerListe.get(hesName) == timer) {
 			System.out.println("Timeout gemeldet fuer " + hesName);
 			Tuple<Boolean, Boolean> zustand = hesInstanzZustaende.get(hesName);
-			zustand.setFirst(false);	
+			zustand.setFirst(false);
+			setChanged();
+			notifyObservers(new Object[] {null, hesName, zustand.getFirst(), zustand.getSecond()});
 		}
 	}
 	
-	public void schalteOnline(String hesName) {
+	public synchronized void schalteOnline(String hesName) {
 		Tuple<Boolean, Boolean> hesInstanzZustand = hesInstanzZustaende.get(hesName);
 		
 		if(hesInstanzZustand != null) {
@@ -69,7 +71,7 @@ public class Monitor extends Observable implements Serializable {
 		}
 	}
 
-	public void schalteOffline(String hesName) {
+	public synchronized void schalteOffline(String hesName) {
 		Tuple<Boolean, Boolean> hesInstanzZustand = hesInstanzZustaende.get(hesName);
 		
 		if(hesInstanzZustand != null) {
