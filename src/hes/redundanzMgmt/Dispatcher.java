@@ -177,7 +177,6 @@ public class Dispatcher extends Observable implements Observer, IHESRemoteAWKFas
 			}
 			naechsterClient = _waehleNaechstenClient();
 		}
-		System.out.println("Naechster Aufruf geht an: " + naechsterClient.getHesName());
 		return naechsterClient;
 	}
 
@@ -187,6 +186,7 @@ public class Dispatcher extends Observable implements Observer, IHESRemoteAWKFas
 	
 	public void meldeFunktionsAufruf(HESRemoteClient hesRemoteClient) {
 		String hesName = hesRemoteClient.getHesName();
+		System.out.println("Naechster Aufruf geht an: " + hesName);
 		Integer anzahlAnfragen = anzahlBearbeiteterAnfragen.get(hesName);
 		
 		if(anzahlAnfragen == null) {
