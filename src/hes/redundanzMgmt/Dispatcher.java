@@ -15,11 +15,15 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
-public class Dispatcher implements Observer, IHESRemoteAWKFassadeServer {
+public class Dispatcher extends Observable implements Observer, IHESRemoteAWKFassadeServer {
 	
 	private final long HES_SUCHE_WARTEZEIT_IN_MILLISEKUNDEN = 3000;
 	
 	private Map<String, Boolean> hesInstanzZustaende;
+	
+	//Anzahl der pro HES bearbeiteten Anfragen
+	//hesName -> Anzahl der Anfragen
+	private Map<String, Integer> anzahlBearbeiteterAnfragen;
 	
 	private List<HESRemoteClient> hesRemoteClients;
 	
@@ -33,30 +37,35 @@ public class Dispatcher implements Observer, IHESRemoteAWKFassadeServer {
 	@Override
 	public int legeKundeAn(String name, AdressTyp adresse) throws RemoteException {
 		hesRemoteClient = waehleNaechstenClient();
+		meldeFunktionsAufruf(hesRemoteClient);
 		return hesRemoteClient.legeKundeAn(name, adresse);
 	}
 
 	@Override
 	public int legeProduktAn(String name, int lagerbestand, float preis) throws RemoteException {
 		hesRemoteClient = waehleNaechstenClient();
+		meldeFunktionsAufruf(hesRemoteClient);
 		return hesRemoteClient.legeProduktAn(name, lagerbestand, lagerbestand);
 	}
 
 	@Override
 	public int getKundeId(String firmenName) throws RemoteException {
 		hesRemoteClient = waehleNaechstenClient();
+		meldeFunktionsAufruf(hesRemoteClient);
 		return hesRemoteClient.getKundeId(firmenName);
 	}
 
 	@Override
 	public int erstelleAngebot(int kundenId) throws RemoteException {
 		hesRemoteClient = waehleNaechstenClient();
+		meldeFunktionsAufruf(hesRemoteClient);
 		return hesRemoteClient.erstelleAngebot(kundenId);
 	}
 
 	@Override
 	public List<ProduktTyp> getAlleProdukte() throws RemoteException {
 		hesRemoteClient = waehleNaechstenClient();
+		meldeFunktionsAufruf(hesRemoteClient);
 		return hesRemoteClient.getAlleProdukte();
 	}
 
@@ -64,18 +73,21 @@ public class Dispatcher implements Observer, IHESRemoteAWKFassadeServer {
 	public AngebotTyp fuegeProduktZuAngebotHinzu(int angebotId, int produktId,
 			int menge) throws RemoteException {
 		hesRemoteClient = waehleNaechstenClient();
+		meldeFunktionsAufruf(hesRemoteClient);
 		return hesRemoteClient.fuegeProduktZuAngebotHinzu(angebotId, produktId, menge);
 	}
 
 	@Override
 	public AngebotTyp entferneProduktAusAngebot(int angebotId, int produktId) throws RemoteException {
 		hesRemoteClient = waehleNaechstenClient();
+		meldeFunktionsAufruf(hesRemoteClient);
 		return hesRemoteClient.entferneProduktAusAngebot(angebotId, produktId);
 	}
 
 	@Override
 	public AuftragTyp erstelleAuftrag(int angebotId) throws RemoteException {
 		hesRemoteClient = waehleNaechstenClient();
+		meldeFunktionsAufruf(hesRemoteClient);
 		return hesRemoteClient.erstelleAuftrag(angebotId);
 	}
 
@@ -83,30 +95,35 @@ public class Dispatcher implements Observer, IHESRemoteAWKFassadeServer {
 	public void meldeWareneingang(int produktId, int produktMenge, Date datum,
 			String lieferantenName, Object lieferschein) throws RemoteException {
 		hesRemoteClient = waehleNaechstenClient();
+		meldeFunktionsAufruf(hesRemoteClient);
 		hesRemoteClient.meldeWareneingang(produktId, produktMenge, datum, lieferantenName, lieferschein);
 	}
 
 	@Override
 	public int getAuftragId(int rechnungId) throws RemoteException {
 		hesRemoteClient = waehleNaechstenClient();
+		meldeFunktionsAufruf(hesRemoteClient);
 		return hesRemoteClient.getAuftragId(rechnungId);
 	}
 
 	@Override
 	public void markiereLieferungAlsErfolgt(int lieferungId) throws RemoteException {
 		hesRemoteClient = waehleNaechstenClient();
+		meldeFunktionsAufruf(hesRemoteClient);
 		hesRemoteClient.markiereLieferungAlsErfolgt(lieferungId);
 	}
 
 	@Override
 	public void markiereAuftragAlsAbgeschlossen(int auftragId) throws RemoteException {
 		hesRemoteClient = waehleNaechstenClient();
+		meldeFunktionsAufruf(hesRemoteClient);
 		hesRemoteClient.markiereAuftragAlsAbgeschlossen(auftragId);
 	}
 
 	@Override
 	public boolean meldeZahlungseingang(int rechnungId, float betrag) throws RemoteException {
 		hesRemoteClient = waehleNaechstenClient();
+		meldeFunktionsAufruf(hesRemoteClient);
 		return hesRemoteClient.meldeZahlungseingang(rechnungId, betrag);
 	}
 
@@ -167,8 +184,12 @@ public class Dispatcher implements Observer, IHESRemoteAWKFassadeServer {
 		return hesInstanzZustaende.get(client.getHesName());
 	}
 	
-	public int getAnzahlBearbeiteterAnfragen(String hesName) throws RemoteException {
-		//TODO
-		return 0;
+	public void meldeFunktionsAufruf(HESRemoteClient hesRemoteClient) {
+		String hesName = hesRemoteClient.getHesName();
+		int anzahlAnfragen = anzahlBearbeiteterAnfragen.get(hesName);
+		anzahlAnfragen += 1;
+		anzahlBearbeiteterAnfragen.put(hesName, anzahlAnfragen);
+		setChanged();
+		notifyObservers(new Object[] {hesName, anzahlAnfragen});
 	}
 }

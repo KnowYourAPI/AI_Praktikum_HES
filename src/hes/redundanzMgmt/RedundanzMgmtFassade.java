@@ -51,11 +51,6 @@ public class RedundanzMgmtFassade extends UnicastRemoteObject implements IRedund
 	}
 
 	@Override
-	public int getAnzahlBearbeiteterAnfragen(String hesName) throws RemoteException {
-		return dispatcher.getAnzahlBearbeiteterAnfragen(hesName);
-	}
-
-	@Override
 	public int legeKundeAn(String name, AdressTyp adresse)
 			throws RemoteException {
 		return dispatcher.legeKundeAn(name, adresse);

@@ -12,7 +12,5 @@ public interface IRedundanzMgmt extends Remote, IHESRemoteAWKFassadeServer {
 	public void schalteOnline(String hesName) throws RemoteException;
 	
 	public void schalteOffline(String hesName) throws RemoteException;
-	
-	public int getAnzahlBearbeiteterAnfragen(String hesName) throws RemoteException;
 
 }
