@@ -114,26 +114,17 @@ public class Dispatcher implements Observer, IHESRemoteAWKFassadeServer {
 	public void update(Observable observable, Object object) {
 		if (observable instanceof Monitor) {
 			Object[] objectAry = (Object[]) object;
+
+			String hesServer = (String)objectAry[0];
+			String hesInstanzName = (String)objectAry[1];
+			boolean istLebendig = (Boolean)objectAry[2]; 
 			
-			//An/Ausschalten
-			if(objectAry.length == 2) {
-				String hesInstanzName = (String)objectAry[0];
-				boolean istLebendig = (Boolean)objectAry[1];
-				hesInstanzZustaende.put(hesInstanzName, istLebendig);
-				hesInstanzZustaende.put(hesInstanzName, istLebendig);
-			//Ping
-			} else if (objectAry.length == 3) {
-				String hesServer = (String)objectAry[0];
-				String hesInstanzName = (String)objectAry[1];
-				boolean istLebendig = (Boolean)objectAry[2];
-				
-				if(!hesInstanzZustaende.keySet().contains(hesInstanzName)) {
-					System.out.println(hesInstanzName + " auf Rechner "  + hesServer + " beim Dispatcher registriert.");
-					hesRemoteClients.add(new HESRemoteClient(hesServer, hesInstanzName));
-				}
-				
-				hesInstanzZustaende.put(hesInstanzName, istLebendig);
+			if(hesServer != null && !hesInstanzZustaende.keySet().contains(hesInstanzName)) {
+				System.out.println(hesInstanzName + " auf Rechner "  + hesServer + " beim Dispatcher registriert.");
+				hesRemoteClients.add(new HESRemoteClient(hesServer, hesInstanzName));
 			}
+			
+			hesInstanzZustaende.put(hesInstanzName, istLebendig);
 		}
 	}
 

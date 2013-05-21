@@ -45,7 +45,7 @@ public class Monitor extends Observable implements Serializable {
 		timer.start();
 		this.timerListe.put(hesName, timer);
 		
-		notifyObservers(new Object[] {server, hesName, istLebendig(hesInstanzZustand)});
+		notifyObservers(new Object[] {server, hesName, hesInstanzZustand.getFirst(), hesInstanzZustand.getSecond()});
 	}
 
 	public void meldeTimeout(String hesName, HESTimer timer){
@@ -65,7 +65,7 @@ public class Monitor extends Observable implements Serializable {
 				setChanged();
 			}
 			
-			notifyObservers(new Object[] {hesName, istLebendig(hesInstanzZustand)});
+			notifyObservers(new Object[] {null, hesName, hesInstanzZustand.getFirst(), hesInstanzZustand.getSecond()});
 		}
 	}
 
@@ -78,11 +78,7 @@ public class Monitor extends Observable implements Serializable {
 				setChanged();
 			}
 			
-			notifyObservers(new Object[] {hesName, istLebendig(hesInstanzZustand)});
+			notifyObservers(new Object[] {null, hesName, hesInstanzZustand.getFirst(), hesInstanzZustand.getSecond()});
 		}
-	}
-
-	private boolean istLebendig(Tuple<Boolean, Boolean> hesInstanzZustand) {
-		return hesInstanzZustand.getFirst() && hesInstanzZustand.getSecond();
 	}
 }
