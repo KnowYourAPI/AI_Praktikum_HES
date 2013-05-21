@@ -1,6 +1,7 @@
 package hes;
 
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 
 import org.hibernate.SessionFactory;
@@ -43,7 +44,7 @@ public class HESStarter {
 	private static final String REDUNDANZ_MGMT_NAME = "redundanzmgmt";
 	private static final String REDUNDANZ_MGMT_SERVER = "localhost";
 
-	public static void main(String[] args) throws RemoteException {
+	public static void main(String[] args) throws IOException {
 
 		//Dispatcher etc starten:
 		IRedundanzMgmt redundanzMgmt = new RedundanzMgmtFassade(REDUNDANZ_MGMT_NAME);
@@ -109,5 +110,14 @@ public class HESStarter {
 		System.err.println(hesName + " steht nun bereit Client-Anfragen entgegen zu nehmen...");
 		return fassadeServer;
 	}
+	
+	//HTTP-Server starten, fuer dynamic class loading
+//	String hostName = InetAddress.getLocalHost().getHostName();
+//	int port = 8080;
+//	File rootDirectory = new File("");	//Der Projekt root-Folder
+//	SimpleWebServer httpServer = new SimpleWebServer(hostName, port, rootDirectory);
+//
+//	httpServer.start();
+	
 
 }
