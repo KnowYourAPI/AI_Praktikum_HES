@@ -9,6 +9,7 @@ import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +39,8 @@ public class DashboardGUI extends PApplet implements Observer{
 	
 	private Map<String, Integer> hesAnzahlBearbeiteterAnfragen;
 	
+	private Map<String, Tuple<Long, Long>> hesUpDowntime;
+	
 	public void setup() {
 		pFont = createFont("Arial",16,true);
 		hesInstanzZustaende = new HashMap<String, Tuple<Boolean, Boolean>>();
@@ -55,6 +58,7 @@ public class DashboardGUI extends PApplet implements Observer{
 			e.printStackTrace();
 		}
 		hesAnzahlBearbeiteterAnfragen = new HashMap<String, Integer>();
+		hesUpDowntime = new HashMap<String, Tuple<Long,Long>>();
 		size(500, 500);
 		background(255);
 		//noLoop();
@@ -95,6 +99,12 @@ public class DashboardGUI extends PApplet implements Observer{
 				anzahlBearbeiteterAnfragen = hesAnzahlBearbeiteterAnfragen.get(hesName);
 			}
 			String hesText = hesName + " ( Anzahl bearbeiteter Anfragen: " + anzahlBearbeiteterAnfragen + ")";
+			if (hesUpDowntime.get(hesName) != null) {
+				Date uptime = new Date(hesUpDowntime.get(hesName).getFirst());
+				Date downtime = new Date(hesUpDowntime.get(hesName).getSecond());
+				hesText += " UT: " + uptime + ", DT: " + downtime;
+			}
+			
 			text(hesText, x, y);
 			aktAngezeigteListe.add(eintrag.getKey());
 			
@@ -163,6 +173,10 @@ public class DashboardGUI extends PApplet implements Observer{
 			boolean istAngeschaltet = (Boolean) objectAry[3];
 			Tuple<Boolean,Boolean> zustandTuple = new Tuple<Boolean, Boolean>(istLebendig, istAngeschaltet);
 			hesInstanzZustaende.put(hesInstanzName, zustandTuple);			
+			Tuple<Long, Long> upDowntime = (Tuple<Long,Long>) objectAry[4];
+			long uptime = upDowntime.getFirst();
+			long downtime = upDowntime.getSecond();
+			hesUpDowntime.put(hesInstanzName, new Tuple<Long, Long>(uptime,downtime));
 		} else if (observable instanceof Dispatcher) {
 			Object[] ary = (Object[])arg;
 			String hesName = (String) ary[0];
