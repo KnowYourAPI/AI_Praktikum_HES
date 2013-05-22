@@ -98,11 +98,11 @@ public class DashboardGUI extends PApplet implements Observer{
 			if (hesAnzahlBearbeiteterAnfragen.get(hesName) != null) {
 				anzahlBearbeiteterAnfragen = hesAnzahlBearbeiteterAnfragen.get(hesName);
 			}
-			String hesText = hesName + " ( Anzahl bearbeiteter Anfragen: " + anzahlBearbeiteterAnfragen + ")";
+			String hesText = hesName + " ( Anzahl Anfragen: " + anzahlBearbeiteterAnfragen + ")";
 			if (hesUpDowntime.get(hesName) != null) {
-				Date uptime = new Date(hesUpDowntime.get(hesName).getFirst());
-				Date downtime = new Date(hesUpDowntime.get(hesName).getSecond());
-				hesText += " UT: " + uptime + ", DT: " + downtime;
+				Long uptime = hesUpDowntime.get(hesName).getFirst();
+				Long downtime = hesUpDowntime.get(hesName).getSecond();
+				hesText += " UT: " + uptime + " Sek , DT: " + downtime + " Sek";
 			}
 			
 			text(hesText, x, y);
