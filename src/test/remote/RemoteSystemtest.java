@@ -3,6 +3,10 @@ package test.remote;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.net.MalformedURLException;
+import java.rmi.Naming;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import java.util.List;
 
 import hes.auftragMgmt.Angebot;
@@ -12,6 +16,7 @@ import hes.auftragMgmt.AuftragTyp;
 import hes.auftragMgmt.IAuftragMgmt;
 import hes.fassade.HESAWKFassadeImpl;
 import hes.fassade.IHESAWKFassade;
+import hes.fassade.IHESRemoteAWKFassadeServer;
 import hes.kundeMgmt.AdressTyp;
 import hes.kundeMgmt.Adresse;
 import hes.kundeMgmt.IKundeMgmt;
@@ -43,18 +48,15 @@ import org.junit.Test;
 
 public class RemoteSystemtest {
 	
+	private static final String URL_PREFIX = "rmi://";
+	private static final String REDUNDANZ_MGMT_SERVER = "localhost";
+	private static final String REDUNDANZ_MGMT_NAME = "redundanzmgmt";
+	
 	//Hibernate
 	SessionFactory sessionFactory;
 	
 	//HES-Komponenten:
-	private IHESAWKFassade hesFassade;
-	private IAuftragMgmt auftragMgmt;
-	private IProduktMgmt produktMgmt;
-	private IKundeMgmt kundeMgmt;
-	private ILieferungMgmt lieferungMgmt;
-	private IRechnungMgmt rechnungMgmt;
-	private ITransporteingangAdapter transporteingangFassade;
-	private IZahlungseingangAdapter zahlungseingangFassade;
+	private IHESRemoteAWKFassadeServer hesFassade;
 	
 	//Testdaten:
 	//Testkunde
@@ -73,7 +75,7 @@ public class RemoteSystemtest {
 	private float testProdukt1Preis, testProdukt2Preis;
 	
 	@Before
-	public void setup() {
+	public void setup() throws MalformedURLException, RemoteException, NotBoundException {
 		/**
 		 * HES Startup:
 		 * 1. Hibernate einrichten
@@ -97,20 +99,13 @@ public class RemoteSystemtest {
 		//alle bestehenden Tabellen und erstellt neue
 		//aus den Annotations
 		SchemaExport schemaExport = new SchemaExport(config);
-		schemaExport.create(true, true);
+//		schemaExport.create(true, true);
 		
 		sessionFactory = config.buildSessionFactory();
 		
 		//Dependency Injection:
-		auftragMgmt = new AuftragMgmtFassade();
-		kundeMgmt = new KundeMgmtFassade();
-		rechnungMgmt = new RechnungMgmtFassade();
-		produktMgmt = new ProduktMgmtFassade();
-		lieferungMgmt = new LieferungMgmtFassade();
-		hesFassade = new HESAWKFassadeImpl(auftragMgmt, kundeMgmt,
-				rechnungMgmt, produktMgmt, lieferungMgmt, sessionFactory);
-		transporteingangFassade = new TransporteingangAdapterImpl(hesFassade);
-		zahlungseingangFassade = new ZahlungseingangAdapterImpl(hesFassade);
+		String redundanzMgmtUrl = URL_PREFIX + REDUNDANZ_MGMT_SERVER + "/" + REDUNDANZ_MGMT_NAME;
+		hesFassade = (IHESRemoteAWKFassadeServer) Naming.lookup(redundanzMgmtUrl);
 
 		testKundeStrasse = "Musterweg";
 		testKundeHausnummer = "42a";
@@ -134,7 +129,7 @@ public class RemoteSystemtest {
 	}
 
 	@Test
-	public void testLastenheftszenario() {
+	public void testLastenheftszenario() throws RemoteException {
 		/**
 		 * Szenario, Punkte 1 & 2
 		 *  Der Callcenter-Agent erstellt ein Angebot: 
@@ -200,17 +195,6 @@ public class RemoteSystemtest {
 		
 		assertFalse(lieferung.isLieferungErfolgt());
 		
-		//Dieser Aufruf findet im 'richtigen' Einsatz dann
-		//ueber das System des TP-Dienstleisters statt
-		transporteingangFassade.markiereLieferungAlsErfolgt(lieferungNr);
-		
-		session = sessionFactory.getCurrentSession();
-		session.beginTransaction();
-		lieferung = (Lieferung)session.get(Lieferung.class, rechnungNr);
-		session.getTransaction();
-		
-		assertTrue(lieferung.isLieferungErfolgt());
-		
 		/**
 		 * Szenario Punkt 7:
 		 * Der Kunde Begleicht die Rechnung.
@@ -218,32 +202,6 @@ public class RemoteSystemtest {
 		 * */
 		
 		assertFalse(rechnung.isIstBezahlt());
-		
-		float haelfteGesamtpreis = auftragGesamtpreis/2;
-		
-		zahlungseingangFassade.meldeZahlungsEingang(rechnungNr, haelfteGesamtpreis);
-		
-		assertFalse(rechnung.isIstBezahlt());
-
-		zahlungseingangFassade.meldeZahlungsEingang(rechnungNr, auftragGesamtpreis);
-		
-		session = sessionFactory.getCurrentSession();
-		session.beginTransaction();
-		rechnung = (Rechnung)session.get(Rechnung.class, rechnungNr);
-		
-		assertTrue(rechnung.isIstBezahlt());
-		
-		/**
-		 * Szenario Punkt 8:
-		 * Der Auftrag wird durch die Buchhaltung als abgeschlossen markiert
-		 * */
-		
-		session = sessionFactory.getCurrentSession();
-		session.beginTransaction();
-		Auftrag auftrag = auftragMgmt.getAuftrag(auftragTyp.getAuftragId(), session);
-		session.getTransaction().commit();
-		
-		assertTrue(auftrag.isIstAbgeschlossen());
 			
 	}
 
