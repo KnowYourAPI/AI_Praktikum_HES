@@ -173,10 +173,9 @@ public class DashboardGUI extends PApplet implements Observer{
 			boolean istAngeschaltet = (Boolean) objectAry[3];
 			Tuple<Boolean,Boolean> zustandTuple = new Tuple<Boolean, Boolean>(istLebendig, istAngeschaltet);
 			hesInstanzZustaende.put(hesInstanzName, zustandTuple);			
-			Tuple<Long, Long> upDowntime = (Tuple<Long,Long>) objectAry[4];
-			long uptime = upDowntime.getFirst();
-			long downtime = upDowntime.getSecond();
-			hesUpDowntime.put(hesInstanzName, new Tuple<Long, Long>(uptime,downtime));
+			long uptime = (Long) objectAry[4];
+			long downtime = (Long) objectAry[5];
+			hesUpDowntime.put(hesInstanzName, new Tuple<Long, Long>(uptime, downtime));
 		} else if (observable instanceof Dispatcher) {
 			Object[] ary = (Object[])arg;
 			String hesName = (String) ary[0];
