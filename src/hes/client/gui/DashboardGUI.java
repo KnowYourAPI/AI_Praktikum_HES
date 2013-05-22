@@ -39,7 +39,7 @@ public class DashboardGUI extends PApplet implements Observer{
 	
 	private Map<String, Integer> hesAnzahlBearbeiteterAnfragen;
 	
-	private Map<String, Tuple<Long, Long>> hesUpDowntime;
+	//private Map<String, Tuple<Long, Long>> hesUpDowntime;
 	
 	public void setup() {
 		pFont = createFont("Arial",16,true);
@@ -58,7 +58,7 @@ public class DashboardGUI extends PApplet implements Observer{
 			e.printStackTrace();
 		}
 		hesAnzahlBearbeiteterAnfragen = new HashMap<String, Integer>();
-		hesUpDowntime = new HashMap<String, Tuple<Long,Long>>();
+		//hesUpDowntime = new HashMap<String, Tuple<Long,Long>>();
 		size(500, 500);
 		background(255);
 		//noLoop();
@@ -99,11 +99,11 @@ public class DashboardGUI extends PApplet implements Observer{
 				anzahlBearbeiteterAnfragen = hesAnzahlBearbeiteterAnfragen.get(hesName);
 			}
 			String hesText = hesName + " ( Anzahl Anfragen: " + anzahlBearbeiteterAnfragen + ")";
-			if (hesUpDowntime.get(hesName) != null) {
-				Long uptime = hesUpDowntime.get(hesName).getFirst();
-				Long downtime = hesUpDowntime.get(hesName).getSecond();
-				hesText += " UT: " + uptime + " Sek , DT: " + downtime + " Sek";
-			}
+//			if (hesUpDowntime.get(hesName) != null) {
+//				Long uptime = hesUpDowntime.get(hesName).getFirst();
+//				Long downtime = hesUpDowntime.get(hesName).getSecond();
+//				hesText += " UT: " + uptime + " Sek , DT: " + downtime + " Sek";
+//			}
 			
 			text(hesText, x, y);
 			aktAngezeigteListe.add(eintrag.getKey());
@@ -173,9 +173,9 @@ public class DashboardGUI extends PApplet implements Observer{
 			boolean istAngeschaltet = (Boolean) objectAry[3];
 			Tuple<Boolean,Boolean> zustandTuple = new Tuple<Boolean, Boolean>(istLebendig, istAngeschaltet);
 			hesInstanzZustaende.put(hesInstanzName, zustandTuple);			
-			long uptime = (Long) objectAry[4];
-			long downtime = (Long) objectAry[5];
-			hesUpDowntime.put(hesInstanzName, new Tuple<Long, Long>(uptime, downtime));
+//			long uptime = (Long) objectAry[4];
+//			long downtime = (Long) objectAry[5];
+//			hesUpDowntime.put(hesInstanzName, new Tuple<Long, Long>(uptime, downtime));
 		} else if (observable instanceof Dispatcher) {
 			Object[] ary = (Object[])arg;
 			String hesName = (String) ary[0];
