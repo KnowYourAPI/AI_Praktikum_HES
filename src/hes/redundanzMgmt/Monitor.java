@@ -1,6 +1,7 @@
 package hes.redundanzMgmt;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Observable;
@@ -17,6 +18,9 @@ public class Monitor extends Observable implements Serializable {
 	// {"HES1" -> true, false} 
 	// "HES1" ist lebendig, soll aber manuell als ausgeschaltet simuliert werden
 	private Map<String, Tuple<Boolean, Boolean>> hesInstanzZustaende;
+	//{HesName -> {Uptime, Downtime}}
+	private Map<String, Tuple<Long, Long>> hesUpAndDownTime;
+	private Map<String, Date> hesClientLastPing;
 	
 	private Map<String, HESTimer> timerListe;
 	
@@ -25,6 +29,8 @@ public class Monitor extends Observable implements Serializable {
 	public Monitor() {
 		this.hesInstanzZustaende = new HashMap<String, Tuple<Boolean, Boolean>>();
 		this.timerListe = new HashMap<String, HESTimer>();
+		this.hesClientLastPing = new HashMap<String, Date>();
+		this.hesUpAndDownTime = new HashMap<String, Tuple<Long, Long>>();
 	}
 	
 	
@@ -36,8 +42,13 @@ public class Monitor extends Observable implements Serializable {
 				hesInstanzZustand.setFirst(true);
 				setChanged();
 			}
+			
+			updateTime(hesName);
+			
 		} else {
 			hesInstanzZustand = new Tuple<Boolean, Boolean>(true, true);
+			hesClientLastPing.put(hesName, new Date());
+			hesUpAndDownTime.put(hesName, new Tuple<Long, Long>(0L,0L));
 			hesInstanzZustaende.put(hesName, hesInstanzZustand);
 			setChanged();
 		}
@@ -45,7 +56,7 @@ public class Monitor extends Observable implements Serializable {
 		timer.start();
 		this.timerListe.put(hesName, timer);
 		
-		notifyObservers(new Object[] {server, hesName, hesInstanzZustand.getFirst(), hesInstanzZustand.getSecond()});
+		notifyObservers(new Object[] {server, hesName, hesInstanzZustand.getFirst(), hesInstanzZustand.getSecond(), hesUpAndDownTime.get(hesName)});
 	}
 
 	public synchronized void meldeTimeout(String hesName, HESTimer timer){
@@ -53,8 +64,9 @@ public class Monitor extends Observable implements Serializable {
 			System.out.println("Timeout gemeldet fuer " + hesName);
 			Tuple<Boolean, Boolean> zustand = hesInstanzZustaende.get(hesName);
 			zustand.setFirst(false);
+			updateTime(hesName);
 			setChanged();
-			notifyObservers(new Object[] {null, hesName, zustand.getFirst(), zustand.getSecond()});
+			notifyObservers(new Object[] {null, hesName, zustand.getFirst(), zustand.getSecond(), hesUpAndDownTime.get(hesName)});
 		}
 	}
 	
@@ -67,7 +79,8 @@ public class Monitor extends Observable implements Serializable {
 				setChanged();
 			}
 			
-			notifyObservers(new Object[] {null, hesName, hesInstanzZustand.getFirst(), hesInstanzZustand.getSecond()});
+			updateTime(hesName);
+			notifyObservers(new Object[] {null, hesName, hesInstanzZustand.getFirst(), hesInstanzZustand.getSecond(), hesUpAndDownTime.get(hesName)});
 		}
 	}
 
@@ -80,7 +93,23 @@ public class Monitor extends Observable implements Serializable {
 				setChanged();
 			}
 			
-			notifyObservers(new Object[] {null, hesName, hesInstanzZustand.getFirst(), hesInstanzZustand.getSecond()});
+			updateTime(hesName);
+			notifyObservers(new Object[] {null, hesName, hesInstanzZustand.getFirst(), hesInstanzZustand.getSecond(), hesUpAndDownTime.get(hesName)});
+		}
+	}
+	
+	public void updateTime(String hesName) {
+		Tuple<Boolean, Boolean> hesInstanzZustand = hesInstanzZustaende.get(hesName);
+		if(!hesInstanzZustand.getFirst() || !hesInstanzZustand.getSecond()) {
+			Tuple<Long, Long> oldUpAndDownTime = hesUpAndDownTime.get(hesName);
+			long newDownTime = oldUpAndDownTime.getSecond() + (new Date().getTime() - hesClientLastPing.get(hesName).getTime()); 
+			hesUpAndDownTime.put(hesName, new Tuple<Long, Long>(oldUpAndDownTime.getFirst(), newDownTime));
+			hesClientLastPing.put(hesName, new Date());
+		} else {
+			Tuple<Long, Long> oldUpAndDownTime = hesUpAndDownTime.get(hesName);
+			long newUpTime = oldUpAndDownTime.getFirst() + (new Date().getTime() - hesClientLastPing.get(hesName).getTime()); 
+			hesUpAndDownTime.put(hesName, new Tuple<Long, Long>(newUpTime, oldUpAndDownTime.getSecond()));
+			hesClientLastPing.put(hesName, new Date());
 		}
 	}
 }
