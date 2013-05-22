@@ -1,10 +1,14 @@
 package hes.kundeMgmt;
 
 import hes.auftragMgmt.Angebot;
+import hes.auftragMgmt.AngebotTyp;
+import hes.produktMgmt.ProduktTyp;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -47,7 +51,22 @@ public class Kunde implements Serializable {
 	}
 	
 	public KundeTyp getKundeTyp() {
-		return new KundeTyp(this);
+		AdressTyp adressTyp = new AdressTyp(adresse.getStrasse(), adresse.getHausnummer(),
+											adresse.getPostleitzahl(), adresse.getOrtsname());
+		List<AngebotTyp> angebotTypen = new ArrayList<AngebotTyp>();
+		
+//		for(Angebot angebot : angebote) {
+//			angebot.getAngebotTyp();
+//			int angebotId = angebot.getAngebotId();
+//			Date gueltigAb = angebot.getGueltigAb();
+//			Date gueltigBis = angebot.getGueltigBis();
+//			float gesamtPreis = angebot.getGesamtPreis();
+//			KundeTyp kunde = new KundeTyp(name, adressTyp, );
+//			Map<ProduktTyp, Integer> produktUmfang = angebot.getProduktUmfang();
+//			new AngebotTyp(angebotId, gueltigAb, gueltigBis, gesamtPreis, kunde, produktUmfang);
+//		}
+		
+		return new KundeTyp(name, adressTyp);
 	}
 	
 	public int getKundeId() {
