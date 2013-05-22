@@ -94,7 +94,7 @@ public class DashboardGUI extends PApplet implements Observer{
 			if (hesAnzahlBearbeiteterAnfragen.get(hesName) != null) {
 				anzahlBearbeiteterAnfragen = hesAnzahlBearbeiteterAnfragen.get(hesName);
 			}
-			String hesText = hesName + " (" + anzahlBearbeiteterAnfragen + ")";
+			String hesText = hesName + " ( Anzahl bearbeiteter Anfragen: " + anzahlBearbeiteterAnfragen + ")";
 			text(hesText, x, y);
 			aktAngezeigteListe.add(eintrag.getKey());
 			
