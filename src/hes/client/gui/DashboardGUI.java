@@ -32,14 +32,20 @@ public class DashboardGUI extends PApplet implements Observer{
 	
 	private PFont pFont;
 	
+	//Liste der angezeigten HesSysteme in der angezeigten Reihenfolge
 	private List<String> aktAngezeigteListe;
 	
 	// Liste von: hesName -> {istLebendig, istAngeschaltet}
 	private Map<String, Tuple<Boolean,Boolean>> hesInstanzZustaende;
 	
+	// Liste von: hesName -> Anzahl bearbeiteter Anfragen 
 	private Map<String, Integer> hesAnzahlBearbeiteterAnfragen;
 	
-	//private Map<String, Tuple<Long, Long>> hesUpDowntime;
+	// Liste von: hesName -> {gesMillisekUptime, gesMillisekDowntime} 
+	private Map<String, Tuple<Long, Long>> hesUpDowntime;
+	
+	// List von: hesName -> zuletzt geupdated in Millisekunden
+	private Map<String, Long> hesLastTimeUpdated;
 	
 	public void setup() {
 		pFont = createFont("Arial",16,true);
@@ -58,10 +64,10 @@ public class DashboardGUI extends PApplet implements Observer{
 			e.printStackTrace();
 		}
 		hesAnzahlBearbeiteterAnfragen = new HashMap<String, Integer>();
-		//hesUpDowntime = new HashMap<String, Tuple<Long,Long>>();
+		hesUpDowntime = new HashMap<String, Tuple<Long,Long>>();
+		hesLastTimeUpdated = new HashMap<String, Long>();
 		size(500, 500);
 		background(255);
-		//noLoop();
 	}
 
 	public void draw() {
@@ -81,9 +87,11 @@ public class DashboardGUI extends PApplet implements Observer{
 			int rot = 0;
 			int gruen = 0; 
 			int blau = 0;
-			if (!eintrag.getValue().getFirst()) {
+			boolean istLebendig = eintrag.getValue().getFirst();
+			boolean istAngeschaltet = eintrag.getValue().getSecond();
+			if (!istLebendig) {
 				rot = 255;
-			} else if (!eintrag.getValue().getSecond()) {
+			} else if (!istAngeschaltet) {
 				rot = 255;
 				gruen = 255;
 			} else {
@@ -98,12 +106,13 @@ public class DashboardGUI extends PApplet implements Observer{
 			if (hesAnzahlBearbeiteterAnfragen.get(hesName) != null) {
 				anzahlBearbeiteterAnfragen = hesAnzahlBearbeiteterAnfragen.get(hesName);
 			}
-			String hesText = hesName + " ( Anzahl Anfragen: " + anzahlBearbeiteterAnfragen + ")";
-//			if (hesUpDowntime.get(hesName) != null) {
-//				Long uptime = hesUpDowntime.get(hesName).getFirst();
-//				Long downtime = hesUpDowntime.get(hesName).getSecond();
-//				hesText += " UT: " + uptime + " Sek , DT: " + downtime + " Sek";
-//			}
+			String hesText = hesName + " ( Anzahl Anfragen: " + anzahlBearbeiteterAnfragen + ") ";
+			
+			if (hesLastTimeUpdated.get(hesName) != null) {
+				Long upTime = hesUpDowntime.get(hesName).getFirst();
+				Long downTime = hesUpDowntime.get(hesName).getSecond();
+				hesText += upTime/1000 + " Sek up " + downTime/1000 + " Sek down";
+			}
 			
 			text(hesText, x, y);
 			aktAngezeigteListe.add(eintrag.getKey());
@@ -172,17 +181,32 @@ public class DashboardGUI extends PApplet implements Observer{
 			boolean istLebendig = (Boolean) objectAry[2];
 			boolean istAngeschaltet = (Boolean) objectAry[3];
 			Tuple<Boolean,Boolean> zustandTuple = new Tuple<Boolean, Boolean>(istLebendig, istAngeschaltet);
-			hesInstanzZustaende.put(hesInstanzName, zustandTuple);			
-//			long uptime = (Long) objectAry[4];
-//			long downtime = (Long) objectAry[5];
-//			hesUpDowntime.put(hesInstanzName, new Tuple<Long, Long>(uptime, downtime));
+			hesInstanzZustaende.put(hesInstanzName, zustandTuple);	
+			if (!hesLastTimeUpdated.keySet().contains(hesInstanzName)) {
+				hesLastTimeUpdated.put(hesInstanzName, new Date().getTime());
+				hesUpDowntime.put(hesInstanzName, new Tuple<Long,Long>(0L,0L));
+			}
 		} else if (observable instanceof Dispatcher) {
 			Object[] ary = (Object[])arg;
 			String hesName = (String) ary[0];
 			int anzahlAnfragen = (Integer) ary[1];
 			hesAnzahlBearbeiteterAnfragen.put(hesName, anzahlAnfragen);
 		}
-		//redraw();
+		
+		for (String hesName : hesLastTimeUpdated.keySet()) {
+			Long differenceInMilliseconds = new Date().getTime() - hesLastTimeUpdated.get(hesName);
+			hesLastTimeUpdated.put(hesName, new Date().getTime());
+			Long neueZeit;
+			Tuple<Long,Long> upDownTime = hesUpDowntime.get(hesName);
+			if (hesInstanzZustaende.get(hesName).getFirst() && hesInstanzZustaende.get(hesName).getSecond()) {
+				neueZeit = upDownTime.getFirst() + differenceInMilliseconds;
+				upDownTime.setFirst(neueZeit);
+			} else {
+				neueZeit = upDownTime.getSecond() + differenceInMilliseconds;
+				upDownTime.setSecond(neueZeit);
+			}
+		}
+		
 	}
 
 }
