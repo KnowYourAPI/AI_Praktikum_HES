@@ -40,7 +40,7 @@ import hes.redundanzMgmt.RedundanzMgmtFassade;
 
 public class HESStarter {
 	
-	private static final long PING_WARTZEIT_IN_MILLISEKUNDEN = 10000;
+	private static final long PING_WARTZEIT_IN_MILLISEKUNDEN = 2000;
 	private static final String REDUNDANZ_MGMT_NAME = "redundanzmgmt";
 	private static final String REDUNDANZ_MGMT_SERVER = "localhost";
 
