@@ -40,7 +40,7 @@ public class Monitor extends Observable implements Serializable {
 		if(hesInstanzZustand != null) {
 			if(hesInstanzZustand.getFirst() == false) {
 				hesInstanzZustand.setFirst(true);
-				setChanged();
+//				setChanged();
 			}
 			
 			updateTime(hesName);
@@ -50,12 +50,14 @@ public class Monitor extends Observable implements Serializable {
 			hesClientLastPing.put(hesName, new Date());
 			hesUpAndDownTime.put(hesName, new Tuple<Long, Long>(0L,0L));
 			hesInstanzZustaende.put(hesName, hesInstanzZustand);
-			setChanged();
+//			setChanged();
 		}
 		HESTimer timer = new HESTimer(this, TIMEOUT, hesName);
 		timer.start();
 		this.timerListe.put(hesName, timer);
 		
+		//Wird benoetigt in der Gui, um up-und downtime regelmaeßig zu updaten!
+		setChanged();
 		notifyObservers(new Object[] {server, hesName, hesInstanzZustand.getFirst(), hesInstanzZustand.getSecond(), hesUpAndDownTime.get(hesName)});
 	}
 
