@@ -3,6 +3,7 @@ package hes.lieferungMgmt;
 import java.util.Date;
 
 import hes.auftragMgmt.Auftrag;
+import hes.transportsystemAdapter.ITransportSystemAdapter;
 
 import org.hibernate.Session;
 
@@ -10,13 +11,17 @@ public class LieferungMgmtFassade implements ILieferungMgmt {
 	
 	private LieferungRepository lieferungRepository;
 	
-	public LieferungMgmtFassade() {
+	private ITransportSystemAdapter transportsystemAdapter;
+	
+	public LieferungMgmtFassade(ITransportSystemAdapter transportsystemAdapter) {
 		this.lieferungRepository = new LieferungRepository();
+		this.transportsystemAdapter = transportsystemAdapter;
 	}
 
 	@Override
 	public Lieferung erstelleLieferung(Auftrag auftrag, Session session) {
 		Lieferung lieferung = new Lieferung(auftrag);
+		transportsystemAdapter.verschickeTransportauftrag(lieferung.getLieferungId());
 		lieferungRepository.speichereLieferung(lieferung, session);
 		return lieferung;
 	}
