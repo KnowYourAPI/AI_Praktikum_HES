@@ -22,7 +22,8 @@ public class TransportsystemAdapterImpl implements ITransportSystemAdapter {
 	public void verschickeTransportauftrag(int lieferungId) {
 		long date = new Date().getTime();
 		String rootUri = "http://" + transportSystemHostName + ":" + transportSystemPort + "/";
-		String message = rootUri + "transportsystemMock/tansportauftrag/send/" + lieferungId + "/" + date; 
+		String message = rootUri + "transportsystemMock/transportauftrag/send/" + lieferungId + "/" + date; 
+		//String message = "http://localhost:8183/transportsystemMock/transportauftrag/send/42/6666666";
 		Representation antwort = new ClientResource(message).get(); 
 		try {
 			System.out.println(antwort.getText());
