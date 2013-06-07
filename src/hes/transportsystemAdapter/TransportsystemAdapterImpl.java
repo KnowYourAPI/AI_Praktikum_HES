@@ -1,12 +1,12 @@
-package hes.transporteingangAdapter;
+package hes.transportsystemAdapter;
 
 import hes.fassade.IHESAWKFassade;
 
-public class TransporteingangAdapterImpl implements ITransporteingangAdapter {
+public class TransportsystemAdapterImpl implements ITransportSystemAdapter {
 	
 	private IHESAWKFassade hesFassade;
 	
-	public TransporteingangAdapterImpl(IHESAWKFassade hesFassade) {
+	public TransportsystemAdapterImpl(IHESAWKFassade hesFassade) {
 		this.hesFassade = hesFassade;
 	}
 	
