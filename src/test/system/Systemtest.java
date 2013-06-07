@@ -28,8 +28,8 @@ import hes.rechnungMgmt.IRechnungMgmt;
 import hes.rechnungMgmt.Rechnung;
 import hes.rechnungMgmt.RechnungMgmtFassade;
 import hes.rechnungMgmt.Zahlungseingang;
-import hes.transporteingangAdapter.ITransporteingangAdapter;
-import hes.transporteingangAdapter.TransporteingangAdapterImpl;
+import hes.transportsystemAdapter.ITransportSystemAdapter;
+import hes.transportsystemAdapter.TransportsystemAdapterImpl;
 import hes.zahlungseingangAdapter.IZahlungseingangAdapter;
 import hes.zahlungseingangAdapter.ZahlungseingangAdapterImpl;
 
@@ -53,7 +53,7 @@ public class Systemtest {
 	private IKundeMgmt kundeMgmt;
 	private ILieferungMgmt lieferungMgmt;
 	private IRechnungMgmt rechnungMgmt;
-	private ITransporteingangAdapter transporteingangFassade;
+	private ITransportSystemAdapter transporteingangFassade;
 	private IZahlungseingangAdapter zahlungseingangFassade;
 	
 	//Testdaten:
@@ -109,7 +109,7 @@ public class Systemtest {
 		lieferungMgmt = new LieferungMgmtFassade();
 		hesFassade = new HESAWKFassadeImpl(auftragMgmt, kundeMgmt,
 				rechnungMgmt, produktMgmt, lieferungMgmt, sessionFactory);
-		transporteingangFassade = new TransporteingangAdapterImpl(hesFassade);
+		transporteingangFassade = new TransportsystemAdapterImpl(hesFassade);
 		zahlungseingangFassade = new ZahlungseingangAdapterImpl(hesFassade);
 
 		testKundeStrasse = "Musterweg";

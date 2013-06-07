@@ -1,7 +1,6 @@
 package test.remote;
 
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 import java.net.MalformedURLException;
 import java.rmi.Naming;
@@ -11,32 +10,16 @@ import java.util.List;
 
 import hes.auftragMgmt.Angebot;
 import hes.auftragMgmt.Auftrag;
-import hes.auftragMgmt.AuftragMgmtFassade;
 import hes.auftragMgmt.AuftragTyp;
-import hes.auftragMgmt.IAuftragMgmt;
-import hes.fassade.HESAWKFassadeImpl;
-import hes.fassade.IHESAWKFassade;
 import hes.fassade.IHESRemoteAWKFassadeServer;
 import hes.kundeMgmt.AdressTyp;
 import hes.kundeMgmt.Adresse;
-import hes.kundeMgmt.IKundeMgmt;
 import hes.kundeMgmt.Kunde;
-import hes.kundeMgmt.KundeMgmtFassade;
-import hes.lieferungMgmt.ILieferungMgmt;
 import hes.lieferungMgmt.Lieferung;
-import hes.lieferungMgmt.LieferungMgmtFassade;
-import hes.produktMgmt.IProduktMgmt;
 import hes.produktMgmt.Produkt;
-import hes.produktMgmt.ProduktMgmtFassade;
 import hes.produktMgmt.Warenausgangsmeldung;
-import hes.rechnungMgmt.IRechnungMgmt;
 import hes.rechnungMgmt.Rechnung;
-import hes.rechnungMgmt.RechnungMgmtFassade;
 import hes.rechnungMgmt.Zahlungseingang;
-import hes.transporteingangAdapter.ITransporteingangAdapter;
-import hes.transporteingangAdapter.TransporteingangAdapterImpl;
-import hes.zahlungseingangAdapter.IZahlungseingangAdapter;
-import hes.zahlungseingangAdapter.ZahlungseingangAdapterImpl;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
