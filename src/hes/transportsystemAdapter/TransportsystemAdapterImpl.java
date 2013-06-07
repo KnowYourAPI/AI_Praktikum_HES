@@ -1,19 +1,14 @@
 package hes.transportsystemAdapter;
 
 import java.io.IOException;
-import java.rmi.RemoteException;
 import java.util.Date;
 
 import org.restlet.representation.Representation;
 import org.restlet.resource.ClientResource;
 
 
-import hes.fassade.IHESRemoteAWKFassadeServer;
-
 public class TransportsystemAdapterImpl implements ITransportSystemAdapter {
-	
-	private IHESRemoteAWKFassadeServer hesFassade;
-	
+		
 	private String transportSystemHostName;
 	
 	private int transportSystemPort;
