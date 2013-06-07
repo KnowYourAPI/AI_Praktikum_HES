@@ -22,6 +22,8 @@ import hes.produktMgmt.ProduktMgmtFassade;
 import hes.produktMgmt.Warenausgangsmeldung;
 import hes.rechnungMgmt.Rechnung;
 import hes.rechnungMgmt.Zahlungseingang;
+import hes.transportsystemAdapter.ITransportSystemAdapter;
+import hes.transportsystemAdapter.TransportsystemAdapterImpl;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -40,6 +42,8 @@ public class LieferungMgmtTest {
 	private IAuftragMgmt auftragMgmt;
 	private IKundeMgmt kundeMgmt;
 	private IProduktMgmt produktMgmt;
+	
+	private ITransportSystemAdapter transportSystemAdapter;
 	
 	//Testdaten:
 	//Testkunde
@@ -86,7 +90,9 @@ public class LieferungMgmtTest {
 		schemaExport.create(true, true);
 		
 		sessionFactory = config.buildSessionFactory();
-		lieferungMgmt = new LieferungMgmtFassade();
+		transportSystemAdapter = new TransportsystemAdapterImpl("localhost", 8182);
+
+		lieferungMgmt = new LieferungMgmtFassade(transportSystemAdapter);
 		auftragMgmt = new AuftragMgmtFassade();
 		kundeMgmt = new KundeMgmtFassade();
 		produktMgmt = new ProduktMgmtFassade();

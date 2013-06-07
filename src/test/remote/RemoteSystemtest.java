@@ -20,6 +20,8 @@ import hes.produktMgmt.Produkt;
 import hes.produktMgmt.Warenausgangsmeldung;
 import hes.rechnungMgmt.Rechnung;
 import hes.rechnungMgmt.Zahlungseingang;
+import hes.transportsystemAdapter.ITransportSystemAdapter;
+import hes.transportsystemAdapter.TransportsystemAdapterImpl;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -40,7 +42,7 @@ public class RemoteSystemtest {
 	
 	//HES-Komponenten:
 	private IHESRemoteAWKFassadeServer hesFassade;
-	
+		
 	//Testdaten:
 	//Testkunde
 	private String testKundeName;

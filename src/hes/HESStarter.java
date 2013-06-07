@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.rmi.RemoteException;
 
 import org.hibernate.SessionFactory;
+import org.hibernate.cache.jbc2.collection.TransactionalAccess;
 import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
 
@@ -37,12 +38,18 @@ import hes.rechnungMgmt.RechnungMgmtFassade;
 import hes.rechnungMgmt.Zahlungseingang;
 import hes.redundanzMgmt.IRedundanzMgmt;
 import hes.redundanzMgmt.RedundanzMgmtFassade;
+import hes.transportsystemAdapter.ITransportSystemAdapter;
+import hes.transportsystemAdapter.TransportsystemAdapterImpl;
+import hes.zahlungseingangAdapter.IZahlungseingangAdapter;
+import hes.zahlungseingangAdapter.ZahlungseingangAdapterImpl;
 
 public class HESStarter {
 	
 	private static final long PING_WARTZEIT_IN_MILLISEKUNDEN = 2000;
 	private static final String REDUNDANZ_MGMT_NAME = "redundanzmgmt";
 	private static final String REDUNDANZ_MGMT_SERVER = "localhost";
+	private static final String RESTLET_HOST = "localhost";
+	private static final int RESTLET_PORT = 8183; 
 
 	public static void main(String[] args) throws IOException {
 
@@ -59,10 +66,13 @@ public class HESStarter {
 		
 		
 		//HE-Systeme starten:
-		startup("HES1", PING_WARTZEIT_IN_MILLISEKUNDEN, true);
-		startup("HES2", PING_WARTZEIT_IN_MILLISEKUNDEN, false);
-		startup("HES3", PING_WARTZEIT_IN_MILLISEKUNDEN, false);
+		IHESRemoteAWKFassadeServer hes1 = startup("HES1", PING_WARTZEIT_IN_MILLISEKUNDEN, true);
+		IHESRemoteAWKFassadeServer hes2 = startup("HES2", PING_WARTZEIT_IN_MILLISEKUNDEN, false);
+		IHESRemoteAWKFassadeServer hes3 = startup("HES3", PING_WARTZEIT_IN_MILLISEKUNDEN, false);
 
+		IZahlungseingangAdapter zahlungseingangsAdapter = new ZahlungseingangAdapterImpl(redundanzMgmt);
+		zahlungseingangsAdapter.startup("hapsar-queue", "localhost");
+		
 	}
 	
 	public static IHESRemoteAWKFassadeServer startup(String hesName, long pingWarteZeitInMillisekunden, boolean setupHibernate) throws RemoteException {
@@ -101,7 +111,8 @@ public class HESStarter {
 		IKundeMgmt kundeMgmt = new KundeMgmtFassade();
 		IRechnungMgmt rechnungMgmt = new RechnungMgmtFassade();
 		IProduktMgmt produktMgmt = new ProduktMgmtFassade();
-		ILieferungMgmt lieferungMgmt = new LieferungMgmtFassade();
+		ITransportSystemAdapter transportSystemAdapter = new TransportsystemAdapterImpl(RESTLET_HOST, RESTLET_PORT);
+		ILieferungMgmt lieferungMgmt = new LieferungMgmtFassade(transportSystemAdapter);
 		IHESAWKFassade fassade = new HESAWKFassadeImpl(auftragMgmt, kundeMgmt,
 				rechnungMgmt, produktMgmt, lieferungMgmt, sessionFactory);
 		HESStatusReporter statusReporter = new HESStatusReporter(hesName, REDUNDANZ_MGMT_SERVER, REDUNDANZ_MGMT_NAME, PING_WARTZEIT_IN_MILLISEKUNDEN);
