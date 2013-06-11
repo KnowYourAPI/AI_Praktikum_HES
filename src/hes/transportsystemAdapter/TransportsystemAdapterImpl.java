@@ -1,12 +1,12 @@
 package hes.transportsystemAdapter;
 
-import hes.fassade.IHESRemoteAWKFassadeServer;
+//import hes.fassade.IHESRemoteAWKFassadeServer;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.rmi.Naming;
-import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
+//import java.net.MalformedURLException;
+//import java.rmi.Naming;
+//import java.rmi.NotBoundException;
+//import java.rmi.RemoteException;
 import java.util.Date;
 
 import org.restlet.representation.Representation;
@@ -19,20 +19,20 @@ public class TransportsystemAdapterImpl implements ITransportSystemAdapter {
 	
 	private int transportSystemPort;
 	
-	private IHESRemoteAWKFassadeServer remoteFassade;
+//	private IHESRemoteAWKFassadeServer remoteFassade;
 	
 	public TransportsystemAdapterImpl(String transportSystemHostName, int transportSystemPort, String redundanzMgmtFassadeURL) {
 		this.transportSystemHostName = transportSystemHostName;
 		this.transportSystemPort = transportSystemPort;
-		try {
-			this.remoteFassade = (IHESRemoteAWKFassadeServer) Naming.lookup(redundanzMgmtFassadeURL);
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		} catch (NotBoundException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			this.remoteFassade = (IHESRemoteAWKFassadeServer) Naming.lookup(redundanzMgmtFassadeURL);
+//		} catch (MalformedURLException e) {
+//			e.printStackTrace();
+//		} catch (RemoteException e) {
+//			e.printStackTrace();
+//		} catch (NotBoundException e) {
+//			e.printStackTrace();
+//		}
 	}
 
 	@Override
