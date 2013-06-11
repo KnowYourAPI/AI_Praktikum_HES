@@ -1,6 +1,7 @@
 package test.remote;
 
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.net.MalformedURLException;
 import java.rmi.Naming;
@@ -178,7 +179,14 @@ public class RemoteSystemtest {
 		 * Der Versand markiert die Lieferung als erfolgt.
 		 * */
 		
-		assertFalse(lieferung.isLieferungErfolgt());
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		assertTrue(lieferung.isLieferungErfolgt());
 		
 		/**
 		 * Szenario Punkt 7:

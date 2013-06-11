@@ -1,5 +1,7 @@
 package hes.lieferungMgmt;
 
+import java.util.Date;
+
 import hes.auftragMgmt.Auftrag;
 
 import org.hibernate.Session;
@@ -17,7 +19,11 @@ public interface ILieferungMgmt {
 	
 	/**
 	 * @param lieferungId Die ID der Lieferung, die als erfolgt markiert werden soll
+	 * @param ausgangsdatum Das Ausgangsdatum, an dem die Lieferung beauftragt wurde
+	 * @param lieferdatum Das Lieferdatum, an dem die Lieferung erfolgt
+	 * @param transportdienstleister Der Transportdienstleister, der die Lieferung durchfuehrt
 	 * */
-	void markiereLieferungAlsErfolgt(int lieferungId, Session session);
+	void markiereLieferungAlsErfolgt(int lieferungId, Date ausgangsdatum, Date lieferdatum, String transportdienstleister, Session session);
+	
 	
 }

@@ -94,11 +94,6 @@ public class HESRemoteClient implements IHESRemoteAWKFassadeServer {
 	}
 
 	@Override
-	public void markiereLieferungAlsErfolgt(int lieferungId) throws RemoteException {
-		remoteFassadeServer.markiereLieferungAlsErfolgt(lieferungId);
-	}
-
-	@Override
 	public void markiereAuftragAlsAbgeschlossen(int auftragId) throws RemoteException {
 		remoteFassadeServer.markiereAuftragAlsAbgeschlossen(auftragId);
 	}
@@ -106,6 +101,13 @@ public class HESRemoteClient implements IHESRemoteAWKFassadeServer {
 	@Override
 	public boolean meldeZahlungseingang(int rechnungId, float betrag) throws RemoteException {
 		return remoteFassadeServer.meldeZahlungseingang(rechnungId, betrag);
+	}
+
+	@Override
+	public void markiereLieferungAlsErfolgt(int lieferungId,
+			Date ausgangsdatum, Date lieferdatum, String transportdienstleister)
+			throws RemoteException {
+		remoteFassadeServer.markiereLieferungAlsErfolgt(lieferungId, ausgangsdatum, lieferdatum, transportdienstleister);
 	}
 
 }

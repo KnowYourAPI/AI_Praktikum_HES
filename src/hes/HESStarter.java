@@ -2,6 +2,7 @@ package hes;
 
 
 import java.io.IOException;
+import java.rmi.Naming;
 import java.rmi.RemoteException;
 
 import org.hibernate.SessionFactory;
@@ -50,7 +51,8 @@ public class HESStarter {
 	private static final String REDUNDANZ_MGMT_SERVER = "localhost";
 	private static final String RESTLET_HOST = "localhost";
 	private static final int RESTLET_PORT = 8183; 
-
+	private static final String URL_PREFIX = "rmi://";
+		
 	public static void main(String[] args) throws IOException {
 
 		//Dispatcher etc starten:
@@ -111,7 +113,8 @@ public class HESStarter {
 		IKundeMgmt kundeMgmt = new KundeMgmtFassade();
 		IRechnungMgmt rechnungMgmt = new RechnungMgmtFassade();
 		IProduktMgmt produktMgmt = new ProduktMgmtFassade();
-		ITransportSystemAdapter transportSystemAdapter = new TransportsystemAdapterImpl(RESTLET_HOST, RESTLET_PORT);
+		String redundanzMgmtUrl = URL_PREFIX + REDUNDANZ_MGMT_SERVER + "/" + REDUNDANZ_MGMT_NAME;
+		ITransportSystemAdapter transportSystemAdapter = new TransportsystemAdapterImpl(RESTLET_HOST, RESTLET_PORT, redundanzMgmtUrl);
 		ILieferungMgmt lieferungMgmt = new LieferungMgmtFassade(transportSystemAdapter);
 		IHESAWKFassade fassade = new HESAWKFassadeImpl(auftragMgmt, kundeMgmt,
 				rechnungMgmt, produktMgmt, lieferungMgmt, sessionFactory);

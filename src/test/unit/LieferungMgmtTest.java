@@ -177,8 +177,8 @@ public class LieferungMgmtTest {
 			Thread.sleep(1000);
 		} catch (InterruptedException e) { fail("Unterbrochen waehren Auslieferungssimulation");}
 		
-		lieferungMgmt.markiereLieferungAlsErfolgt(lieferung1.getLieferungId(), session);
-		lieferungMgmt.markiereLieferungAlsErfolgt(lieferung2.getLieferungId(), session);
+		lieferungMgmt.markiereLieferungAlsErfolgt(lieferung1.getLieferungId(), new Date(), new Date(), "UPS", session);
+		lieferungMgmt.markiereLieferungAlsErfolgt(lieferung2.getLieferungId(), new Date(), new Date(), "DHL", session);
 		
 		try {
 			Thread.sleep(1000);

@@ -108,10 +108,11 @@ public class Dispatcher extends Observable implements Observer, IHESRemoteAWKFas
 	}
 
 	@Override
-	public void markiereLieferungAlsErfolgt(int lieferungId) throws RemoteException {
+	public void markiereLieferungAlsErfolgt(int lieferungId,
+			Date ausgangsdatum, Date lieferdatum, String transportdienstleister) throws RemoteException {
 		hesRemoteClient = waehleNaechstenClient();
 		meldeFunktionsAufruf(hesRemoteClient);
-		hesRemoteClient.markiereLieferungAlsErfolgt(lieferungId);
+		hesRemoteClient.markiereLieferungAlsErfolgt(lieferungId, ausgangsdatum, lieferdatum, transportdienstleister);
 	}
 
 	@Override
@@ -199,4 +200,7 @@ public class Dispatcher extends Observable implements Observer, IHESRemoteAWKFas
 		setChanged();
 		notifyObservers(new Object[] {hesName, anzahlAnfragen});
 	}
+
+	
+
 }

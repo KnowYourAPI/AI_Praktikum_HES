@@ -83,12 +83,7 @@ public class HESRemoteAWKFassadeServer extends UnicastRemoteObject implements IH
 	@Override
 	public int getAuftragId(int rechnungId) {
 		return hesAwkFassade.getAuftragId(rechnungId);
-	}
-
-	@Override
-	public void markiereLieferungAlsErfolgt(int lieferungId) {
-		hesAwkFassade.markiereLieferungAlsErfolgt(lieferungId);
-	}
+	}	
 
 	@Override
 	public void markiereAuftragAlsAbgeschlossen(int auftragId) {
@@ -98,6 +93,12 @@ public class HESRemoteAWKFassadeServer extends UnicastRemoteObject implements IH
 	@Override
 	public boolean meldeZahlungseingang(int rechnungId, float betrag) {
 		return hesAwkFassade.meldeZahlungseingang(rechnungId, betrag);
+	}
+
+	@Override
+	public void markiereLieferungAlsErfolgt(int lieferungId,
+			Date ausgangsdatum, Date lieferdatum, String transportdienstleister) {
+		hesAwkFassade.markiereLieferungAlsErfolgt(lieferungId, ausgangsdatum, lieferdatum, transportdienstleister);
 	}
 
 }

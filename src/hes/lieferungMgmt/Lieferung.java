@@ -23,21 +23,17 @@ public class Lieferung {
 	
 	@OneToOne(cascade=CascadeType.ALL)
 	private Auftrag auftrag;
-	@Column(nullable=false)
 	private Date ausgangsdatum;
 	private Date lieferdatum;
 	
 	@Column(nullable=false)
 	private boolean lieferungErfolgt;
-	@Column(nullable=false)
 	private String transportdienstleister;
 	
 	public Lieferung() {}
 	
 	public Lieferung(Auftrag auftrag) {
 		this.auftrag = auftrag;
-		this.ausgangsdatum = new Date();
-		this.transportdienstleister = "DHL";
 	}
 
 	public int getLieferungId() {

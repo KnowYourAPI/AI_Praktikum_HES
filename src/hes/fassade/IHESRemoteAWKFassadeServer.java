@@ -84,9 +84,12 @@ public interface IHESRemoteAWKFassadeServer extends Remote {
 	
 	/**
 	 * @param lieferungId Die ID der Lieferung, die als erfolgt markiert werden soll
+	 * @param ausgangsdatum Das Ausgangsdatum, an dem die Lieferung beauftragt wurde
+	 * @param lieferdatum Das Lieferdatum, an dem die Lieferung erfolgt
+	 * @param transportdienstleister Der Transportdienstleister, der die Lieferung durchfuehrt
 	 * */
-	void markiereLieferungAlsErfolgt(int lieferungId) throws RemoteException;
-	
+	void markiereLieferungAlsErfolgt(int lieferungId, Date ausgangsdatum, Date lieferdatum, String transportdienstleister) throws RemoteException;
+
 	/**
 	 * @param auftragId Die ID des als abgeschlossen zu markierenden Auftrags.
 	 * */

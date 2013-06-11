@@ -113,11 +113,6 @@ public class RedundanzMgmtFassade extends UnicastRemoteObject implements IRedund
 		return dispatcher.getAuftragId(rechnungId);
 	}
 
-	@Override
-	public void markiereLieferungAlsErfolgt(int lieferungId)
-			throws RemoteException {
-		dispatcher.markiereLieferungAlsErfolgt(lieferungId);
-	}
 
 	@Override
 	public void markiereAuftragAlsAbgeschlossen(int auftragId)
@@ -129,6 +124,13 @@ public class RedundanzMgmtFassade extends UnicastRemoteObject implements IRedund
 	public boolean meldeZahlungseingang(int rechnungId, float betrag)
 			throws RemoteException {
 		return dispatcher.meldeZahlungseingang(rechnungId, betrag);
+	}
+
+	@Override
+	public void markiereLieferungAlsErfolgt(int lieferungId,
+			Date ausgangsdatum, Date lieferdatum, String transportdienstleister)
+			throws RemoteException {
+		dispatcher.markiereLieferungAlsErfolgt(lieferungId, ausgangsdatum, lieferdatum, transportdienstleister);
 	}
 
 

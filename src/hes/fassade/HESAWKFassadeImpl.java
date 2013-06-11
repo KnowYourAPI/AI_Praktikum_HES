@@ -153,10 +153,11 @@ public class HESAWKFassadeImpl implements IHESAWKFassade {
 	}
 
 	@Override
-	public void markiereLieferungAlsErfolgt(int lieferungId) {
+	public void markiereLieferungAlsErfolgt(int lieferungId,
+		Date ausgangsdatum, Date lieferdatum, String transportdienstleister) {		
 		Session session = sessionFactory.getCurrentSession();
 		session.beginTransaction();
-		lieferungMgmt.markiereLieferungAlsErfolgt(lieferungId, session);
+		lieferungMgmt.markiereLieferungAlsErfolgt(lieferungId, ausgangsdatum, lieferdatum, transportdienstleister, session);
 		session.getTransaction().commit();
 	}
 	
