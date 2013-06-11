@@ -8,7 +8,7 @@ public class HapsarPayment {
 	
 	 private final static String QUEUE_NAME = "hapsar-queue";
 	 
-	 private final static String BROKER_HOST = "DanisNotebook";
+	 private final static String BROKER_HOST = "localhost";
 
 	  public static void main(String[] args) throws java.io.IOException {
 		  
