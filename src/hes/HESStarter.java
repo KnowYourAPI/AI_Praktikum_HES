@@ -1,12 +1,9 @@
 package hes;
 
-
 import java.io.IOException;
-import java.rmi.Naming;
 import java.rmi.RemoteException;
 
 import org.hibernate.SessionFactory;
-import org.hibernate.cache.jbc2.collection.TransactionalAccess;
 import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
 
@@ -50,8 +47,7 @@ public class HESStarter {
 	private static final String REDUNDANZ_MGMT_NAME = "redundanzmgmt";
 	private static final String REDUNDANZ_MGMT_SERVER = "localhost";
 	private static final String RESTLET_HOST = "localhost";
-	private static final int RESTLET_PORT = 8183; 
-	private static final String URL_PREFIX = "rmi://";
+	private static final int RESTLET_PORT = 8183;
 		
 	public static void main(String[] args) throws IOException {
 
@@ -68,9 +64,9 @@ public class HESStarter {
 		
 		
 		//HE-Systeme starten:
-		IHESRemoteAWKFassadeServer hes1 = startup("HES1", PING_WARTZEIT_IN_MILLISEKUNDEN, true);
-		IHESRemoteAWKFassadeServer hes2 = startup("HES2", PING_WARTZEIT_IN_MILLISEKUNDEN, false);
-		IHESRemoteAWKFassadeServer hes3 = startup("HES3", PING_WARTZEIT_IN_MILLISEKUNDEN, false);
+		startup("HES1", PING_WARTZEIT_IN_MILLISEKUNDEN, true);
+		startup("HES2", PING_WARTZEIT_IN_MILLISEKUNDEN, false);
+		startup("HES3", PING_WARTZEIT_IN_MILLISEKUNDEN, false);
 
 		IZahlungseingangAdapter zahlungseingangsAdapter = new ZahlungseingangAdapterImpl(redundanzMgmt);
 		zahlungseingangsAdapter.startup("hapsar-queue", "localhost");
@@ -113,8 +109,7 @@ public class HESStarter {
 		IKundeMgmt kundeMgmt = new KundeMgmtFassade();
 		IRechnungMgmt rechnungMgmt = new RechnungMgmtFassade();
 		IProduktMgmt produktMgmt = new ProduktMgmtFassade();
-		String redundanzMgmtUrl = URL_PREFIX + REDUNDANZ_MGMT_SERVER + "/" + REDUNDANZ_MGMT_NAME;
-		ITransportSystemAdapter transportSystemAdapter = new TransportsystemAdapterImpl(RESTLET_HOST, RESTLET_PORT, redundanzMgmtUrl);
+		ITransportSystemAdapter transportSystemAdapter = new TransportsystemAdapterImpl(RESTLET_HOST, RESTLET_PORT);
 		ILieferungMgmt lieferungMgmt = new LieferungMgmtFassade(transportSystemAdapter);
 		IHESAWKFassade fassade = new HESAWKFassadeImpl(auftragMgmt, kundeMgmt,
 				rechnungMgmt, produktMgmt, lieferungMgmt, sessionFactory);
@@ -124,14 +119,4 @@ public class HESStarter {
 		System.err.println(hesName + " steht nun bereit Client-Anfragen entgegen zu nehmen...");
 		return fassadeServer;
 	}
-	
-	//HTTP-Server starten, fuer dynamic class loading
-//	String hostName = InetAddress.getLocalHost().getHostName();
-//	int port = 8080;
-//	File rootDirectory = new File("");	//Der Projekt root-Folder
-//	SimpleWebServer httpServer = new SimpleWebServer(hostName, port, rootDirectory);
-//
-//	httpServer.start();
-	
-
 }

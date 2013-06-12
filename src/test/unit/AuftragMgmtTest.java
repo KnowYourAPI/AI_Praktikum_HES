@@ -101,7 +101,7 @@ public class AuftragMgmtTest {
 		session.getTransaction().commit();
 	}
 	
-//	@Test
+	@Test
 	public void testProduktZuAngebotHinzufuegenUndEntfernen() {
 
 		Session session = sessionFactory.getCurrentSession();
@@ -185,7 +185,7 @@ public class AuftragMgmtTest {
 		session.getTransaction().commit();
 	}
 	
-//	@Test 
+	@Test 
 	public void testGetAuftragAngebotUndTypen() {
 		
 		Session session = sessionFactory.getCurrentSession();

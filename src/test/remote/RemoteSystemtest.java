@@ -3,12 +3,14 @@ package test.remote;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.List;
 
+import hapsarMock.HapsarPayment;
 import hes.auftragMgmt.Angebot;
 import hes.auftragMgmt.Auftrag;
 import hes.auftragMgmt.AuftragTyp;
@@ -21,14 +23,11 @@ import hes.produktMgmt.Produkt;
 import hes.produktMgmt.Warenausgangsmeldung;
 import hes.rechnungMgmt.Rechnung;
 import hes.rechnungMgmt.Zahlungseingang;
-import hes.transportsystemAdapter.ITransportSystemAdapter;
-import hes.transportsystemAdapter.TransportsystemAdapterImpl;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
-import org.hibernate.tool.hbm2ddl.SchemaExport;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -84,7 +83,7 @@ public class RemoteSystemtest {
 		//Wenn einkommentiert, loescht dieser Befehl
 		//alle bestehenden Tabellen und erstellt neue
 		//aus den Annotations
-		SchemaExport schemaExport = new SchemaExport(config);
+//		SchemaExport schemaExport = new SchemaExport(config);
 //		schemaExport.create(true, true);
 		
 		sessionFactory = config.buildSessionFactory();
@@ -130,6 +129,7 @@ public class RemoteSystemtest {
 								 + produkt2Menge * testProdukt2Preis;
 		
 		hesFassade.fuegeProduktZuAngebotHinzu(angebotId, testProdukt1Id, produkt1Menge);
+		
 		hesFassade.fuegeProduktZuAngebotHinzu(angebotId, testProdukt2Id, produkt2Menge);
 		
 		/**
@@ -159,7 +159,6 @@ public class RemoteSystemtest {
 		assertFalse(queryResults.size() > 1);
 		
 		Lieferung lieferung = (Lieferung)queryResults.get(0);
-		int lieferungNr = lieferung.getLieferungId();
 		
 		//5a III: Pruefen ob wirklich eine dazugehoerige Rechnung angelegt wird
 		query = session.createQuery("from Rechnung r where r.auftrag.auftragId = :auftragId");
@@ -179,13 +178,6 @@ public class RemoteSystemtest {
 		 * Der Versand markiert die Lieferung als erfolgt.
 		 * */
 		
-		try {
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
 		assertTrue(lieferung.isLieferungErfolgt());
 		
 		/**
@@ -194,7 +186,30 @@ public class RemoteSystemtest {
 		 * Das HES erhaelt einen Zahlungseingang fuer die Rechnung
 		 * */
 		
-		assertFalse(rechnung.isIstBezahlt());
+		try {
+			String rechnungNrAlsString = rechnungNr + "";
+			String auftragGesamtpreisAlsString = auftragGesamtpreis + "";
+			HapsarPayment.main(new String[] {rechnungNrAlsString, auftragGesamtpreisAlsString});
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		// Diese Verzoegerung ist notwendig, damit RabbitMQ die Informationen
+		// zur Bezahlung uebermitteln kann
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) { e.printStackTrace(); }
+		
+		session = sessionFactory.getCurrentSession();
+		session.beginTransaction();
+		query = session.createQuery("from Rechnung r where r.auftrag.auftragId = :auftragId");
+		query.setParameter("auftragId", auftragTyp.getAuftragId());
+		queryResults = query.list();
+		session.getTransaction().commit();
+		
+		rechnung = (Rechnung)queryResults.get(0);
+		
+		assertTrue(rechnung.isIstBezahlt());
 			
 	}
 
